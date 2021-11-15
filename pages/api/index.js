@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-
+const SteamID = require("steamid");
 import {
   Math_matchs_single,
   Math_players_single,
-  Math_obj_ids,
+  Math_status_players,
 } from "../../src/components/Math_data";
 import {
   GetMatchHistory,
@@ -12,36 +12,38 @@ import {
 } from "../../src/components/Type_requests";
 
 export default async function handler(req, res) {
-  const first = Math_obj_ids([req.query.account_id]);
+  const parameter = req.query.account_id;
+  const first = [
+    [
+      {
+        account_id: parameter,
+        steam_id: await new SteamID(`[U:1:${parameter}]`),
+      },
+    ],
+  ];
 
-  let matchHistory_01 = await GetMatchHistory(first);
-  let profile_01 = await GetPlayerSummaries(first);
-  let players_gamed_01 = await Math_players_single(matchHistory_01);
-  let matchs_gamed_01 = await Math_matchs_single(matchHistory_01);
-  // let match_gamed_details_01 = await (GetMatchDetails(matchs_gamed));
-  //---
-  const second = Math_obj_ids(players_gamed_01)
-  let matchHistory_02 = await GetMatchHistory(second);
-  let profile_02 = await GetPlayerSummaries(second);
-  let players_gamed_02 = await Math_players_single(matchHistory_01);
-  let matchs_gamed_02 = await Math_matchs_single(matchHistory_01);
-  // let match_gamed_details_02 = await (GetMatchDetails(matchs_gamed));
+  let first_get = await {
+    matchHistory: await GetMatchHistory(first),
+    profile: await GetPlayerSummaries(first),
+  };
+  let first_Match = await {
+    players_gamed: await Math_players_single(first_get.matchHistory),
+    matchs_gamed: await Math_matchs_single(first_get.matchHistory),
+  };
+  let first_Details = await {
+    gamed_details: await GetMatchDetails(first_Match.matchs_gamed),
+  };
+/*      gamed_details: first_Details.gamed_details,
+      players_gamed: first_Match.players_gamed,
+  });*/
   res.status(200).json(
-    JSON.stringify([
+    JSON.stringify(
       {
-        matchHistory_01,
-        profile_01,
-        players_gamed_01,
-        matchs_gamed_01,
-        // match_gamed_details_01,
-      },
-      {
-        matchHistory_02,
-        profile_02,
-        players_gamed_02,
-        matchs_gamed_02,
-        // match_gamed_details_02,
-      },
-    ])
+        ...first_get,
+        ...first_Match,
+        ...first_Details,
+      //  status_players,
+      }
+    )
   );
 }
