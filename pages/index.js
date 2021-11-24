@@ -1,42 +1,93 @@
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
-import React, { useState, useEffect } from "react";
-import Image from "next/image";
+import { useState, useEffect } from "react";
+import { Math_players_single } from "../src/components/Math_data";
 
 export default function Home() {
-  const [information, setInformation] = useState(false);
-  const [value, setValue] = useState(87683422);
-  const [valueCount, setValueCount] = useState(false);
-  const number = 45000;
+  const [value, setValue] = useState([{ account_id: 87683422 }]);
+  const [resp, setResp] = useState([]);
 
   async function start() {
-    let count = 0;
-    const interval = setInterval(() => {
-      count += 1000 / 60;
-      setValueCount(count);
-      if (count > number) {
-        clearInterval(interval);
+    const search_api = async ({ account_id, details }) => {
+      let arrayValue = [];
+      if (!details) {
+        for (let i = 0; i < account_id.length; i++) {
+          let search = fetch(
+            `http://192.168.3.10:3000/api?account_id=${account_id[i].account_id}&details=${details}`
+          )
+            .then((response) => {
+              return response.json();
+            })
+            .then((data) => {
+              return data;
+            })
+            .catch(() => {
+              return false;
+            });
+          console.log(account_id.length);
+          arrayValue.push(search);
+        }
+      } else {
+        for (let i = 0; i < account_id.length; i++) {
+          let search = fetch(
+            `http://192.168.3.10:3000/api?account_id=${account_id[i].account_id}&details=${details}`
+          )
+            .then((response) => {
+              return response.json();
+            })
+            .then((data) => {
+              return data;
+            })
+            .catch(() => {
+              return false;
+            });
+          console.log(account_id.length);
+          arrayValue.push(search);
+          setResp(arrayValue);
+        }
       }
-    }, 1000 / 60);
-
-    let search = await fetch(`http://192.168.3.10:3000/api?account_id=${value}`)
-      .then((response) => {
-        return response.json();
+      return Promise.all(arrayValue).then((x) => x);
+    };
+    //-----------------------------------
+    let start_search01 = await search_api({
+      account_id: value,
+      details: false,
+    });
+    console.log("start_search01:", start_search01);
+    let players_gamed01 = await Math_players_single(start_search01);
+    console.log("players_gamed01:", players_gamed01);
+    //------------------------------------
+    let start_search02 = await (
+      await search_api({
+        account_id: players_gamed01,
+        details: false,
       })
-      .then((data) => {
-        return data;
-      })
-      .catch(() => {
-        return {};
-      });
-    await setInformation(search);
-    console.log(information);
+    )
+      .filter((x) => x.error !== 500)
+      .filter((x) => x.matchHistory);
+    console.log("start_search02:", start_search02);
+    let players_gamed02 = await Math_players_single(start_search02);
+    console.log("players_gamed02:", players_gamed02);
+    //-------------------------------------
+    let start_search03 = await await search_api({
+      account_id: players_gamed02.splice(0, 100),
+      details: true,
+    });
+    //localStorage.setItem("data", JSON.stringify(start_search03));
+    setResp(start_search03);
+    console.log("resp:", resp);
+    console.log("start_search03:", start_search03);
+    //--------------------------------------
   }
+  const onChange = (e) => {
+    let k = e.target.value;
+    console.log(parseInt(k));
+    setValue(parseInt(k));
+  };
 
   useEffect(() => {
-    console.log(information);
-  }, []);
-
+    console.log("START");
+    console.log(resp);
+  });
   return (
     <div className="main">
       <Head>
@@ -48,92 +99,14 @@ export default function Home() {
         <input
           className="myButton"
           type="number"
-          placeholder="account id"
-          onChange={(e) => {
-            console.log(e.target.value);
-            setValue(e.target.value);
-          }}
+          onChange={onChange}
+          value={value}
         />
         <button className="myButton" onClick={start}>
           buscar
         </button>
       </div>
-      {!information && valueCount && (
-        <div>
-          
-          <input style={{width:"350px"}} type="range" value={valueCount} max={number} />
-          <h1 style={{textAlign:"center"}}>Aguarde...</h1>
-        </div>
-      )}
-      {information && (
-        <table className="customTable">
-          <thead>
-            <tr>
-              <th>
-                <h1>{information.personaname}</h1>
-              </th>
-              <th>
-                <img
-                  src={information.avatarfull}
-                  alt={information.personaname}
-                  width={200}
-                  height={200}
-                />
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>assists</td>
-              <td>{information.status_players.assists}</td>
-            </tr>
-            <tr>
-              <td>deaths</td>
-              <td>{information.status_players.deaths}</td>
-            </tr>
-            <tr>
-              <td>denies</td>
-              <td>{information.status_players.denies}</td>
-            </tr>
-            <tr>
-              <td>gold_per_min</td>
-              <td>{information.status_players.gold_per_min}</td>
-            </tr>
-            <tr>
-              <td>hero_damage</td>
-              <td>{information.status_players.hero_damage}</td>
-            </tr>
-            <tr>
-              <td>hero_healing</td>
-              <td>{information.status_players.hero_healing}</td>
-            </tr>
-            <tr>
-              <td>kills</td>
-              <td>{information.status_players.kills}</td>
-            </tr>
-            <tr>
-              <td>last_hits</td>
-              <td>{information.status_players.last_hits}</td>
-            </tr>
-            <tr>
-              <td>net_worth</td>
-              <td>{information.status_players.net_worth}</td>
-            </tr>
-            <tr>
-              <td>tower_damage</td>
-              <td>{information.status_players.tower_damage}</td>
-            </tr>
-            <tr>
-              <td>win_rate</td>
-              <td>{information.status_players.win}%</td>
-            </tr>
-            <tr>
-              <td>xp_per_min</td>
-              <td>{information.status_players.xp_per_min}</td>
-            </tr>
-          </tbody>
-        </table>
-      )}
+      <div>{resp.map((x, i) => i)}</div>
     </div>
   );
 }

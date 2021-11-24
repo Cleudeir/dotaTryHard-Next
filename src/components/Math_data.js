@@ -2,16 +2,26 @@ const SteamID = require("steamid");
 export async function Math_players_single(props) {
   let array = [];
   let players_single = new Set();
-  props.map((match) => {
-    match.players.map((player) => players_single.add(player.account_id));
-  });
-  let players = [...players_single];
-  
+
+  for (let i = 0; i < props.length; i++) {
+    props[i].matchHistory.map((match) =>
+      match.players.map((player) => players_single.add(player.account_id))
+    );
+  }
+
+  let players = [...players_single].sort();
+
   for (let i = 0; i < players.length; i++) {
-    array.push({
-      account_id: players[i],
-      steam_id: await new SteamID(`[U:1:${players[i]}]`),
-    });
+    if (players[i]) {
+      let id_01 = await new SteamID(`[U:1:${players[i]}]`);
+      let id_02 = await id_01.getSteamID64();
+      if (id_02) {
+        array.push({
+          account_id: players[i],
+          steam_id: id_02,
+        });
+      }
+    }
   }
   return array;
 }
@@ -30,53 +40,55 @@ export function Math_status_players(props) {
   for (let i = 0; i < props.gamed_details.length; i++) {
     let { players, radiant_win, match_id } = props.gamed_details[i];
     let arry_index = [];
-    for (let index = 0; index < players.length; index++) {
-      let {
-        assists,
-        account_id,
-        deaths,
-        denies,
-        gold_per_min,
-        hero_damage,
-        hero_healing,
-        kills,
-        last_hits,
-        net_worth,
-        player_slot,
-        tower_damage,
-        xp_per_min,
-      } = players[index];
+    if (players) {
+      for (let j = 0; j < players.length; j++) {
+        let {
+          assists,
+          account_id,
+          deaths,
+          denies,
+          gold_per_min,
+          hero_damage,
+          hero_healing,
+          kills,
+          last_hits,
+          net_worth,
+          player_slot,
+          tower_damage,
+          xp_per_min,
+        } = players[j];
 
-      let win = 0;
-      if (radiant_win) {
-        if (player_slot < 5) {
-          win = 1;
+        let win = 0;
+        if (radiant_win) {
+          if (player_slot < 5) {
+            win = 1;
+          }
+        } else {
+          if (player_slot > 5) {
+            win = 1;
+          }
         }
-      } else {
-        if (player_slot > 5) {
-          win = 1;
-        }
+        arry_index.push({
+          assists,
+          account_id,
+          deaths,
+          denies,
+          gold_per_min,
+          hero_damage,
+          hero_healing,
+          kills,
+          last_hits,
+          net_worth,
+          tower_damage,
+          xp_per_min,
+          win,
+          match_id,
+        });
       }
-
-      arry_index.push({
-        assists,
-        account_id,
-        deaths,
-        denies,
-        gold_per_min,
-        hero_damage,
-        hero_healing,
-        kills,
-        last_hits,
-        net_worth,
-        tower_damage,
-        xp_per_min,
-        win,
-        match_id,
-      });
+      array.push(arry_index);
     }
-    array.push(arry_index);
   }
+
   let obj = {
     assists: 0,
     deaths: 0,
@@ -94,7 +106,7 @@ export function Math_status_players(props) {
   };
 
   array
-    .map((x) => x.filter((y) => y.account_id == props.parameter))
+    .map((x) => x.filter((y) => y.account_id == props.value))
     .map((z) => z[0])
     .map((w) => {
       obj.assists += w.assists;
@@ -126,6 +138,5 @@ export function Math_status_players(props) {
     obj.xp_per_min = parseInt(obj.xp_per_min / obj.matchs);
     obj.win = parseInt((obj.win / obj.matchs) * 100);
   }
-
   return obj;
 }

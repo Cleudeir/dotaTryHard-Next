@@ -12,11 +12,15 @@ export async function GetMatchHistory(props) {
       return response.json();
     })
     .then((data) => {
-      let x = data.result.matches;
-      return x;
+      if (data.result.status !== 15) {
+        let x = data.result.matches;
+        return x;
+      } else {
+        return false;
+      }
     })
-    .catch((error) => {
-      return error.mensage;
+    .catch(() => {
+      return false;
     });
 
   return request;
@@ -34,7 +38,7 @@ export async function GetMatchDetails(props) {
         return data.result;
       })
       .catch(() => {
-        return {};
+        return false;
       });
     array.push(request);
   }
@@ -52,7 +56,7 @@ export async function GetPlayerSummaries(props) {
       return x;
     })
     .catch(() => {
-      return error.mensage;
+      return false;
     });
   return request;
 }
