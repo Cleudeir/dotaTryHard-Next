@@ -5,6 +5,7 @@ import { Math_players_single } from "../src/components/Math_data";
 export default function Home() {
   const [value, setValue] = useState([{ account_id: 87683422 }]);
   const [resp, setResp] = useState([]);
+  const [key, setKey] = useState([]);
 
   async function start() {
     const search_api = async ({ account_id, details }) => {
@@ -74,8 +75,10 @@ export default function Home() {
     });
     //localStorage.setItem("data", JSON.stringify(start_search03));
     setResp(start_search03);
+
     console.log("resp:", resp);
     console.log("start_search03:", start_search03);
+
     //--------------------------------------
   }
   const onChange = (e) => {
@@ -87,7 +90,18 @@ export default function Home() {
   useEffect(() => {
     console.log("START");
     console.log(resp);
+
+    document.addEventListener('keydown', (event) => {
+      var name = event.key;
+      var code = event.code;
+      console.log(event)
+      // Alert the key name and key code on keydown
+      setKey(`Key pressed " ${name} " \r\n Key code value: ${code}`);
+    }, false)
+
+
   });
+
   return (
     <div className="main">
       <Head>
@@ -107,6 +121,9 @@ export default function Home() {
         </button>
       </div>
       <div>{resp.map((x, i) => i)}</div>
+
+      <div>{key}</div>
+
     </div>
   );
 }
