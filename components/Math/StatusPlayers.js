@@ -1,10 +1,11 @@
-export function StatusPlayers(props) {
-  let array = [];
-  for (let i = 0; i < props.gamed_details.length; i++) {
-    let { players, radiant_win, match_id } = props.gamed_details[i];
-    let arry_index = [];
-    for (let index = 0; index < players.length; index++) {
-      let {
+/* eslint-disable camelcase */
+export default function StatusPlayers(props) {
+  const array = [];
+  for (let i = 0; i < props.gamed_details.length; i += 1) {
+    const { players, radiant_win, match_id } = props.gamed_details[i];
+    const arryIndex = [];
+    for (let index = 0; index < players.length; index += 1) {
+      const {
         assists,
         account_id,
         deaths,
@@ -25,13 +26,11 @@ export function StatusPlayers(props) {
         if (player_slot < 5) {
           win = 1;
         }
-      } else {
-        if (player_slot > 5) {
-          win = 1;
-        }
+      // eslint-disable-next-line camelcase
+      } else if (player_slot > 5) {
+        win = 1;
       }
-
-      arry_index.push({
+      arryIndex.push({
         assists,
         account_id,
         deaths,
@@ -48,9 +47,9 @@ export function StatusPlayers(props) {
         match_id,
       });
     }
-    array.push(arry_index);
+    array.push(arryIndex);
   }
-  let obj = {
+  const obj = {
     assists: 0,
     deaths: 0,
     denies: 0,
@@ -65,9 +64,8 @@ export function StatusPlayers(props) {
     win: 0,
     matchs: 0,
   };
-
   array
-    .map((x) => x.filter((y) => y.account_id == props.parameter))
+    .map((x) => x.filter((y) => y.account_id === props.parameter))
     .map((z) => z[0])
     .map((w) => {
       obj.assists += w.assists;
@@ -83,21 +81,21 @@ export function StatusPlayers(props) {
       obj.xp_per_min += w.xp_per_min;
       obj.win += w.win;
       obj.matchs += 1;
+      return '';
     });
-
   if (obj.matchs !== 0) {
-    obj.assists = parseInt(obj.assists / obj.matchs);
-    obj.denies = parseInt(obj.denies / obj.matchs);
-    obj.deaths = parseInt(obj.deaths / obj.matchs);
-    obj.gold_per_min = parseInt(obj.gold_per_min / obj.matchs);
-    obj.hero_damage = parseInt(obj.hero_damage / obj.matchs);
-    obj.hero_healing = parseInt(obj.hero_healing / obj.matchs);
-    obj.kills = parseInt(obj.kills / obj.matchs);
-    obj.last_hits = parseInt(obj.last_hits / obj.matchs);
-    obj.net_worth = parseInt(obj.net_worth / obj.matchs);
-    obj.tower_damage = parseInt(obj.tower_damage / obj.matchs);
-    obj.xp_per_min = parseInt(obj.xp_per_min / obj.matchs);
-    obj.win = parseInt((obj.win / obj.matchs) * 100);
+    obj.assists = parseInt(obj.assists / obj.matchs, 10);
+    obj.denies = parseInt(obj.denies / obj.matchs, 10);
+    obj.deaths = parseInt(obj.deaths / obj.matchs, 10);
+    obj.gold_per_min = parseInt(obj.gold_per_min / obj.matchs, 10);
+    obj.hero_damage = parseInt(obj.hero_damage / obj.matchs, 10);
+    obj.hero_healing = parseInt(obj.hero_healing / obj.matchs, 10);
+    obj.kills = parseInt(obj.kills / obj.matchs, 10);
+    obj.last_hits = parseInt(obj.last_hits / obj.matchs, 10);
+    obj.net_worth = parseInt(obj.net_worth / obj.matchs, 10);
+    obj.tower_damage = parseInt(obj.tower_damage / obj.matchs, 10);
+    obj.xp_per_min = parseInt(obj.xp_per_min / obj.matchs, 10);
+    obj.win = parseInt((obj.win / obj.matchs) * 100, 10);
   }
 
   return obj;

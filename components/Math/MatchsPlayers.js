@@ -1,8 +1,9 @@
-export function MatchsPlayers(props) {
-  let matchs_single = new Set();
+export default function MatchsPlayers(props) {
+  const matchsSingle = new Set();
   props.map((match) => {
-    matchs_single.add(match.match_id);
+    matchsSingle.add(match.match_id);
+    return '';
   });
-  let matchs = [...matchs_single];
+  const matchs = [...matchsSingle];
   return matchs;
 }
