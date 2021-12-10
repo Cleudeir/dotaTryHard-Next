@@ -98,10 +98,7 @@ export default function Home() {
       // Alert the key name and key code on keydown
       setKey(`Key pressed " ${name} " \r\n Key code value: ${code}`);
     }, false)
-
-
   });
-
   return (
     <div className="main">
       <Head>
