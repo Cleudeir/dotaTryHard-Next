@@ -5,8 +5,6 @@ const api = {
 };
 
 export default async function GetMatchHistory(props) {
-  // eslint-disable-next-line no-console
-  console.log(props);
   const request = await fetch(
     `${api.base_url}IDOTA2Match_570/GetMatchHistory/v1/?account_id=${props.account_id}&game_mode=${api.game_mode}&key=${api.key_api}`,
   )
