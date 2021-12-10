@@ -6,7 +6,7 @@ export async function Math_players_single(props) {
   for (let i = 0; i < props.length; i++) {
     props[i].matchHistory.map((match) =>
       match.players.map((player) => players_single.add(player.account_id))
-    );
+    )
   }
 
   let players = [...players_single].sort();
