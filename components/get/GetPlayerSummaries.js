@@ -13,6 +13,6 @@ export default async function GetPlayerSummaries(props) {
       const x = data.response.players[0];
       return x;
     })
-    .catch((error) => error.mensage);
+    .catch((error) => error.message);
   return request;
 }

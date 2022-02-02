@@ -13,7 +13,7 @@ export default async function GetMatchHistory(props) {
       const x = data.result.matches;
       return x;
     })
-    .catch((error) => error.mensage);
+    .catch((error) => error.message);
 
   return request;
 }

@@ -7,8 +7,10 @@ export default async function PlayersSingle(props) {
     match.players.map(
       (player) => {
         playersSingle.add(player.account_id);
+        return null;
       },
     );
+    return null;
   });
   const players = [...playersSingle];
 
