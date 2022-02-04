@@ -2,8 +2,10 @@
 export default function StatusPlayers(props) {
   const statusAllGames = [];
   for (let i = 0; i < props.length; i += 1) {
-    const { players, radiant_win, match_id } = props[i];
-
+    const {
+      players, radiant_win, match_id, start_time,
+    } = props[i];
+    console.log(props);
     for (let n = 0; n < players.length; n += 1) {
       const {
         assists,
@@ -30,6 +32,7 @@ export default function StatusPlayers(props) {
         win = 1;
       }
       statusAllGames.push({
+        start_time,
         assists,
         account_id,
         deaths,
@@ -47,5 +50,6 @@ export default function StatusPlayers(props) {
       });
     }
   }
+
   return statusAllGames;
 }

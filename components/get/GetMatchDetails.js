@@ -22,6 +22,5 @@ export default async function GetMatchDetails(props) {
     return filter;
   }
   const result = await pullDetails();
-  console.log(result);
   return result;
 }
