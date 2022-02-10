@@ -10,6 +10,8 @@ export default async function Matchs(req, res) {
   );
   const { personaname, avatarfull, loccountrycode } = pull;
   res.status(200).json(
-    { personaname, avatarfull, loccountrycode },
+    {
+      personaname, avatarfull, loccountrycode, account_id: +id,
+    },
   );
 }

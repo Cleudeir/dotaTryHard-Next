@@ -3,11 +3,11 @@ import StatusPlayers from '../../../components/math/StatusPlayers';
 
 export default async function Details(req, res) {
   const { id } = req.query;
-  const convert = JSON.parse(id);
+  const IdList = JSON.parse(req.body);
   const pull = await GetMatchDetails(
-    convert,
+    IdList,
   );
-  const calcStatus = StatusPlayers(pull);
+  const calcStatus = StatusPlayers(pull).filter((x) => +x.account_id === +id);
   res.status(200).json(
     calcStatus,
   );

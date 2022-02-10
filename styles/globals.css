@@ -16,70 +16,7 @@ a {
   padding: 0;
   margin: 0;
 }
-
-table.customTable {
-
-  width: 350px;
-  background-color: #FFFFFF;
-  border-collapse: collapse;
-  border-width: 2px;
-  border-color: #dfdfdf;
-  border-style: solid;
-  color: #000000;
-  font-family:Trebuchet MS;
-  font-size: 10pt;
-}
-
-table.customTable td, table.customTable th {
-  border-width: 2px;
-  border-color: #dfdfdf;
-  border-style: solid;
-  padding: 1px;
-  text-align: center;
-}
-table.customTable th {
-  height: 250px;
-}
-
-
-.insert{
-  margin: 20px 2px;
-}
-
-.myButton {
-	box-shadow:inset 0px 1px 0px 0px #ffffff;
-	background:linear-gradient(to bottom, #ededed 5%, #dfdfdf 100%);
-	background-color:#ededed;
-	border-radius:0px;
-	border:1px solid #dcdcdc;
-	display:inline-block;
-	cursor:pointer;
-	color:#545454;
-	font-family:Arial;
-	font-size:15px;
-	font-weight:bold;
-	padding:6px 24px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #ffffff;
-  margin: 0px 1px;
-}
-.myButton:hover {
-	background:linear-gradient(to bottom, #dfdfdf 5%, #ededed 100%);
-	background-color:#dfdfdf;
-}
-.myButton:active {
-	position:relative;
-	top:1px;
-}
-
-
-
-
-.main{
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  flex-direction: column;
+:root{
+  --cor01 : #ffff;
+  --cor02 : #415989;
 }

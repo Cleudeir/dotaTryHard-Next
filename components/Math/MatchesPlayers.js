@@ -5,5 +5,5 @@ export default function MatchesPlayers(props) {
     matchesSingle.add(match.match_id);
   });
   const matches = [...matchesSingle];
-  return matches;
+  return matches.slice(0, 50);
 }
