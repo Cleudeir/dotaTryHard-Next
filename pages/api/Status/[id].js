@@ -1,5 +1,5 @@
-import GetMatchDetails from '../../../components/get/GetMatchDetails';
-import StatusPlayers from '../../../components/math/StatusPlayers';
+import GetMatchDetails from '../../../back_end/get/GetMatchDetails';
+import StatusPlayers from '../../../back_end/math/StatusPlayers';
 
 export default async function Details(req, res) {
   const { id } = req.query;

@@ -1,14 +1,10 @@
-export default async function Matchs(req, res) {
-  const mysql = require('mysql2/promise');
-  const { id } = req.query;
-  const infoMatches = JSON.parse(req.body);
+import connect from '../../../../back_end/data/Connect';
 
-  const connection = await mysql.createConnection(
-    {
-      host: 'localhost', user: 'root', database: 'dotaTryHard',
-    },
-  )
-    .catch(() => console.log('error connection'));
+export default async function Matchs(req, res) {
+  const { id } = req.query;
+  const { status, profile } = JSON.parse(req.body);
+
+  const connection = await connect();
 
   async function queryMySql(request, prop2) {
     const result = await connection.query(request, prop2)
@@ -17,26 +13,23 @@ export default async function Matchs(req, res) {
     return result;
   }
 
-  const createTable = `create table IF NOT EXISTS n_${id}  (
-    match_id bigint unsigned,
-    start_time int unsigned,
-    assists int unsigned,
-    deaths int unsigned,
-    denies int unsigned,
-    gold_per_min int unsigned,
-    hero_damage int unsigned,
-    hero_healing int unsigned,
-    kills int unsigned,
-    last_hits int unsigned not null ,
-    net_worth int unsigned,
-    tower_damage int unsigned,
-    xp_per_min int unsigned,
-    win int unsigned,
-    primary key(match_id)
-  )`;
-  await queryMySql(createTable);
+  async function insertProfile(props) {
+    const value = [
+      props.account_id,
+      props.personaname,
+      props.avatarfull,
+      props.loccountrycode];
 
-  async function insert(props) {
+    const insertInto = `INSERT INTO profile(          
+    account_id,
+    personaname,
+    avatarfull,
+    loccountrycode) VALUES (?,?,?,?);`;
+    const result = await queryMySql(insertInto, value);
+    return result;
+  }
+
+  async function insertPlayer(props) {
     const value = [
       props.match_id,
       props.start_time,
@@ -54,29 +47,66 @@ export default async function Matchs(req, res) {
       props.win];
 
     const insertInto = `INSERT INTO n_${id}(          
-            match_id,
-            start_time,
-            assists,
-            deaths,
-            denies,
-            gold_per_min,
-            hero_damage,
-            hero_healing,
-            kills,
-            last_hits,
-            net_worth,
-            tower_damage,
-            xp_per_min,
-            win) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?) ;`;
+          match_id,
+          start_time,
+          assists,
+          deaths,
+          denies,
+          gold_per_min,
+          hero_damage,
+          hero_healing,
+          kills,
+          last_hits,
+          net_worth,
+          tower_damage,
+          xp_per_min,
+          win) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?) ;`;
     const result = await queryMySql(insertInto, value);
     return result;
   }
-  const InsertArray = [];
-  for (let i = 0; i < infoMatches.length; i += 1) {
-    InsertArray.push(await insert(infoMatches[i]));
-  }
 
-  res.status(200).json(
-    InsertArray,
-  );
+  if (connection) {
+    const createTableStatus = `create table IF NOT EXISTS n_${id}  (
+    match_id bigint unsigned not null,
+    start_time int unsigned,
+    assists int unsigned,
+    deaths int unsigned,
+    denies int unsigned,
+    gold_per_min int unsigned,
+    hero_damage int unsigned,
+    hero_healing int unsigned,
+    kills int unsigned,
+    last_hits int unsigned,
+    net_worth int unsigned,
+    tower_damage int unsigned,
+    xp_per_min int unsigned,
+    win int unsigned,
+    primary key(match_id)
+  )`;
+    await queryMySql(createTableStatus);
+
+    const players = [];
+    for (let i = 0; i < status.length; i += 1) {
+      players.push(await insertPlayer(status[i]));
+    }
+
+    const createTableProfile = `create table IF NOT EXISTS profile  (
+    account_id int unsigned,
+    personaname varchar(25),
+    avatarfull text,
+    loccountrycode varchar(2),
+    primary key(account_id)
+  )`;
+    await queryMySql(createTableProfile);
+
+    const profiles = await insertProfile(profile);
+
+    res.status(200).json(
+      {
+        players,
+        profiles,
+      },
+    );
+  }
+  res.status(500).json('Erro connection');
 }

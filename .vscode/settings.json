@@ -4,6 +4,8 @@
         "camelcase",
         "dotatryhard",
         "loccountrycode",
-        "tinyint"
+        "nextjs",
+        "tinyint",
+        "tryhard"
     ]
 }

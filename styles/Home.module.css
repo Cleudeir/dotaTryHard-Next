@@ -1,5 +1,5 @@
 .container {
-  
+  width: 100vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -16,8 +16,9 @@
   align-items: center;
 }
 .main {
+  width: 100%;
   min-height: calc(100vh - 140px);
-  margin: 20px;
+  margin: 0px 20px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -40,26 +41,28 @@
 }
 
 .table {
-  width: 100%;
+  width: 95%;
+  min-width: 300px;
   background-color: #FFFFFF;
   border-collapse: collapse;
   border-width: 2px;
   border-color: #7ea8f8;
   border-style: solid;
   color: #000000;
-  margin-top: 30px;
+  font-size:2vmin;
+  margin: 20px auto;
 }
 
 .table td, .table th {
   border-width: 2px;
   border-color: #7ea8f8;
   border-style: solid;
-  padding: 5px;
+  padding: 2px 3px;
   text-align: center;
   vertical-align: center;
 }
 .table img {
-  width: 50px;
+  width: 30px;
 }
 
 .table thead {
@@ -67,10 +70,7 @@
 }
 
 @media (max-width: 600px) {
-  .grid {
-    width: 100%;
-    flex-direction: column;
-  }
+ 
 }
 .myButton {
 	box-shadow:inset 0px 0px 15px 3px #23395e;
@@ -84,7 +84,7 @@
 	font-family:Arial;
 	font-size:15px;
 	padding:6px 13px;
-  margin: 3px;
+  margin: 20px 3px;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #263666;
 }

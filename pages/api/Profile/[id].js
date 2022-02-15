@@ -1,4 +1,4 @@
-import GetPlayerSummaries from '../../../components/get/GetPlayerSummaries';
+import GetPlayerSummaries from '../../../back_end/get/GetPlayerSummaries';
 
 const SteamID = require('steamid');
 

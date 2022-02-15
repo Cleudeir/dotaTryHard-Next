@@ -1,53 +1,19 @@
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable react/function-component-definition */
 import { useState } from 'react';
-import StatusAverage from '../components/math/StatusAverage';
+import request from '../back_end/request';
 import style from '../styles/Home.module.css';
 
 export default function Home() {
   const [id, setId] = useState('87683422');
-  const [status, setStatus] = useState('');
-  const [rank, setRank] = useState('');
-  async function requests() {
-    async function pull(url, parameter) {
-      const result = await fetch(url, parameter)
-        .then((resp) => resp.json())
-        .then((resp) => resp)
-        .catch((error) => error.message);
-      return result;
-    }
+  const [data, setStatus] = useState(null);
+  const [rank, setRank] = useState(null);
 
-    // Procurar partidas jogadas
-    const matches = await pull(`/api/Matches/${id}`);
-
-    // Procurar informações do perfil
-    const profile = await pull(`/api/Profile/${id}`);
-
-    // ler DataBase e filtrar novas partidas
-    const readAndFilter = await pull(`/api/DataBase/read&filter/${id}`, {
-      method: 'POST',
-      body: JSON.stringify(matches),
-    });
-
-    // Procurar status de cada partida
-    const statusMatches = await pull(`/api/Status/${id}`, {
-      method: 'POST',
-      body: JSON.stringify(readAndFilter.filter),
-    });
-
-    // escrever na data base
-    if (statusMatches.length > 0) {
-      await pull(`/api/DataBase/write/${id}`, {
-        method: 'POST',
-        body: JSON.stringify(statusMatches),
-      });
-    }
-
-    // Fazer media
-    const statusAverage = StatusAverage(readAndFilter.read);
-    //
-    console.log({ ...profile, ...statusAverage });
-    setStatus({ ...profile, ...statusAverage });
+  async function start() {
+    const req = await request(id);
+    console.log(req);
+    setRank(req.ranking);
+    setStatus(req.player);
   }
 
   return (
@@ -61,48 +27,44 @@ export default function Home() {
             className={style.myButton}
             value={id}
             onChange={
-              (e) => { setId(e.target.value); }
+              (e) => { console.log(e.target.value); setId(e.target.value); }
             }
           />
-          <button className={style.myButton} onClick={requests} type="button">Buscar</button>
+          <button className={style.myButton} onClick={start} type="button">Buscar</button>
         </div>
-        {status && (
+        {data && (
           <div>
             <table className={style.table}>
               <thead>
                 <tr>
                   <td>Name</td>
-                  <td>Pais</td>
-                  <td>Icon</td>
                   <td>assists</td>
                   <td>deaths</td>
                   <td>denies</td>
                   <td>gpm</td>
-                  <td>hero_damage</td>
-                  <td>hero_healing</td>
+                  <td>damage</td>
+                  <td>healing</td>
                   <td>kills</td>
-                  <td>last_hits</td>
-                  <td>net_worth</td>
-                  <td>tower_damage</td>
-                  <td>winRate</td>
+                  <td>last hits</td>
+                  <td>net worth</td>
+                  <td>tower damage</td>
+                  <td>Win rate</td>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>{status.personaname}</td>
-                  <td>{status.loccountrycode}</td>
-                  <td><img src={status.avatarfull} alt={status.personaname} /></td>
-                  <td>{status.assists}</td>
-                  <td>{status.deaths}</td>
-                  <td>{status.denies}</td>
-                  <td>{status.gold_per_min}</td>
-                  <td>{status.hero_damage}</td>
-                  <td>{status.hero_healing}</td>
-                  <td>{status.kills}</td>
-                  <td>{status.last_hits}</td>
-                  <td>{status.net_worth}</td>
-                  <td>{status.tower_damage}</td>
-                  <td>{status.winRate}</td>
+                  <td>{data.personaname}</td>
+                  <td>{data.assists}</td>
+                  <td>{data.deaths}</td>
+                  <td>{data.denies}</td>
+                  <td>{data.gold_per_min}</td>
+                  <td>{data.hero_damage}</td>
+                  <td>{data.hero_healing}</td>
+                  <td>{data.kills}</td>
+                  <td>{data.last_hits}</td>
+                  <td>{data.net_worth}</td>
+                  <td>{data.tower_damage}</td>
+                  <td>{data.winRate}</td>
                 </tr>
               </tbody>
             </table>
@@ -113,44 +75,25 @@ export default function Home() {
             <table className={style.table}>
               <thead>
                 <tr>
-                  <td>Name</td>
-                  <td>Pais</td>
-                  <td>Icon</td>
-                  <td>assists</td>
-                  <td>deaths</td>
-                  <td>denies</td>
-                  <td>gpm</td>
-                  <td>hero_damage</td>
-                  <td>hero_healing</td>
-                  <td>kills</td>
-                  <td>last_hits</td>
-                  <td>net_worth</td>
-                  <td>tower_damage</td>
-                  <td>winRate</td>
+                  <td>Avatar</td>
+                  <td>Win rate</td>
+                  <td>Ranking</td>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>{status.personaname}</td>
-                  <td>{status.loccountrycode}</td>
-                  <td><img src={status.avatarfull} alt={status.personaname} /></td>
-                  <td>{status.assists}</td>
-                  <td>{status.deaths}</td>
-                  <td>{status.denies}</td>
-                  <td>{status.gold_per_min}</td>
-                  <td>{status.hero_damage}</td>
-                  <td>{status.hero_healing}</td>
-                  <td>{status.kills}</td>
-                  <td>{status.last_hits}</td>
-                  <td>{status.net_worth}</td>
-                  <td>{status.tower_damage}</td>
-                  <td>{status.winRate}</td>
-                </tr>
+                {rank && rank.map((x) => (
+                  <tr key={x.personaname}>
+                    <td><img src={x.avatarfull} alt={x.avatarfull} /></td>
+                    <td>{x.winRate}</td>
+                    <td>{x.ranking}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
         )}
       </main>
+      ;
       <footer className={style.footer}>
         -
       </footer>

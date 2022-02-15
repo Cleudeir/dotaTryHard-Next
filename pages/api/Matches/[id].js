@@ -1,5 +1,5 @@
-import GetMatchHistory from '../../../components/get/GetMatchHistory';
-import MatchesPlayers from '../../../components/math/MatchesPlayers';
+import GetMatchHistory from '../../../back_end/get/GetMatchHistory';
+import MatchesPlayers from '../../../back_end/math/MatchesPlayers';
 
 export default async function Matchs(req, res) {
   const { id } = req.query;

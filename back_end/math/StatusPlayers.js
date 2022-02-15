@@ -65,6 +65,25 @@ export default function StatusPlayers(props) {
           win,
           match_id,
         });
+      } else {
+        win = null;
+        statusAllGames.push({
+          start_time,
+          assists,
+          account_id,
+          deaths,
+          denies,
+          gold_per_min,
+          hero_damage,
+          hero_healing,
+          kills,
+          last_hits,
+          net_worth,
+          tower_damage,
+          xp_per_min,
+          win,
+          match_id,
+        });
       }
     }
   }
