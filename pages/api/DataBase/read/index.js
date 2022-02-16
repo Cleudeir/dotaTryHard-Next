@@ -1,9 +1,7 @@
 import connect from '../../../../back_end/data/Connect';
 
 export default async function readData(req, res) {
-  const { id } = req.query;
   const connection = await connect();
-  const useDatabase = 'use dotaTryHard';
 
   async function queryMySql(request, prop2) {
     const result = await connection.query(request, prop2)
@@ -13,9 +11,13 @@ export default async function readData(req, res) {
   }
 
   if (connection) {
-    const use = await queryMySql(useDatabase);
-    const read = await queryMySql('SELECT * FROM dotatryhard.players_matches;');
-    res.status(200).json({ use, read });
+    const playersMatches = await queryMySql('SELECT * FROM dotatryhard.players_matches;');
+    const matches = (await queryMySql('SELECT match_id FROM dotatryhard.matches;')).map((x) => x.match_id);
+    const players = (await queryMySql('SELECT account_id FROM dotatryhard.players;')).map((x) => x.account_id);
+
+    res.status(200).json({
+      matches, players, playersMatches,
+    });
   }
 
   res.status(500).json(connection);

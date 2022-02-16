@@ -6,8 +6,6 @@ export default async function Details(req, res) {
   const pull = await GetMatchDetails(
     IdList,
   );
-  const calcStatus = StatusPlayers(pull);
-  res.status(200).json(
-    calcStatus,
-  );
+  const result = StatusPlayers(pull);
+  res.status(200).json(result);
 }

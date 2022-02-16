@@ -10,8 +10,7 @@ export default async function Matchs(req, res) {
       .catch((err) => err.message);
     return result;
   }
-
-  async function insert01(props) {
+  async function playersInsert(props) {
     const players = `insert into players (
     account_id,
     personaname,
@@ -22,11 +21,10 @@ export default async function Matchs(req, res) {
       '${props.personaname}',
       '${props.avatarfull}',
       '${props.loccountrycode}');`;
-    const a = await queryMySql(players);
-    return { a };
+    const queryPlayers = await queryMySql(players);
+    return queryPlayers;
   }
-
-  async function insert02(props) {
+  async function matchesInsert(props) {
     const matches = `insert into matches (
       match_id,
       start_time) 
@@ -34,7 +32,10 @@ export default async function Matchs(req, res) {
         ${props.match_id},
         ${props.start_time}
         );`;
-
+    const queryMatches = await queryMySql(matches);
+    return queryMatches;
+  }
+  async function playersMatchesInsert(props) {
     const playersMatches = ` 
      insert into players_matches  (
       id,
@@ -68,28 +69,26 @@ export default async function Matchs(req, res) {
       ${props.tower_damage},
       ${props.xp_per_min},
       ${props.win});`;
-
-    const a = await queryMySql(matches);
-    const b = await queryMySql(playersMatches);
-
-    return { a, b };
+    const queryPlayersMatches = await queryMySql(playersMatches);
+    return queryPlayersMatches;
   }
 
   if (connection) {
-    const array01 = [];
-    const array02 = [];
+    const writePlayers = [];
+    const writeMatches = [];
+    const writePlayersMatches = [];
     for (let i = 0; i < profiles.length; i += 1) {
-      array02.push(await insert01(profiles[i]));
+      writePlayers.push(await playersInsert(profiles[i]));
     }
 
     for (let i = 0; i < status.length; i += 1) {
-      array01.push(await insert02(status[i]));
+      writeMatches.push(await matchesInsert(status[i]));
     }
-    const select = 'select * from players_matches;';
+    for (let i = 0; i < status.length; i += 1) {
+      writePlayersMatches.push(await playersMatchesInsert(status[i]));
+    }
 
-    res.status(200).json(
-      await queryMySql(select),
-    );
+    res.status(200).json({ writePlayers, writeMatches, writePlayersMatches });
   }
   res.status(500).json('Erro connection');
 }

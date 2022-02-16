@@ -8,21 +8,40 @@ async function request(id) {
       .catch(() => null);
     return result;
   }
+  // procurar dados salvos database
+  const read = await pull('/api/database/read');
+  const dataMatches = await read.matches;
+  console.log({ dataMatches });
+  const dataPlayers = await read.players;
+  console.log({ dataPlayers });
+  const dataPlayersMatches = await read.playersMatches;
+  console.log({ dataPlayersMatches });
 
-  // Procurar partidas jogadas
+  // Procurar partidas jogadas recentemente
   const matches = await pull(`/api/matches/${id}`);
-  console.log({ matches });
 
-  // Procurar informações do perfil
-  const profiles = await pull(`/api/profiles/${id}`);
-  console.log({ profiles });
+  // Procurar players das partidas jogadas recentemente
+  const players = await pull(`/api/players/${id}`);
+
+  // filtrar existentes
+  const newMatches = matches.filter((x) => !dataMatches.includes(x));
+  console.log('newMatches', newMatches);
+  const newPlayers = players.filter((x) => !dataPlayers.includes(x));
+  console.log('newProfiles', newPlayers);
 
   // Procurar status de cada partida
   const status = await pull('/api/status', {
     method: 'POST',
-    body: JSON.stringify(matches),
+    body: JSON.stringify(newMatches),
   });
   console.log({ status });
+
+  // Procurar informações do perfil
+  const profiles = await pull('/api/profiles', {
+    method: 'POST',
+    body: JSON.stringify(newPlayers),
+  });
+  console.log({ profiles });
   // escrever na data base
 
   const write = await pull('/api/database/write', {
@@ -38,6 +57,6 @@ async function request(id) {
   //
   const ranking = await pull('/api/database/ranking');
 */
-  return { write };
+  return dataPlayersMatches;
 }
 export default request;
