@@ -11,7 +11,6 @@ export default function Home() {
 
   async function start() {
     const req = await request(id);
-    console.log(req);
     setRank(req.ranking);
     setStatus(req.player);
   }
