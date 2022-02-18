@@ -1,10 +1,7 @@
-const api = {
-  base_url: 'http://api.steampowered.com/',
-  game_mode: 18,
-  key_api: '048776627077105958873BA4C749CEFF',
-};
+import API from '../../API';
 
 export default async function GetMatchDetails(props) {
+  const api = API();
   const array = [];
   for (let i = 0; i < props.length; i += 1) {
     console.log(`${i + 1}/${props.length}`);
@@ -13,7 +10,7 @@ export default async function GetMatchDetails(props) {
     )
       .then((response) => response.json())
       .then((data) => data.result)
-      .catch(() => null);
+      .catch((error) => error.massage);
 
     array.push(request);
   }

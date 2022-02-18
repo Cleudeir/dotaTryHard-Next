@@ -1,11 +1,11 @@
 import password from '../../password';
 
 export default async function connect() {
-  console.log(password());
   const mysql = require('mysql2/promise');
   const connection = await mysql.createConnection(
     password(),
   )
-    .catch(() => null);
+    .then((data) => { console.log('>>>>>>>>>>>>>>> Conectado <<<<<<<<<<<<<<<<<'); return data; })
+    .catch((err) => { console.log('>>>>>>>>>>>>>>>', err.massage, '<<<<<<<<<<<<<<<<<'); return null; });
   return connection;
 }

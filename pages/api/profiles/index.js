@@ -15,7 +15,7 @@ export default async function Matchs(req, res) {
 
       if (personaname && avatarfull && account_id) {
         result.push({
-          personaname: personaname.replace('\'', '').replace(' ', ''),
+          personaname: personaname.replace('\'', ''),
           avatarfull,
           loccountrycode,
           account_id,

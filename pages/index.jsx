@@ -1,19 +1,22 @@
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable react/function-component-definition */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import request from '../back_end/request';
 import style from '../styles/Home.module.css';
 
 export default function Home() {
   const [id, setId] = useState('87683422');
-  const [data, setStatus] = useState(null);
+
   const [rank, setRank] = useState(null);
 
   async function start() {
     const req = await request(id);
-    setRank(req.ranking);
-    setStatus(req.player);
+    console.log('data', req);
+    setRank(req);
   }
+  useEffect(() => {
+    // start();
+  }, []);
 
   return (
     <div className={style.container}>
@@ -21,8 +24,9 @@ export default function Home() {
         -
       </header>
       <main className={style.main}>
-        <div>
+        <div className={style.input}>
           <input
+            type="number"
             className={style.myButton}
             value={id}
             onChange={
@@ -31,60 +35,51 @@ export default function Home() {
           />
           <button className={style.myButton} onClick={start} type="button">Buscar</button>
         </div>
-        {data && (
-          <div>
-            <table className={style.table}>
-              <thead>
-                <tr>
-                  <td>Name</td>
-                  <td>assists</td>
-                  <td>deaths</td>
-                  <td>denies</td>
-                  <td>gpm</td>
-                  <td>damage</td>
-                  <td>healing</td>
-                  <td>kills</td>
-                  <td>last hits</td>
-                  <td>net worth</td>
-                  <td>tower damage</td>
-                  <td>Win rate</td>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{data.personaname}</td>
-                  <td>{data.assists}</td>
-                  <td>{data.deaths}</td>
-                  <td>{data.denies}</td>
-                  <td>{data.gold_per_min}</td>
-                  <td>{data.hero_damage}</td>
-                  <td>{data.hero_healing}</td>
-                  <td>{data.kills}</td>
-                  <td>{data.last_hits}</td>
-                  <td>{data.net_worth}</td>
-                  <td>{data.tower_damage}</td>
-                  <td>{data.winRate}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        )}
+
         {rank && (
           <div>
             <table className={style.table}>
               <thead>
                 <tr>
+                  <td>Nº</td>
                   <td>Avatar</td>
+                  <td>Name</td>
+                  <td>ID</td>
+                  <td>kill</td>
+                  <td>death</td>
+                  <td>assist</td>
+                  <td>last hit</td>
+                  <td>deny</td>
+                  <td>gpm</td>
+                  <td>damage</td>
+                  <td>healing</td>
+                  <td>net worth</td>
+                  <td>tower damage</td>
+                  <td>Match</td>
                   <td>Win rate</td>
                   <td>Ranking</td>
                 </tr>
               </thead>
               <tbody>
-                {rank && rank.map((x) => (
-                  <tr key={x.personaname}>
-                    <td><img src={x.avatarfull} alt={x.avatarfull} /></td>
-                    <td>{x.winRate}</td>
-                    <td>{x.ranking}</td>
+                {rank && rank.map((data, i) => (
+                  <tr key={data.personaname}>
+                    <td>{i + 1}</td>
+                    <td><img src={data.avatarfull} alt={data.avatarfull} /></td>
+                    <td>{data.personaname}</td>
+                    <td>{data.account_id}</td>
+                    <td>{data.kills}</td>
+                    <td>{data.deaths}</td>
+                    <td>{data.assists}</td>
+                    <td>{data.last_hits}</td>
+                    <td>{data.denies}</td>
+                    <td>{data.gold_per_min}</td>
+                    <td>{data.hero_damage}</td>
+                    <td>{data.hero_healing}</td>
+                    <td>{data.net_worth}</td>
+                    <td>{data.tower_damage}</td>
+                    <td>{data.matches}</td>
+                    <td>{data.winRate}</td>
+                    <td>{data.ranking}</td>
                   </tr>
                 ))}
               </tbody>

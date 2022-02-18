@@ -17,6 +17,16 @@ a {
   margin: 0;
 }
 :root{
-  --cor01 : #ffff;
-  --cor02 : #415989;
+  --cor01 : #304876;
+  --cor02 : #4e6694;
+  --cor03 : #8fa2c5;
+  --cor04 : #c1cada;
+}
+input[type='number'] {
+  -moz-appearance:textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
 }

@@ -16,21 +16,26 @@ export default function StatusAverage(props) {
     matches: 0,
     winRate: 0,
     ranking: 0,
+    avatarfull: props[1].avatarfull,
+    personaname: props[1].personaname,
+    loccountrycode: props[1].loccountrycode,
+    account_id: props[1].account_id,
   };
   const average = {
-    assists: 16,
-    deaths: 9,
-    denies: 3,
-    gold_per_min: 409,
-    hero_damage: 22283,
-    hero_healing: 773,
-    kills: 5,
-    last_hits: 109,
-    net_worth: 13645,
-    tower_damage: 1881,
-    xp_per_min: 534,
-    winRate: 63,
+    assists: 13,
+    deaths: 5,
+    denies: 7,
+    gold_per_min: 490,
+    hero_damage: 25880,
+    hero_healing: 1413,
+    kills: 7,
+    last_hits: 173,
+    net_worth: 17154,
+    tower_damage: 3323,
+    xp_per_min: 611,
+    winRate: 50,
   };
+
   if (props) {
     for (let i = 0; i < props.length; i += 1) {
       if (props[i].win !== null) {

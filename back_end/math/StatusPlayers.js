@@ -25,66 +25,31 @@ export default function StatusPlayers(props) {
       } = players[n];
 
       let win = 0;
-      if (player_slot >= 0
-        && account_id >= 0
-        && assists >= 0
-        && account_id >= 0
-        && deaths >= 0
-        && denies >= 0
-        && gold_per_min >= 0
-        && hero_damage >= 0
-        && hero_healing >= 0
-        && kills >= 0
-        && last_hits >= 0
-        && net_worth >= 0
-        && player_slot >= 0
-        && tower_damage >= 0
-        && xp_per_min >= 0
-      ) {
-        if (radiant_win) {
-          if (player_slot < 5) {
-            win = 1;
-          }
-        } else if (player_slot > 5) {
+
+      if (radiant_win) {
+        if (player_slot < 5) {
           win = 1;
         }
-        statusAllGames.push({
-          start_time,
-          assists,
-          account_id,
-          deaths,
-          denies,
-          gold_per_min,
-          hero_damage,
-          hero_healing,
-          kills,
-          last_hits,
-          net_worth,
-          tower_damage,
-          xp_per_min,
-          win,
-          match_id,
-        });
-      } else {
-        win = null;
-        statusAllGames.push({
-          start_time,
-          assists,
-          account_id,
-          deaths,
-          denies,
-          gold_per_min,
-          hero_damage,
-          hero_healing,
-          kills,
-          last_hits,
-          net_worth,
-          tower_damage,
-          xp_per_min,
-          win,
-          match_id,
-        });
+      } else if (player_slot > 5) {
+        win = 1;
       }
+      statusAllGames.push({
+        start_time,
+        assists,
+        account_id,
+        deaths,
+        denies,
+        gold_per_min,
+        hero_damage,
+        hero_healing,
+        kills,
+        last_hits,
+        net_worth,
+        tower_damage,
+        xp_per_min,
+        win,
+        match_id,
+      });
     }
   }
 

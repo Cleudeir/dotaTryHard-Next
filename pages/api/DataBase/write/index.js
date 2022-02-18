@@ -11,7 +11,7 @@ export default async function Matchs(req, res) {
     return result;
   }
   async function playersInsert(props) {
-    const players = `insert into players (
+    const players = `insert into PLAYERS (
     account_id,
     personaname,
     avatarfull,
@@ -25,7 +25,7 @@ export default async function Matchs(req, res) {
     return queryPlayers;
   }
   async function matchesInsert(props) {
-    const matches = `insert into matches (
+    const matches = `insert into MATCHES (
       match_id,
       start_time) 
       values (
@@ -37,7 +37,7 @@ export default async function Matchs(req, res) {
   }
   async function playersMatchesInsert(props) {
     const playersMatches = ` 
-     insert into players_matches  (
+     insert into PLAYERS_MATCHES  (
       id,
       account_id,
       match_id,
@@ -87,8 +87,15 @@ export default async function Matchs(req, res) {
     for (let i = 0; i < status.length; i += 1) {
       writePlayersMatches.push(await playersMatchesInsert(status[i]));
     }
+    const playersPromise = await Promise.all(writePlayers).then((x) => x);
+    const matchesPromise = await Promise.all(writeMatches).then((x) => x);
+    const playersMatchesPromise = await Promise.all(writePlayersMatches).then((x) => x);
 
-    res.status(200).json({ writePlayers, writeMatches, writePlayersMatches });
+    res.status(200).json({
+      playersPromise,
+      matchesPromise,
+      playersMatchesPromise,
+    });
   }
   res.status(500).json('Erro connection');
 }

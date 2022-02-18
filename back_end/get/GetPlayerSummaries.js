@@ -1,14 +1,13 @@
+import API from '../../API';
+
 export default async function GetPlayerSummaries(props) {
   const SteamID = require('steamid');
 
-  const api = {
-    base_url: 'http://api.steampowered.com/',
-    game_mode: 18,
-    key_api: '048776627077105958873BA4C749CEFF',
-  };
+  const api = API();
   const array = [];
   for (let i = 0; i < props.length; i += 1) {
     const steamId = new SteamID(`[U:1:${props[i]}]`).getSteamID64();
+    console.log(`${api.base_url}ISteamUser/GetPlayerSummaries/v0002/?key=${api.key_api}&steamids=${steamId}`);
     console.log(`${i}/${props.length}`);
     const request = fetch(
       `${api.base_url}ISteamUser/GetPlayerSummaries/v0002/?key=${api.key_api}&steamids=${steamId}`,
