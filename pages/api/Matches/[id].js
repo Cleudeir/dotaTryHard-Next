@@ -6,5 +6,5 @@ export default async function Matchs(req, res) {
   console.log(id);
   const pull = await GetMatchHistory(id);
   const result = ListMatchs(pull);
-  res.status(200).json(result);
+  res.status(200).json(result.splice(0, 25));
 }

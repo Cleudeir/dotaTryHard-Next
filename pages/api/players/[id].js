@@ -9,5 +9,5 @@ export default async function Matchs(req, res) {
 
   const result = await ListPlayers(pull);
 
-  res.status(200).json(result);
+  res.status(200).json(result.splice(0, 25));
 }

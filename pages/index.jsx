@@ -12,7 +12,7 @@ export default function Home() {
   async function start() {
     const req = await request(id);
     console.log('data', req);
-    setRank(req);
+    setRank(req.splice(0, 100));
   }
   useEffect(() => {
     // start();
@@ -21,7 +21,7 @@ export default function Home() {
   return (
     <div className={style.container}>
       <header className={style.header}>
-        -
+        <h2>DOTA TRY HARD</h2>
       </header>
       <main className={style.main}>
         <div className={style.input}>
@@ -89,7 +89,10 @@ export default function Home() {
       </main>
       ;
       <footer className={style.footer}>
-        -
+        <h6>
+          Copyright 2022 Elo Entertainment Inc..
+          Estamos Contratando! Dota 2 is a registered trademark of Valve Corporation.
+        </h6>
       </footer>
     </div>
   );

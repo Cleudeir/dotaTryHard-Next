@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import connect from '../../../../back_end/data/Connect';
 
 export default async function Matchs(req, res) {
@@ -74,27 +75,45 @@ export default async function Matchs(req, res) {
   }
 
   if (connection) {
-    const writePlayers = [];
+    const writeProfiles = [];
     const writeMatches = [];
     const writePlayersMatches = [];
+
+    // filter unique matches
+    const uniqueMatches = new Set();
+    for (let i = 0; i < status.length; i += 1) {
+      uniqueMatches.add(status[i].match_id);
+    }
+    const transformArrayUniqueMatches = [...uniqueMatches];
+    const arrayUniqueMatches = [];
+    for (let i = 0; i < transformArrayUniqueMatches.length; i += 1) {
+      const { match_id, start_time } = status.filter(
+        (x) => x.match_id === transformArrayUniqueMatches[i],
+      )[0];
+      arrayUniqueMatches.push({ match_id, start_time });
+    }
+    //-------------------------------
+
+    console.log('arrayMatchesIds >>>>>>>>>>>>>>>', arrayUniqueMatches, '<<<<<<<<<<<<<<<');
+
     for (let i = 0; i < profiles.length; i += 1) {
-      writePlayers.push(await playersInsert(profiles[i]));
+      writeProfiles.push(playersInsert(profiles[i]));
+      console.log(`writePlayers : ${i + 1}/${profiles.length}`);
     }
 
-    for (let i = 0; i < status.length; i += 1) {
-      writeMatches.push(await matchesInsert(status[i]));
+    for (let i = 0; i < arrayUniqueMatches.length; i += 1) {
+      console.log(`writeMatches : ${i + 1}/${status.length}`);
+      writeMatches.push(matchesInsert(arrayUniqueMatches[i]));
     }
     for (let i = 0; i < status.length; i += 1) {
-      writePlayersMatches.push(await playersMatchesInsert(status[i]));
+      console.log(`writePlayersMatches : ${i + 1}/${status.length}`);
+      writePlayersMatches.push(playersMatchesInsert(status[i]));
     }
-    const playersPromise = await Promise.all(writePlayers).then((x) => x);
-    const matchesPromise = await Promise.all(writeMatches).then((x) => x);
-    const playersMatchesPromise = await Promise.all(writePlayersMatches).then((x) => x);
 
     res.status(200).json({
-      playersPromise,
-      matchesPromise,
-      playersMatchesPromise,
+      writeProfiles,
+      writeMatches,
+      writePlayersMatches,
     });
   }
   res.status(500).json('Erro connection');
