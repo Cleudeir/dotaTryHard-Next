@@ -1,4 +1,4 @@
-export default async function PlayersSingle(props) {
+export default async function ListPlayers(props) {
   const playersSingle = new Set();
   props.map((match) => {
     match.players.map(

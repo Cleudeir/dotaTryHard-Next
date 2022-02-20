@@ -1,7 +1,8 @@
+/* eslint-disable no-console */
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable react/function-component-definition */
 import { useEffect, useState } from 'react';
-import request from '../back_end/request';
+import Request from '../back_end/Request';
 import style from '../styles/Home.module.css';
 
 export default function Home() {
@@ -10,12 +11,12 @@ export default function Home() {
   const [rank, setRank] = useState(null);
 
   async function start() {
-    const req = await request(id);
-    console.log('data', req);
+    console.log('start');
+    const req = await Request(id);
     setRank(req.splice(0, 100));
   }
   useEffect(() => {
-    // start();
+    start();
   }, []);
 
   return (
@@ -29,8 +30,9 @@ export default function Home() {
             type="number"
             className={style.myButton}
             value={id}
+            style={{ textAlign: 'center' }}
             onChange={
-              (e) => { console.log(e.target.value); setId(e.target.value); }
+              (e) => { setId(e.target.value); }
             }
           />
           <button className={style.myButton} onClick={start} type="button">Buscar</button>
@@ -62,7 +64,7 @@ export default function Home() {
               </thead>
               <tbody>
                 {rank && rank.map((data, i) => (
-                  <tr key={data.personaname}>
+                  <tr key={data.hero_healing + data.net_worth + data.tower_damage}>
                     <td>{i + 1}</td>
                     <td><img src={data.avatarfull} alt={data.avatarfull} /></td>
                     <td>{data.personaname}</td>
@@ -90,8 +92,7 @@ export default function Home() {
       ;
       <footer className={style.footer}>
         <h6>
-          Copyright 2022 Elo Entertainment Inc..
-          Estamos Contratando! Dota 2 is a registered trademark of Valve Corporation.
+          Copyright 2022
         </h6>
       </footer>
     </div>

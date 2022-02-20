@@ -2,10 +2,8 @@ import API from './API';
 
 export default async function GetMatchDetails(props) {
   const api = await API();
-  console.log('api >>>>>>>>>>', api, '<<<<<<<<<<<<');
   const array = [];
   for (let i = 0; i < props.length; i += 1) {
-    console.log(`Matches : ${i + 1}/${props.length}`);
     const request = fetch(
       `${api.base_url}/IDOTA2Match_570/GetMatchDetails/v1?match_id=${props[i]}&key=${api.key_api}`,
     )

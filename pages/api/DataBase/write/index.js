@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import connect from '../../../../back_end/data/Connect';
 
-export default async function Matchs(req, res) {
+export default async function Write(req, res) {
   const { status, profiles } = JSON.parse(req.body);
   const connection = await connect();
 
@@ -94,19 +94,14 @@ export default async function Matchs(req, res) {
     }
     //-------------------------------
 
-    console.log('arrayMatchesIds >>>>>>>>>>>>>>>', arrayUniqueMatches, '<<<<<<<<<<<<<<<');
-
     for (let i = 0; i < profiles.length; i += 1) {
       writeProfiles.push(playersInsert(profiles[i]));
-      console.log(`writePlayers : ${i + 1}/${profiles.length}`);
     }
 
     for (let i = 0; i < arrayUniqueMatches.length; i += 1) {
-      console.log(`writeMatches : ${i + 1}/${status.length}`);
       writeMatches.push(matchesInsert(arrayUniqueMatches[i]));
     }
     for (let i = 0; i < status.length; i += 1) {
-      console.log(`writePlayersMatches : ${i + 1}/${status.length}`);
       writePlayersMatches.push(playersMatchesInsert(status[i]));
     }
 
@@ -116,5 +111,5 @@ export default async function Matchs(req, res) {
       writePlayersMatches,
     });
   }
-  res.status(500).json('Erro connection');
+  res.status(500).json(connection);
 }

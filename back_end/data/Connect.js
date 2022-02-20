@@ -8,7 +8,7 @@ export default async function connect() {
     bataBase,
   )
 
-    .then((data) => { console.log('>>>>>>>>>>>>>>> Conectado <<<<<<<<<<<<<<<<<'); return data; })
-    .catch((err) => { console.log('Não Conectado>>>>>>>>>>>>>>>', err.massage, '<<<<<<<<<<<<<<<<<'); return null; });
+    .then((data) => data)
+    .catch(() => null);
   return connection;
 }

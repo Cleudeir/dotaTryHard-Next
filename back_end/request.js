@@ -1,6 +1,7 @@
+/* eslint-disable no-console */
 import StatusAverage from './math/StatusAverage';
 
-async function request(id) {
+async function Request(id) {
   async function pull(url, parameter) {
     const result = await fetch(url, parameter)
       .then((resp) => resp.json())
@@ -10,19 +11,8 @@ async function request(id) {
   }
 
   // procurar dados salvos database
-  const dataMatches = await pull('/api/database/read', {
-    method: 'POST',
-    body: JSON.stringify('matches'),
-  });
 
-  console.log('dataMatches', dataMatches);
-  //--------------------------------------------------
-  const dataPlayers = await pull('/api/database/read', {
-    method: 'POST',
-    body: JSON.stringify('players'),
-  });
-
-  console.log('dataPlayers', dataPlayers);
+  const { dataMatches, dataPlayers, dataPlayersMatches } = await pull('/api/database/read');
   //--------------------------------------------------
 
   // Procurar partidas jogadas recentemente
@@ -67,24 +57,24 @@ async function request(id) {
   console.log('write', write);
   //--------------------------------------------------
 
-  const dataPlayersMatches = await pull('/api/database/read', {
-    method: 'POST',
-    body: JSON.stringify('playersMatches'),
-  });
-  //--------------------------------------------------
-
-  const orderStatusPerPlayer = [];
-  const AverageStatusPlayers = [];
+  const statusPerPlayers = [];
 
   for (let i = 0; i < dataPlayers.length; i += 1) {
-    orderStatusPerPlayer.push(dataPlayersMatches.filter(
+    statusPerPlayers.push(dataPlayersMatches.filter(
       (x) => +x.account_id === +dataPlayers[i],
     ));
   }
-  const StatusPerPlayers = orderStatusPerPlayer.filter((x) => x.length >= 10);
+  const filter = statusPerPlayers.filter((x) => x.length >= 10);
 
-  for (let i = 0; i < StatusPerPlayers.length; i += 1) {
-    AverageStatusPlayers.push(StatusAverage(StatusPerPlayers[i]));
+  const AverageStatusPlayers = [];
+  for (let i = 0; i < filter.length; i += 1) {
+    AverageStatusPlayers.push({
+      personaname: filter[i][0].personaname,
+      avatarfull: filter[i][0].avatarfull,
+      loccountrycode: filter[i][0].loccountrycode,
+      account_id: filter[i][0].account_id,
+      ...StatusAverage(filter[i]),
+    });
   }
 
   const result = AverageStatusPlayers.sort((a, b) => {
@@ -94,7 +84,8 @@ async function request(id) {
 
   // media
   console.log('media', StatusAverage(result));
+  console.log('result', [...result]);
 
   return result;
 }
-export default request;
+export default Request;

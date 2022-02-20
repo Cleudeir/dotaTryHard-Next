@@ -16,10 +16,6 @@ export default function StatusAverage(props) {
     matches: 0,
     winRate: 0,
     ranking: 0,
-    avatarfull: props[0].avatarfull,
-    personaname: props[0].personaname,
-    loccountrycode: props[0].loccountrycode,
-    account_id: props[0].account_id,
   };
   const average = {
     assists: 13,
