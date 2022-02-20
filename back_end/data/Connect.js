@@ -7,8 +7,6 @@ export default async function connect() {
   const connection = await mysql.createConnection(
     bataBase,
   )
-
-    .then((data) => data)
     .catch(() => null);
   return connection;
 }

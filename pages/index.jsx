@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable react/function-component-definition */
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Request from '../back_end/Request';
 import style from '../styles/Home.module.css';
 
@@ -11,13 +11,9 @@ export default function Home() {
   const [rank, setRank] = useState(null);
 
   async function start() {
-    console.log('start');
     const req = await Request(id);
     setRank(req.splice(0, 100));
   }
-  useEffect(() => {
-    start();
-  }, []);
 
   return (
     <div className={style.container}>

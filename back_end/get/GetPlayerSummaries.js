@@ -3,6 +3,7 @@ import API from './API';
 export default async function GetPlayerSummaries(props) {
   const SteamID = require('steamid');
   const api = await API();
+  console.log(api);
   const array = [];
   for (let i = 0; i < props.length; i += 1) {
     const steamId = new SteamID(`[U:1:${props[i]}]`).getSteamID64();

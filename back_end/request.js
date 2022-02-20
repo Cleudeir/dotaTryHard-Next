@@ -2,6 +2,7 @@
 import StatusAverage from './math/StatusAverage';
 
 async function Request(id) {
+  console.log('start');
   async function pull(url, parameter) {
     const result = await fetch(url, parameter)
       .then((resp) => resp.json())
@@ -9,19 +10,29 @@ async function Request(id) {
       .catch(() => []);
     return result;
   }
-
   // procurar dados salvos database
 
   const { dataMatches, dataPlayers, dataPlayersMatches } = await pull('/api/database/read');
+  console.log('data:', { dataMatches, dataPlayers, dataPlayersMatches });
   //--------------------------------------------------
 
   // Procurar partidas jogadas recentemente
-  const matches = await pull(`/api/matches/${id}`);
+  const matches = await pull(`/api/matches/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
 
   //--------------------------------------------------
 
   // Procurar players das partidas jogadas recentemente
-  const players = await pull(`/api/players/${id}`);
+  const players = await pull(`/api/players/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
 
   //--------------------------------------------------
 
@@ -35,6 +46,9 @@ async function Request(id) {
   // Procurar status de cada partida
   const status = await pull('/api/status', {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify(newMatches),
   });
   console.log('status', status);
@@ -43,6 +57,9 @@ async function Request(id) {
   // Procurar informações do perfil
   const profiles = await pull('/api/profiles', {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify(newPlayers),
   });
   console.log('profiles', profiles);
@@ -52,6 +69,9 @@ async function Request(id) {
 
   const write = await pull('/api/database/write', {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify({ profiles, status }),
   });
   console.log('write', write);
