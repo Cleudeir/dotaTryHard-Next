@@ -1,4 +1,4 @@
-export default async function DATABASE() {
+export default async function DataBase() {
   const obj = {
     host: process.env.host,
     user: process.env.user,

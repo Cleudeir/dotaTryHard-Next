@@ -4,6 +4,8 @@ import StatusPlayers from '../../../back_end/math/StatusPlayers';
 export default async function Status(req, res) {
   const body = JSON.parse(req.body);
   const pull = await GetMatchDetails(body);
-  const result = StatusPlayers(pull);
+  const result = await StatusPlayers(pull);
+
+  res.setHeader('Content-Type', 'application/json');
   res.status(200).json(result);
 }

@@ -1,7 +1,7 @@
 /* eslint-disable brace-style */
 import connect from '../../../../back_end/data/Connect';
 
-export default async function read(req, res) {
+export default async function Read(req, res) {
   const connection = await connect();
 
   async function queryMySql(request, prop2) {
@@ -28,5 +28,6 @@ export default async function read(req, res) {
       dataPlayers,
     });
   }
+  res.setHeader('Content-Type', 'application/json');
   res.status(500).json(connection);
 }

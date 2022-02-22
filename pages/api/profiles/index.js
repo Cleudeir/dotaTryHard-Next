@@ -2,7 +2,7 @@
 import GetPlayerSummaries from '../../../back_end/get/GetPlayerSummaries';
 
 export default async function Profiles(req, res) {
-  const body = await JSON.parse(req.body);
+  const body = JSON.parse(req.body);
   const get = await GetPlayerSummaries(body);
 
   async function filter() {
@@ -28,5 +28,7 @@ export default async function Profiles(req, res) {
     return result;
   }
   const result = await filter();
+
+  res.setHeader('Content-Type', 'application/json');
   res.status(200).json(result);
 }

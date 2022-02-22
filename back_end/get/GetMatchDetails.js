@@ -1,7 +1,7 @@
-import API from './API';
+import Api from './api';
 
 export default async function GetMatchDetails(props) {
-  const api = await API();
+  const api = await Api();
   const array = [];
   for (let i = 0; i < props.length; i += 1) {
     const request = fetch(

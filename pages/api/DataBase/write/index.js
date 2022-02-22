@@ -104,12 +104,13 @@ export default async function Write(req, res) {
     for (let i = 0; i < status.length; i += 1) {
       writePlayersMatches.push(playersMatchesInsert(status[i]));
     }
-
+    res.setHeader('Content-Type', 'application/json');
     res.status(200).json({
       writeProfiles,
       writeMatches,
       writePlayersMatches,
     });
   }
+
   res.status(500).json(connection);
 }

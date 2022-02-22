@@ -12,7 +12,12 @@ async function Request(id) {
   }
   // procurar dados salvos database
 
-  const { dataMatches, dataPlayers, dataPlayersMatches } = await pull('/api/database/read');
+  const { dataMatches, dataPlayers, dataPlayersMatches } = await pull('/api/database/read', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
   console.log('data:', { dataMatches, dataPlayers, dataPlayersMatches });
   //--------------------------------------------------
 
@@ -28,7 +33,7 @@ async function Request(id) {
 
   // Procurar players das partidas jogadas recentemente
   const players = await pull(`/api/players/${id}`, {
-    method: 'GET',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -45,10 +50,10 @@ async function Request(id) {
 
   // Procurar status de cada partida
   const status = await pull('/api/status', {
-    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
+    credentials: 'same-origin',
     body: JSON.stringify(newMatches),
   });
   console.log('status', status);
@@ -56,10 +61,10 @@ async function Request(id) {
 
   // Procurar informações do perfil
   const profiles = await pull('/api/profiles', {
-    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
+    credentials: 'same-origin',
     body: JSON.stringify(newPlayers),
   });
   console.log('profiles', profiles);
@@ -68,10 +73,10 @@ async function Request(id) {
   // escrever na data base
 
   const write = await pull('/api/database/write', {
-    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
+    credentials: 'same-origin',
     body: JSON.stringify({ profiles, status }),
   });
   console.log('write', write);
@@ -102,9 +107,9 @@ async function Request(id) {
     return a.ranking < b.ranking ? 1 : 0;
   });
 
-  // media
-  console.log('media', StatusAverage(result));
-  console.log('result', [...result]);
+  // Media
+  console.log('Media', StatusAverage(result));
+  console.log('Result', [...result]);
 
   return result;
 }
