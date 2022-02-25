@@ -1,13 +1,13 @@
 import StatusMedia from './math/StatusAverage';
 
-async function pull(url, parameter) {
-  const result = await fetch(url, parameter)
-    .then((resp) => resp.json())
-    .then((resp) => resp)
-    .catch((err) => [err.message]);
-  return result;
-}
-async function Request(id) {
+export default async function Request(id) {
+  async function pull(url, parameter) {
+    const result = await fetch(url, parameter)
+      .then((resp) => resp.json())
+      .then((resp) => resp)
+      .catch((err) => [err.message]);
+    return result;
+  }
   // procurar dados salvos database
 
   const { dataMatches, dataPlayers, dataPlayersMatches } = await pull('/api/database/read');
@@ -88,4 +88,3 @@ async function Request(id) {
 
   return result;
 }
-export default Request;

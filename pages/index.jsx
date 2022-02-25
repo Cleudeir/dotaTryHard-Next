@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { useState } from 'react';
 import Request from '../back_end/Request';
 import style from '../styles/Home.module.css';
