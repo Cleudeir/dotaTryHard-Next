@@ -42,14 +42,7 @@ export default function Home() {
                   <td>Name</td>                 
                   <td>kill</td>
                   <td>death</td>
-                  <td>ass</td>
-                  <td>last</td>
-                  <td>deny</td>
-                  <td>gpm</td>
-                  <td>damage</td>
-                  <td>healing</td>
-                  <td>net worth</td>
-                  <td>tower damage</td>              
+                  <td>assist</td>                             
                   <td>Win rate</td>
                   <td>Ranking</td>
                 </tr>
@@ -62,14 +55,7 @@ export default function Home() {
                     <td>{data.personaname.slice(0,10)}</td>
                     <td>{data.kills}</td>
                     <td>{data.deaths}</td>
-                    <td>{data.assists}</td>
-                    <td>{data.last_hits}</td>
-                    <td>{data.denies}</td>
-                    <td>{data.gold_per_min}</td>
-                    <td>{data.hero_damage}</td>
-                    <td>{data.hero_healing}</td>
-                    <td>{data.net_worth}</td>
-                    <td>{data.tower_damage}</td>                    
+                    <td>{data.assists}</td>                                    
                     <td>{data.winRate}</td>
                     <td>{data.ranking}</td>
                   </tr>

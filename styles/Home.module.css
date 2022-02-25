@@ -60,7 +60,7 @@
   border-color: #7ea8f8;
   border-style: solid;
   color: #ffff;
-  font-size:1.95vmin;
+  font-size:12px;
   margin: 20px auto;  
 }
 
@@ -68,7 +68,7 @@
   border-width: 1px;
   border-color: var(--cor04);
   border-style: solid;
-  padding: 1px;
+  padding: 3px;
   text-align: center;
 }
 .table img {
