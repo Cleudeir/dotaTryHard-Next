@@ -3,13 +3,13 @@ import Request from '../back';
 import style from '../styles/Home.module.css';
 
 export default function Home() {
-  const [id, setId] = useState('');
+  const [id, setId] = useState(false);
 
   const [rank, setRank] = useState(null);
 
   async function start() {
-    if(id ==='87683422'){
-      setId()
+    if(id == false){
+      setId('87683422')
     }
     console.log('start');
     const req = await Request(id);

@@ -16,6 +16,10 @@ a {
   padding: 0px;
   margin: 0px;
 }
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+  opacity: 1; /* Firefox */
+}
 :root{
   --cor01 : #304876;
   --cor02 : #4e6694;
