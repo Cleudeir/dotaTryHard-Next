@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Request from '../back_end/Request';
+import Request from '../back_end';
 import style from '../styles/Home.module.css';
 
 export default function Home() {
