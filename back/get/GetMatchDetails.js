@@ -14,7 +14,7 @@ export default async function GetMatchDetails(props) {
         }
         return null;
       })
-      .catch(() => null);
+      .catch((error) => {console.log(error.message); return null});
 
     array.push(request);
   }

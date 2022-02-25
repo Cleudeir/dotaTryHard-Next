@@ -17,7 +17,7 @@ export default async function GetPlayerSummaries(props) {
         }
         return null;
       })
-      .catch(() => null);
+      .catch((error) => {console.log(error.message); return null});
     array.push(request);
   }
   const promise = await Promise.all(array);
