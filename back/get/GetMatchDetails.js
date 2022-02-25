@@ -19,6 +19,6 @@ export default async function GetMatchDetails(props) {
     array.push(request);
   }
   const promise = await Promise.all(array);
-  const filter = await promise.filter((x) => x != null);
+  const filter = promise.filter((x) => x != null);
   return filter;
 }

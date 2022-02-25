@@ -2,6 +2,7 @@
 import Connect from '../../../back/data/Connect';
 
 export default async function Read(req, res) {
+  console.log('Read');
   const connection = await Connect();
 
   async function queryMySql(request) {

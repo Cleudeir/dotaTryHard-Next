@@ -21,10 +21,10 @@ export default async function GetPlayerSummaries(props) {
     array.push(request);
   }
   const promise = await Promise.all(array);
-
+  const filter = promise.filter((x) => x != null);
   const result = [];
-  for (let j = 0; j < promise.length; j += 1) {
-    const profile = promise[j];
+  for (let j = 0; j < filter.length; j += 1) {
+    const profile = filter[j];
     result.push({ ...profile, account_id: props[j] });
   }
 
