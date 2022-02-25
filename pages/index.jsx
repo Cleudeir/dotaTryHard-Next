@@ -22,6 +22,7 @@ export default function Home() {
         <div className={style.input}>
           <input
             type="number"
+            placeholder='Account id'
             className={style.myButton}
             value={id}
             style={{ textAlign: 'center' }}
@@ -52,7 +53,7 @@ export default function Home() {
                   <tr key={data.hero_healing + data.net_worth + data.tower_damage}>
                     <td>{i + 1}</td>
                     <td style={{paddingTop:"4px"}}><img src={data.avatarfull} alt={data.avatarfull} /></td>
-                    <td>{data.personaname.slice(0,10)}</td>
+                    <td>{data.personaname.slice(0,14)}</td>
                     <td>{data.kills}</td>
                     <td>{data.deaths}</td>
                     <td>{data.assists}</td>                                    
