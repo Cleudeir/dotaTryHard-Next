@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import '../styles/globals.css';
 
 const MyApp = function app({ Component, pageProps }) {
