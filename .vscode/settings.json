@@ -6,6 +6,7 @@
         "loccountrycode",
         "nextjs",
         "tinyint",
-        "tryhard"
+        "tryhard",
+        "vercel"
     ]
 }
