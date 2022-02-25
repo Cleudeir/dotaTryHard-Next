@@ -1,9 +1,9 @@
 /* eslint-disable camelcase */
-import connect from '../../../../back/data/Connect';
+import Connect from '../../../../back/data/Connect';
 
 export default async function Write(req, res) {
   const { status, profiles } = JSON.parse(req.body);
-  const connection = await connect();
+  const connection = await Connect();
 
   async function queryMySql(request, prop2) {
     const result = await connection.query(request, prop2)
@@ -111,6 +111,6 @@ export default async function Write(req, res) {
       writePlayersMatches,
     });
   } else {
-    res.status(500).json(connection);
+    res.status(500).send(connection);
   }
 }

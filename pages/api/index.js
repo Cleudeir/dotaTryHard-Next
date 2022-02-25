@@ -1,5 +1,5 @@
 
-export default async function Status(req, res) {
+export default async function Index(req, res) {
 
-  res.status(200).json("result");
+  res.status(200).send("result");
 }

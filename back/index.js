@@ -11,7 +11,9 @@ export default async function Request(id) {
   // procurar dados salvos database
 
   const { dataMatches, dataPlayers, dataPlayersMatches } = await pull('/api/database/read');
-  console.log('data:', { dataMatches, dataPlayers, dataPlayersMatches });
+  console.log('dataMatches', dataMatches );
+  console.log('dataPlayers', dataPlayers );
+  console.log('dataPlayersMatches', dataPlayersMatches );
   //--------------------------------------------------
 
   // Procurar partidas jogadas recentemente

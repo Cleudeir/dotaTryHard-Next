@@ -1,17 +1,18 @@
 /* eslint-disable brace-style */
-import connect from '../../../../back/data/Connect';
+import Connect from '../../../../back/data/Connect';
 
 export default async function Read(req, res) {
-  const connection = await connect();
+  const connection = await Connect();
 
-  async function queryMySql(request, prop2) {
-    const result = await connection.query(request, prop2)
+  async function queryMySql(request) {
+    const result = await connection.query(request)
       .then((data) => data[0])
       .catch(() => []);
     return result;
   }
 
   if (connection) {
+    /*
     // SELECT COUNT(*) FROM nome_da_tabela;
     // playersMatches
     const dataPlayersMatches = await queryMySql('SELECT * FROM PLAYERS_MATCHES join PLAYERS on PLAYERS_MATCHES.account_id = PLAYERS.account_id;');
@@ -21,13 +22,19 @@ export default async function Read(req, res) {
 
     // players
     const dataPlayers = await queryMySql('SELECT account_id FROM PLAYERS;').then((data) => (data.length > 0 ? data.map((x) => x.account_id) : []));
-
+*/
     // response
-    res.status(200).json({
+    res.status(200).send({      
+      dataMatches:[1],
+      dataPlayers:[2],
+      dataPlayersMatches: [2],
+    });
+    /*
+    res.status(200).send({
       dataPlayersMatches,
       dataMatches,
       dataPlayers,
-    });
+    });*/
   } else {
     res.status(500).json(connection);
   }
