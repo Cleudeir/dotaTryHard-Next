@@ -10,19 +10,28 @@ export default async function Request(id) {
   }
   // procurar dados salvos database
 
-  const { dataMatches, dataPlayers, dataPlayersMatches } = await pull('/api/database/read');
+  const { dataMatches, dataPlayers, dataPlayersMatches } = await pull('/api/database/read',
+  {
+    method: 'GET',
+  });
   console.log('dataMatches', dataMatches );
   console.log('dataPlayers', dataPlayers );
   console.log('dataPlayersMatches', dataPlayersMatches );
   //--------------------------------------------------
 
   // Procurar partidas jogadas recentemente
-  const matches = await pull(`/api/matches/${id}`);
+  const matches = await pull(`/api/matches/${id}`,
+  {
+    method: 'GET',
+  });
   console.log('matches:', matches);
   //--------------------------------------------------
 
   // Procurar players das partidas jogadas recentemente
-  const players = await pull(`/api/players/${id}`);
+  const players = await pull(`/api/players/${id}`,
+  {
+    method: 'GET',
+  });
   console.log('players:', players);
 
   //--------------------------------------------------
