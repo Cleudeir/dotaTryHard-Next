@@ -1,7 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-/* eslint-disable no-console */
-/* eslint-disable react/react-in-jsx-scope */
-/* eslint-disable react/function-component-definition */
 import { useState } from 'react';
 import Request from '../back_end/Request';
 import style from '../styles/Home.module.css';
