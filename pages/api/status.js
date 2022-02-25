@@ -6,5 +6,5 @@ export default async function Status(req, res) {
   const body = JSON.parse(req.body);
   const pull = await GetMatchDetails(body);
   const result = await StatusPlayers(pull);
-  res.status(200).send(result);
+  res.status(200).json(result);
 }

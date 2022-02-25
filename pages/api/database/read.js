@@ -11,8 +11,7 @@ export default async function Read(req, res) {
     return result;
   }
 
-  if (connection) {
-    /*
+  if (connection) {    
     // SELECT COUNT(*) FROM nome_da_tabela;
     // playersMatches
     const dataPlayersMatches = await queryMySql('SELECT * FROM PLAYERS_MATCHES join PLAYERS on PLAYERS_MATCHES.account_id = PLAYERS.account_id;');
@@ -22,20 +21,14 @@ export default async function Read(req, res) {
 
     // players
     const dataPlayers = await queryMySql('SELECT account_id FROM PLAYERS;').then((data) => (data.length > 0 ? data.map((x) => x.account_id) : []));
-*/
-    // response
-    res.status(200).send({      
-      dataMatches:[1],
-      dataPlayers:[2],
-      dataPlayersMatches: [2],
-    });
-    /*
+
+    // response    
     res.status(200).send({
       dataPlayersMatches,
       dataMatches,
       dataPlayers,
-    });*/
+    });
   } else {
-    res.status(500).json(connection);
+    res.status(500).json('Error');
   }
 }

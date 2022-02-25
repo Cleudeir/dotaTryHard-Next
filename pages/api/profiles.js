@@ -28,5 +28,5 @@ export default async function Profiles(req, res) {
     return result;
   }
   const result = await filter();
-  res.status(200).send(result);
+  res.status(200).json(result);
 }
