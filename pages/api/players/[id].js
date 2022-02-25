@@ -7,6 +7,5 @@ export default async function Players(req, res) {
   const pull = await GetMatchHistory(id);
   const result = (await ListPlayers(pull)).splice(0, 25);
 
-  res.setHeader('Content-Type', 'application/json');
   res.status(200).json(result);
 }

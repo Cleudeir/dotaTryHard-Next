@@ -12,6 +12,7 @@ export default async function Read(req, res) {
   }
 
   if (connection) {
+    // SELECT COUNT(*) FROM nome_da_tabela;
     // playersMatches
     const dataPlayersMatches = await queryMySql('SELECT * FROM PLAYERS_MATCHES join PLAYERS on PLAYERS_MATCHES.account_id = PLAYERS.account_id;');
 
@@ -27,7 +28,7 @@ export default async function Read(req, res) {
       dataMatches,
       dataPlayers,
     });
+  } else {
+    res.status(500).json(connection);
   }
-  res.setHeader('Content-Type', 'application/json');
-  res.status(500).json(connection);
 }

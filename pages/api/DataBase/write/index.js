@@ -110,7 +110,7 @@ export default async function Write(req, res) {
       writeMatches,
       writePlayersMatches,
     });
+  } else {
+    res.status(500).json(connection);
   }
-
-  res.status(500).json(connection);
 }

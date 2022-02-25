@@ -1,43 +1,28 @@
 /* eslint-disable no-console */
 import StatusAverage from './math/StatusAverage';
 
+async function pull(url, parameter) {
+  const result = await fetch(url, parameter)
+    .then((resp) => resp.json())
+    .then((resp) => resp)
+    .catch((err) => [err.message]);
+  return result;
+}
 async function Request(id) {
-  console.log('start');
-  async function pull(url, parameter) {
-    const result = await fetch(url, parameter)
-      .then((resp) => resp.json())
-      .then((resp) => resp)
-      .catch(() => []);
-    return result;
-  }
   // procurar dados salvos database
 
-  const { dataMatches, dataPlayers, dataPlayersMatches } = await pull('/api/database/read', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
+  const { dataMatches, dataPlayers, dataPlayersMatches } = await pull('/api/database/read');
   console.log('data:', { dataMatches, dataPlayers, dataPlayersMatches });
   //--------------------------------------------------
 
   // Procurar partidas jogadas recentemente
-  const matches = await pull(`/api/matches/${id}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-
+  const matches = await pull(`/api/matches/${id}`);
+  console.log('matches:', matches);
   //--------------------------------------------------
 
   // Procurar players das partidas jogadas recentemente
-  const players = await pull(`/api/players/${id}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
+  const players = await pull(`/api/players/${id}`);
+  console.log('players:', players);
 
   //--------------------------------------------------
 
@@ -50,21 +35,15 @@ async function Request(id) {
 
   // Procurar status de cada partida
   const status = await pull('/api/status', {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    credentials: 'same-origin',
-    body: JSON.stringify(newMatches),
+    method: 'POST',
+    body: JSON.stringify(matches),
   });
   console.log('status', status);
   //--------------------------------------------------
 
   // Procurar informações do perfil
   const profiles = await pull('/api/profiles', {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    credentials: 'same-origin',
+    method: 'POST',
     body: JSON.stringify(newPlayers),
   });
   console.log('profiles', profiles);
@@ -73,10 +52,7 @@ async function Request(id) {
   // escrever na data base
 
   const write = await pull('/api/database/write', {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    credentials: 'same-origin',
+    method: 'POST',
     body: JSON.stringify({ profiles, status }),
   });
   console.log('write', write);
@@ -89,7 +65,7 @@ async function Request(id) {
       (x) => +x.account_id === +dataPlayers[i],
     ));
   }
-  const filter = statusPerPlayers.filter((x) => x.length >= 10);
+  const filter = statusPerPlayers.filter((x) => x.length >= 30);
 
   const AverageStatusPlayers = [];
   for (let i = 0; i < filter.length; i += 1) {
