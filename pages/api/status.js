@@ -1,5 +1,5 @@
-import GetMatchDetails from '../../../back/get/GetMatchDetails';
-import StatusPlayers from '../../../back/math/StatusPlayers';
+import GetMatchDetails from '../../back/get/GetMatchDetails';
+import StatusPlayers from '../../back/math/StatusPlayers';
 
 export default async function Status(req, res) {
   console.log('status');

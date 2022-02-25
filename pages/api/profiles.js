@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import GetPlayerSummaries from '../../../back/get/GetPlayerSummaries';
+import GetPlayerSummaries from '../../back/get/GetPlayerSummaries';
 
 export default async function Profiles(req, res) {
   console.log('Profiles');
