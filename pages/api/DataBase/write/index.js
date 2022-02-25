@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import connect from '../../../../back_end/data/Connect';
+import connect from '../../../../back/data/Connect';
 
 export default async function Write(req, res) {
   const { status, profiles } = JSON.parse(req.body);

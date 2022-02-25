@@ -1,5 +1,5 @@
 /* eslint-disable brace-style */
-import connect from '../../../../back_end/data/Connect';
+import connect from '../../../../back/data/Connect';
 
 export default async function Read(req, res) {
   const connection = await connect();

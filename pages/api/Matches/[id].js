@@ -1,5 +1,5 @@
-import GetMatchHistory from '../../../back_end/get/GetMatchHistory';
-import ListMatchs from '../../../back_end/math/ListMatchs';
+import GetMatchHistory from '../../../back/get/GetMatchHistory';
+import ListMatchs from '../../../back/math/ListMatchs';
 
 export default async function Matches(req, res) {
   const { id } = req.query;

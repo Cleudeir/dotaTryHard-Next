@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-import GetMatchHistory from '../../../back_end/get/GetMatchHistory';
-import ListPlayers from '../../../back_end/math/ListPlayers';
+import GetMatchHistory from '../../../back/get/GetMatchHistory';
+import ListPlayers from '../../../back/math/ListPlayers';
 
 export default async function Players(req, res) {
   const { id } = req.query;
