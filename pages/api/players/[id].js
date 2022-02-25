@@ -8,7 +8,7 @@ export default async function Players(req, res) {
   const pull = await GetMatchHistory(id);  
   if(pull){
     const list = await ListPlayers(pull)
-    const result = list.splice(0, 20);
+    const result = list.splice(0, 10);
     res.status(200).json(result);
   } else{
     res.status(500).json("Error");

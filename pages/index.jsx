@@ -10,7 +10,7 @@ export default function Home() {
   async function start() {
     console.log('start');
     const req = await Request(id);
-    setRank(req.splice(0, 100));
+    setRank(req.splice(0, 300));
   }
 
   return (

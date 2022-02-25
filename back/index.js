@@ -10,13 +10,17 @@ export default async function Request(id) {
   }
   // procurar dados salvos database
 
-  const { dataMatches, dataPlayers, dataPlayersMatches } = await pull('/api/database/read',
-  {
-    method: 'GET',
+  const { dataMatches } = await pull('/api/database/read',
+  { 
+    method: 'POST',
+    body: JSON.stringify('matches'),
   });
-  console.log('dataMatches', dataMatches );
-  console.log('dataPlayers', dataPlayers );
-  console.log('dataPlayersMatches', dataPlayersMatches );
+  //-------------------------------------------------
+  const { dataPlayers } = await pull('/api/database/read',
+  { 
+    method: 'POST',
+    body: JSON.stringify('players'),
+  });  
   //--------------------------------------------------
 
   // Procurar partidas jogadas recentemente
@@ -24,7 +28,7 @@ export default async function Request(id) {
   {
     method: 'GET',
   });
-  console.log('matches:', matches);
+
   //--------------------------------------------------
 
   // Procurar players das partidas jogadas recentemente
@@ -32,7 +36,6 @@ export default async function Request(id) {
   {
     method: 'GET',
   });
-  console.log('players:', players);
 
   //--------------------------------------------------
 
@@ -46,7 +49,6 @@ export default async function Request(id) {
     method: 'POST',
     body: JSON.stringify(newMatches),
   });
-  console.log('status', status);
   //--------------------------------------------------
 
   // Procurar informações do perfil
@@ -54,7 +56,6 @@ export default async function Request(id) {
     method: 'POST',
     body: JSON.stringify(newPlayers),
   });
-  console.log('profiles', profiles);
   //--------------------------------------------------
 
   // escrever na data base
@@ -63,8 +64,14 @@ export default async function Request(id) {
     method: 'POST',
     body: JSON.stringify({ profiles, status }),
   });
-  console.log('write', write);
+
   //--------------------------------------------------
+
+  const { dataPlayersMatches } = await pull('/api/database/read',
+  { 
+    method: 'POST',
+    body: JSON.stringify('playersMatches'),
+  });
 
   const statusPerPlayers = [];
 
@@ -93,7 +100,6 @@ export default async function Request(id) {
 
   // Media
   console.log('Media', StatusMedia(result));
-  console.log('Result', [...result]);
 
   return result;
 }
