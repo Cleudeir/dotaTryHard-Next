@@ -5,7 +5,7 @@ export default async function Request(id) {
     const result = await fetch(url, parameter)
       .then((resp) => resp.json())
       .then((resp) => resp)
-      .catch((err) => [err.message]);
+      .catch((err) => { console.log(err.message); return null });
     return result;
   }
   // procurar dados salvos database

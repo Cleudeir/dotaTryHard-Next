@@ -4,7 +4,7 @@ export default async function GetMatchDetails(props) {
   const api = await Api();
   const array = [];
   for (let i = 0; i < props.length; i += 1) {
-    const request = fetch(
+    const request = await fetch(
       `${api.base_url}/IDOTA2Match_570/GetMatchDetails/v1?match_id=${props[i]}&key=${api.key_api}`,
     )
       .then((response) => response.json())
