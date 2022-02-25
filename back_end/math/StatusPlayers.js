@@ -1,4 +1,3 @@
-/* eslint-disable no-const-assign */
 /* eslint-disable camelcase */
 export default function StatusPlayers(props) {
   const statusAllGames = [];

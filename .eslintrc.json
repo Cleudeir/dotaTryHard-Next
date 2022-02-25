@@ -37,6 +37,12 @@
             "error",
             2
         ],
+        "import/extensions": ["error", "ignorePackages", {
+            "js": "never",
+            "jsx": "never",
+            "ts": "never",
+            "tsx": "never"
+          }],
         "linebreak-style": 0,
         "quotes": [
             "error",

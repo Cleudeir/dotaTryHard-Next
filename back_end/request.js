@@ -1,5 +1,4 @@
-/* eslint-disable no-console */
-import StatusAverage from './math/StatusAverage';
+import StatusMedia from './math/StatusAverage';
 
 async function pull(url, parameter) {
   const result = await fetch(url, parameter)
@@ -36,7 +35,7 @@ async function Request(id) {
   // Procurar status de cada partida
   const status = await pull('/api/status', {
     method: 'POST',
-    body: JSON.stringify(matches),
+    body: JSON.stringify(newMatches),
   });
   console.log('status', status);
   //--------------------------------------------------
@@ -74,7 +73,7 @@ async function Request(id) {
       avatarfull: filter[i][0].avatarfull,
       loccountrycode: filter[i][0].loccountrycode,
       account_id: filter[i][0].account_id,
-      ...StatusAverage(filter[i]),
+      ...StatusMedia(filter[i]),
     });
   }
 
@@ -84,7 +83,7 @@ async function Request(id) {
   });
 
   // Media
-  console.log('Media', StatusAverage(result));
+  console.log('Media', StatusMedia(result));
   console.log('Result', [...result]);
 
   return result;
