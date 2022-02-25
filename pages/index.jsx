@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Request from '../back';
 import style from '../styles/Home.module.css';
 
-export default function Home() {
+export default function Index() {
   const [id, setId] = useState('87683422');
 
   const [rank, setRank] = useState(null);
