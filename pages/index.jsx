@@ -3,7 +3,7 @@ import Request from '../back';
 import style from '../styles/Home.module.css';
 
 export default function Home() {
-  const [id, setId] = useState('87683422');
+  const [id, setId] = useState('');
 
   const [rank, setRank] = useState(null);
 
