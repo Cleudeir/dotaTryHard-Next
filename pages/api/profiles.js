@@ -19,7 +19,7 @@ export default async function Profiles(req, res) {
       } = get[i];
 
         result.push({
-          personaname: personaname.replace('\'', '').replace('\'', ''),
+          personaname,
           avatarfull,
           loccountrycode,
           account_id,

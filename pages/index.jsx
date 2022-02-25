@@ -38,20 +38,18 @@ export default function Home() {
               <thead>
                 <tr>
                   <td>Nº</td>
-                  <td>Avatar</td>
-                  <td>Name</td>
-                  <td>ID</td>
+                  <td>-</td>
+                  <td>Name</td>                 
                   <td>kill</td>
                   <td>death</td>
-                  <td>assist</td>
-                  <td>last hit</td>
+                  <td>ass</td>
+                  <td>last</td>
                   <td>deny</td>
                   <td>gpm</td>
                   <td>damage</td>
                   <td>healing</td>
                   <td>net worth</td>
-                  <td>tower damage</td>
-                  <td>Match</td>
+                  <td>tower damage</td>              
                   <td>Win rate</td>
                   <td>Ranking</td>
                 </tr>
@@ -60,9 +58,8 @@ export default function Home() {
                 {rank && rank.map((data, i) => (
                   <tr key={data.hero_healing + data.net_worth + data.tower_damage}>
                     <td>{i + 1}</td>
-                    <td><img src={data.avatarfull} alt={data.avatarfull} /></td>
-                    <td>{data.personaname}</td>
-                    <td>{data.account_id}</td>
+                    <td style={{paddingTop:"4px"}}><img src={data.avatarfull} alt={data.avatarfull} /></td>
+                    <td>{data.personaname.slice(0,10)}</td>
                     <td>{data.kills}</td>
                     <td>{data.deaths}</td>
                     <td>{data.assists}</td>
@@ -72,8 +69,7 @@ export default function Home() {
                     <td>{data.hero_damage}</td>
                     <td>{data.hero_healing}</td>
                     <td>{data.net_worth}</td>
-                    <td>{data.tower_damage}</td>
-                    <td>{data.matches}</td>
+                    <td>{data.tower_damage}</td>                    
                     <td>{data.winRate}</td>
                     <td>{data.ranking}</td>
                   </tr>
@@ -86,7 +82,7 @@ export default function Home() {
       ;
       <footer className={style.footer}>
         <h6>
-          Copyright 2022
+          Copyright 2022 - by Avatar 
         </h6>
       </footer>
     </div>

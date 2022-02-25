@@ -112,6 +112,6 @@ export default async function Write(req, res) {
       writePlayersMatches,
     });
   } else {
-    res.status(500).send('Error');
+    res.status(500).send(connection);
   }
 }

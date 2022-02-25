@@ -6,9 +6,7 @@ export default async function GetPlayerSummaries(props) {
   const array = [];
   for (let i = 0; i < props.length; i += 1) {
     const steamId = new SteamID(`[U:1:${props[i]}]`).getSteamID64();
-    const request = await fetch(
-      `${api.base_url}ISteamUser/GetPlayerSummaries/v0002/?key=${api.key_api}&steamids=${steamId}`,
-    )
+    const request = fetch(`${api.base_url}ISteamUser/GetPlayerSummaries/v0002/?key=${api.key_api}&steamids=${steamId}`,)
       .then((response) => response.json())
       .then((data) => {
         if (data.response.players.length > 0) {
@@ -21,12 +19,14 @@ export default async function GetPlayerSummaries(props) {
     array.push(request);
   }
   const promise = await Promise.all(array);
-  const filter = promise.filter((x) => x != null);
+  
   const result = [];
-  for (let j = 0; j < filter.length; j += 1) {
-    const profile = filter[j];
+  for (let j = 0; j < promise.length; j += 1) {
+    const profile = promise[j];
     result.push({ ...profile, account_id: props[j] });
   }
 
-  return result;
+  const filter = result.filter((x) => x.personaname != null);
+
+  return filter;
 }

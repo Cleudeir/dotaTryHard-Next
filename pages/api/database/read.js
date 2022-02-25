@@ -14,8 +14,17 @@ export default async function Read(req, res) {
 
   if (connection) {    
     // SELECT COUNT(*) FROM nome_da_tabela;
+    const [count] = await queryMySql('SELECT COUNT(*) FROM PLAYERS_MATCHES');
+    const tableNumberRows = +count['COUNT(*)']
+    console.log('tableNumberRows', tableNumberRows);
     // playersMatches
-    const dataPlayersMatches = await queryMySql('SELECT * FROM PLAYERS_MATCHES join PLAYERS on PLAYERS_MATCHES.account_id = PLAYERS.account_id;');
+
+    const dataPlayersMatches = []
+    const n = 1000; 
+    for (let i = 1; i < tableNumberRows; i += n) {
+      dataPlayersMatches.push(...await queryMySql(`SELECT * FROM PLAYERS_MATCHES join PLAYERS on PLAYERS_MATCHES.account_id = PLAYERS.account_id LIMIT ${i},${n} ;`))
+    }
+    
 
     // matches
     const dataMatches = await queryMySql('SELECT match_id FROM MATCHES;').then((data) => (data.length > 0 ? data.map((x) => x.match_id) : []));
@@ -30,6 +39,6 @@ export default async function Read(req, res) {
       dataPlayers,
     });
   } else {
-    res.status(500).json('Error');
+    res.status(500).json(connection);
   }
 }

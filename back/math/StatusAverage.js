@@ -66,10 +66,10 @@ export default function StatusAverage(props) {
     }
 
     obj.ranking = parseInt(
-      (
-        (obj.assists / average.assists)
+     ((
+      (obj.assists / average.assists)
     + (obj.denies / average.denies)
-    + (obj.deaths / average.deaths)
+    + (average.deaths / obj.deaths)
     + (obj.gold_per_min / average.gold_per_min)
     + (obj.hero_damage / average.hero_damage)
     + (obj.hero_healing / average.hero_healing)
@@ -78,9 +78,10 @@ export default function StatusAverage(props) {
     + (obj.net_worth / average.net_worth)
     + (obj.tower_damage / average.tower_damage)
     + (obj.xp_per_min / average.xp_per_min)
-    + (obj.winRate / average.winRate)
-    * 1000),
-      10,
+    + (obj.winRate / average.winRate))
+    /12)
+    * 1000,
+      10
     );
   }
   return obj;

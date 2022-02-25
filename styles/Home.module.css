@@ -53,28 +53,26 @@
 }
 
 .table {
-  width: 95%;
-  min-width: 300px;
+  width: 100%;
   background-color: var(--cor02);
   border-collapse: collapse;
-  border-width: 2px;
+  border-width: 1px;
   border-color: #7ea8f8;
   border-style: solid;
   color: #ffff;
-  font-size:8px;
-  margin: 20px auto;
+  font-size:1.95vmin;
+  margin: 20px auto;  
 }
 
 .table td, .table th {
-  border-width: 2px;
+  border-width: 1px;
   border-color: var(--cor04);
   border-style: solid;
-  padding: 0px 2px;
+  padding: 1px;
   text-align: center;
-  vertical-align: center;
 }
 .table img {
-  width: 30px;
+  height: 40px;
 }
 
 .table thead {
@@ -99,13 +97,11 @@
   height: 30px;
   text-transform: uppercase;
   -webkit-appearance: none;
-
   border-width: 1px;
   border-style: solid;
   border-color: var(--cor02);
   background: rgba(10,10,10,0.15);
   border-image: 1px solid linear-gradient(var(--cor02), var(--cor01));
-
   color: #FFFFFF !important;
   text-shadow: 1px 1px 0 rgb(10 10 10 / 40%);
   margin: 5px;

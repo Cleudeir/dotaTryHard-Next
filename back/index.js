@@ -5,7 +5,7 @@ export default async function Request(id) {
     const result = await fetch(url, parameter)
       .then((resp) => resp.json())
       .then((resp) => resp)
-      .catch((err) => { console.log(err.message); return null });
+      .catch((err) => { console.log(err.message); return [] });
     return result;
   }
   // procurar dados salvos database
@@ -73,7 +73,7 @@ export default async function Request(id) {
       (x) => +x.account_id === +dataPlayers[i],
     ));
   }
-  const filter = statusPerPlayers.filter((x) => x.length >= 30);
+  const filter = statusPerPlayers.filter((x) => x.length >= 10);
 
   const AverageStatusPlayers = [];
   for (let i = 0; i < filter.length; i += 1) {
