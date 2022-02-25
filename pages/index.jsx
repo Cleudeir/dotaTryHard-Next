@@ -8,6 +8,9 @@ export default function Home() {
   const [rank, setRank] = useState(null);
 
   async function start() {
+    if(id ==='87683422'){
+      setId()
+    }
     console.log('start');
     const req = await Request(id);
     setRank(req.splice(0, 300));
