@@ -9,9 +9,9 @@ export default function Home() {
   const [rank, setRank] = useState(null);
   const [loading, setLoading] = useState(false)
 
-  async function start() {
-    setLoading(true)
+  async function start() {   
     if(id){
+      setLoading(true)
     if(id>1818577144){
       let steamId = new SteamID(`${id}`);
       let accountID = steamId.getSteam3RenderedID();
