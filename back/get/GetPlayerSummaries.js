@@ -1,7 +1,10 @@
-import Api from './api';
+import Api from './Api';
 
 export default async function GetPlayerSummaries(props) {
   const SteamID = require('steamid');
+ 
+
+
   const api = await Api();
   const array = [];
   for (let i = 0; i < props.length; i += 1) {
@@ -21,9 +24,12 @@ export default async function GetPlayerSummaries(props) {
   const promise = await Promise.all(array);
   
   const result = [];
-  for (let j = 0; j < promise.length; j += 1) {
+  for (let j = 0; j < promise.length; j += 1) {    
     const profile = promise[j];
-    result.push({ ...profile, account_id: props[j] });
+    let steam_id = new SteamID(`${profile.steamid}`);
+    let unfilteredAccountId = steam_id.getSteam3RenderedID();
+    let account_id = unfilteredAccountId.slice(5,50).replace(']', "");
+    result.push({ ...profile, account_id });
   }
 
   const filter = result.filter((x) => x.personaname != null);

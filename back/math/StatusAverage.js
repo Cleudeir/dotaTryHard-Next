@@ -19,18 +19,19 @@ export default function StatusAverage(props) {
   };
   const average = {
     assists: 13,
-    deaths: 5,
+    deaths: 6,
     denies: 7,
-    gold_per_min: 490,
-    hero_damage: 25880,
-    hero_healing: 1413,
+    gold_per_min: 517,
+    hero_damage: 25993,
+    hero_healing: 1074,
     kills: 7,
-    last_hits: 173,
-    net_worth: 17154,
-    tower_damage: 3323,
-    xp_per_min: 611,
+    last_hits: 174,
+    net_worth: 17791,
+    tower_damage: 3371,
+    xp_per_min: 664,
     winRate: 50,
-  };
+};
+  
 
   if (props) {
     for (let i = 0; i < props.length; i += 1) {

@@ -1,4 +1,4 @@
-/*drop database dotaTryHard;*/
+drop database dotaTryHard;
 create database dotaTryHard;
 use dotaTryHard;
 

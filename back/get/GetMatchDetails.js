@@ -1,4 +1,4 @@
-import Api from './api';
+import Api from './Api';
 
 export default async function GetMatchDetails(props) {
   const api = await Api();

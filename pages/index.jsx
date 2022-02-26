@@ -14,10 +14,10 @@ export default function Home() {
       setLoading(true)
     if(id>1818577144){
       let steamId = new SteamID(`${id}`);
-      let accountID = steamId.getSteam3RenderedID();
-      let convert = accountID.slice(5,50).replace(']', "");
-      console.log(convert);
-      setId(convert);
+      let unfilteredAccountId = steamId.getSteam3RenderedID();
+      let accountId = unfilteredAccountId.slice(5,50).replace(']', "");
+      console.log(accountId);
+      setId(accountId);
     }      
       console.log('start');
       const req = await Request(id);
@@ -70,7 +70,8 @@ export default function Home() {
                   <td>Name</td>                 
                   <td>kill</td>
                   <td>death</td>
-                  <td>assist</td>                             
+                  <td>assist</td>  
+                  <td>Matches</td>                           
                   <td>Win rate</td>
                   <td>Ranking</td>
                 </tr>
@@ -83,7 +84,8 @@ export default function Home() {
                     <td>{data.personaname.slice(0,14)}</td>
                     <td>{data.kills}</td>
                     <td>{data.deaths}</td>
-                    <td>{data.assists}</td>                                    
+                    <td>{data.assists}</td>
+                    <td>{data.matches}</td>                                    
                     <td>{data.winRate}</td>
                     <td>{data.ranking}</td>
                   </tr>
