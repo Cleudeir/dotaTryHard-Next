@@ -20,7 +20,8 @@ export default async function Request(id) {
   { 
     method: 'POST',
     body: JSON.stringify('players'),
-  });  
+  }); 
+  console.log(dataMatches) 
   //--------------------------------------------------
 
   // Procurar partidas jogadas recentemente

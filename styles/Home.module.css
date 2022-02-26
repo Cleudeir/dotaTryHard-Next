@@ -33,6 +33,12 @@
   border-color: var(--cor03);  
   padding: 5px 20px;
 }
+.main .texto{ 
+  border-color: var(--cor03);  
+  padding: 5px 20px;
+  color: white;
+  text-transform:uppercase;
+}
 .footer {
   color:#FFFFFF;
   width: 100%;

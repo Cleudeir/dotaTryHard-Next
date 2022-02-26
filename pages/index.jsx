@@ -1,28 +1,52 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Request from '../back';
 import style from '../styles/Home.module.css';
 
-export default function Home() {
-  const [id, setId] = useState(false);
 
+export default function Home() {
+  const SteamID = require('steamid');
+  const [id, setId] = useState(false);
   const [rank, setRank] = useState(null);
+  const [loading, setLoading] = useState(false)
 
   async function start() {
-    if(id == false){
-      setId('87683422')
-    }
-    console.log('start');
-    const req = await Request(id);
-    setRank(req.splice(0, 300));
+    setLoading(true)
+    if(id){
+    if(id>1818577144){
+      let steamId = new SteamID(`${id}`);
+      let accountID = steamId.getSteam3RenderedID();
+      let convert = accountID.slice(5,50).replace(']', "");
+      console.log(convert);
+      setId(convert);
+    }      
+      console.log('start');
+      const req = await Request(id);
+      setLoading(false)
+      localStorage.setItem("id",id)
+      setRank(req.splice(0, 300));
+    }    
   }
+
+  useEffect(() => { 
+    const remember = localStorage.getItem("id");
+    console.log(remember);
+    if(remember){      
+      setId(remember);
+    }
+  },[]);
 
   return (
     <div className={style.container}>
       <header className={style.header}>
+       
         <h2>DOTA TRY HARD</h2>
+       
       </header>
       <main className={style.main}>
         <div className={style.input}>
+          <div className={style.texto}>
+          <h6>SEARCH WITH YOUR ACCOUNT_ID OR STEAM_ID</h6>
+          </div>
           <input
             type="number"
             placeholder='Account id'
@@ -35,7 +59,7 @@ export default function Home() {
           />
           <button className={style.myButton} onClick={start} type="button">Buscar</button>
         </div>
-
+        {loading&& <img width={50} style={{marginTop:"50px"}} src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif"></img>}
         {rank && (
           <div>
             <table className={style.table}>
