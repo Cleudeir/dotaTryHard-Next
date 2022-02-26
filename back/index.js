@@ -42,7 +42,9 @@ export default async function Request(id) {
 
   // filtrar existentes
   const newMatches = matches.filter((x) => !dataMatches.includes(x));
+  console.log("newMatches: ", newMatches.length)
   const newPlayers = players.filter((x) => !dataPlayers.includes(x));
+  console.log("newPlayers: ", newPlayers.length)
   //--------------------------------------------------
 
   // Procurar status de cada partida

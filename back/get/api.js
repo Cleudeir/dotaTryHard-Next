@@ -1,14 +1,12 @@
 export default async function Api() {
-
   let key = '';
-  const day = new Date().getHours()
-  if (day % 2 == 0) { key = process.env.key_api}
+  const hours = new Date().getHours();
+  if (hours % 2 == 0) { key = process.env.key_api}
   else{key = process.env.key_api2 }
   const obj = {
     base_url: process.env.base_url,
     game_mode: process.env.game_mode,
     key_api: key,
   };
-  console.log('obj', obj);
   return obj;
 }

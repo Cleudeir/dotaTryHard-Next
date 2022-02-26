@@ -7,9 +7,10 @@ export default async function Matches(req, res) {
   const pull = await GetMatchHistory(id);
   if(pull){
     const list = await ListMatchs(pull);
-    const qnt = 20
+    const qnt = 30
     const random = Math.floor(Math.random() *( list.length - qnt) )
-    const result = list.splice( random, random + qnt);
+    console.log(random, random + qnt)
+    const result = list.slice( random, random + qnt);
     res.status(200).json(result);
   } else{
     res.status(500).json("Error");

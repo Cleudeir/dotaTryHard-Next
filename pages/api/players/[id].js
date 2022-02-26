@@ -10,7 +10,8 @@ export default async function Players(req, res) {
     const list = await ListPlayers(pull)
     const qnt = 20
     const random = Math.floor(Math.random() * (list.length - qnt))
-    const result = list.splice(random, random + qnt);
+    console.log(random, random + qnt)
+    const result = list.slice(random, random + qnt);
     res.status(200).json(result);
   } else{
     res.status(500).json("Error");

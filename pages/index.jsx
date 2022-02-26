@@ -59,7 +59,7 @@ export default function Home() {
           />
           <button className={style.myButton} onClick={start} type="button">Buscar</button>
         </div>
-        {loading&& <img width={50} style={{marginTop:"50px"}} src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif"></img>}
+        {loading && <img width={50} style={{marginTop:"50px"}} src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif"></img>}
         {rank && (
           <div>
             <table className={style.table}>
@@ -78,7 +78,7 @@ export default function Home() {
               </thead>
               <tbody>
                 {rank && rank.map((data, i) => (
-                  <tr key={data.hero_healing + data.net_worth + data.tower_damage}>
+                  <tr key={data.hero_healing + data.net_worth + data.tower_damage + i}>
                     <td>{i + 1}</td>
                     <td style={{paddingTop:"4px"}}><img src={data.avatarfull} alt={data.avatarfull} /></td>
                     <td>{data.personaname.slice(0,14)}</td>
