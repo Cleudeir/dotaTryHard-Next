@@ -76,8 +76,7 @@ export default function Home() {
                   <td>Name</td>                                   
                   <td>kill</td>
                   <td>death</td>
-                  <td>assist</td>  
-                  <td>Matches</td>                           
+                  <td>assist</td>
                   <td>Win rate</td>
                   <td>Ranking</td>
                 </tr>
@@ -90,8 +89,7 @@ export default function Home() {
                     <td>{data.personaname.slice(0,14)}</td>
                     <td>{data.kills}</td>
                     <td>{data.deaths}</td>
-                    <td>{data.assists}</td>
-                    <td>{data.matches}</td>                                    
+                    <td>{data.assists}</td>                                                       
                     <td>{data.winRate}</td>
                     <td>{data.ranking}</td>
                   </tr>
