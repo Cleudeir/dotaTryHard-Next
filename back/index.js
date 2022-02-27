@@ -15,13 +15,17 @@ export default async function Request(id) {
     method: 'POST',
     body: JSON.stringify('matches'),
   });
+if(dataMatches.length>0){
+  console.log('dataMatches: ','ok') 
+}
+  
   //-------------------------------------------------
   const { dataPlayers } = await pull('/api/database/read',
   { 
     method: 'POST',
     body: JSON.stringify('players'),
   }); 
-  console.log(dataMatches) 
+  console.log('dataPlayers',dataPlayers) 
   //--------------------------------------------------
 
   // Procurar partidas jogadas recentemente
@@ -29,7 +33,7 @@ export default async function Request(id) {
   {
     method: 'GET',
   });
-
+  
   //--------------------------------------------------
 
   // Procurar players das partidas jogadas recentemente
@@ -37,7 +41,9 @@ export default async function Request(id) {
   {
     method: 'GET',
   });
-
+  if(players.length>0){
+    console.log('players: ',players.length) 
+  }
   //--------------------------------------------------
 
   // filtrar existentes
@@ -52,6 +58,9 @@ export default async function Request(id) {
     method: 'POST',
     body: JSON.stringify(newMatches),
   });
+ 
+ console.log('status: ',status.length) 
+  
   //--------------------------------------------------
 
   // Procurar informações do perfil
@@ -59,6 +68,9 @@ export default async function Request(id) {
     method: 'POST',
     body: JSON.stringify(newPlayers),
   });
+
+  console.log('profiles: ',profiles.length)
+
   //--------------------------------------------------
 
   // escrever na data base
@@ -68,6 +80,7 @@ export default async function Request(id) {
     body: JSON.stringify({ profiles, status }),
   });
 
+  console.log('write: ','ok')  
   //--------------------------------------------------
 
   const { dataPlayersMatches } = await pull('/api/database/read',
@@ -83,7 +96,7 @@ export default async function Request(id) {
       (x) => +x.account_id === +dataPlayers[i],
     ));
   }
-  const filter = statusPerPlayers.filter((x) => x.length >= 10);
+  const filter = statusPerPlayers.filter((x) => x.length >= 1);
 
   const AverageStatusPlayers = [];
   for (let i = 0; i < filter.length; i += 1) {

@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import Request from '../back';
 import style from '../styles/Home.module.css';
+import Head from "next/head";
 
 
 export default function Home() {
   const SteamID = require('steamid');
-  const [id, setId] = useState(false);
+  const [id, setId] = useState(87683422);
   const [rank, setRank] = useState(null);
   const [loading, setLoading] = useState(false)
 
@@ -37,6 +38,11 @@ export default function Home() {
 
   return (
     <div className={style.container}>
+      <Head>
+        <title>DotaTryHard</title>
+        <meta name="description" content="DotaTryHard" />
+        <link rel="icon" href="/faicon.png" />
+      </Head>
       <header className={style.header}>
        
         <h2>DOTA TRY HARD</h2>
