@@ -15,10 +15,8 @@ export default async function Request(id) {
     method: 'POST',
     body: JSON.stringify('matches'),
   });
-if(dataMatches.length>0){
-  console.log('dataMatches: ','ok') 
-}
-  
+
+  console.log('dataMatches: ',dataMatches.length)   
   //-------------------------------------------------
   const { dataPlayers } = await pull('/api/database/read',
   { 
@@ -80,7 +78,7 @@ if(dataMatches.length>0){
     body: JSON.stringify({ profiles, status }),
   });
 
-  console.log('write: ','ok')  
+  console.log('write: ',write)  
   //--------------------------------------------------
 
   const { dataPlayersMatches } = await pull('/api/database/read',
@@ -96,7 +94,7 @@ if(dataMatches.length>0){
       (x) => +x.account_id === +dataPlayers[i],
     ));
   }
-  const filter = statusPerPlayers.filter((x) => x.length >= 1);
+  const filter = statusPerPlayers.filter((x) => x.length >= 10);
 
   const AverageStatusPlayers = [];
   for (let i = 0; i < filter.length; i += 1) {

@@ -6,7 +6,7 @@ import Head from "next/head";
 
 export default function Home() {
   const SteamID = require('steamid');
-  const [id, setId] = useState(87683422);
+  const [id, setId] = useState(false); // 87683422
   const [rank, setRank] = useState(null);
   const [loading, setLoading] = useState(false)
 
@@ -73,7 +73,7 @@ export default function Home() {
                 <tr>
                   <td>Nº</td>
                   <td>-</td>
-                  <td>Name</td>                 
+                  <td>Name</td>                                   
                   <td>kill</td>
                   <td>death</td>
                   <td>assist</td>  
@@ -84,7 +84,7 @@ export default function Home() {
               </thead>
               <tbody>
                 {rank && rank.map((data, i) => (
-                  <tr key={data.hero_healing + data.net_worth + data.tower_damage + i}>
+                  <tr key={data.hero_healing + data.net_worth + data.tower_damage * i}>
                     <td>{i + 1}</td>
                     <td style={{paddingTop:"4px"}}><img src={data.avatarfull} alt={data.avatarfull} /></td>
                     <td>{data.personaname.slice(0,14)}</td>

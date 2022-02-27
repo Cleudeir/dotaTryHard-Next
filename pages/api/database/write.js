@@ -106,11 +106,13 @@ export default async function Write(req, res) {
       writePlayersMatches.push(playersMatchesInsert(status[i]));
     }
     res.setHeader('Content-Type', 'application/json');
-    res.status(200).json({
+    res.status(200).json(
+    {
       writeProfiles,
       writeMatches,
       writePlayersMatches,
-    });
+    }
+    );
   } else {
     res.status(500).send(connection);
   }

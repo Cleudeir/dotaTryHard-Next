@@ -11,25 +11,14 @@ export default async function GetPlayerSummaries(props) {
       .then((data) => {
         if (data.response.players.length > 0) {
           const x = data.response.players[0];
-          return x;
-        }
+          return {...x, account_id:props[i]};
+        }      
         return null;
       })
       .catch((error) => {console.log(error.message); return null});
     array.push(request);
   }
   const promise = await Promise.all(array);
-  
-  const result = [];
-  for (let j = 0; j < promise.length; j += 1) {    
-    const profile = promise[j];
-    let steam_id = new SteamID(`${profile.steamid}`);
-    let unfilteredAccountId = steam_id.getSteam3RenderedID();
-    let account_id = unfilteredAccountId.slice(5,50).replace(']', "");
-    result.push({ ...profile, account_id });
-  }
 
-  const filter = result.filter((x) => x.personaname != null);
-
-  return filter;
+  return promise;
 }
