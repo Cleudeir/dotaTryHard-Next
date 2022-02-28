@@ -1,4 +1,4 @@
-import StatusMedia from './math/StatusAverage';
+import Normal from './math/Normal';
 
 export default async function Request(id) {
   async function pull(url, parameter) {
@@ -73,12 +73,14 @@ export default async function Request(id) {
 
   // escrever na data base
 
-  const write = await pull('/api/database/write', {
+  const {writeProfiles,    writeMatches,     writePlayersMatches} = await pull('/api/database/write', {
     method: 'POST',
     body: JSON.stringify({ profiles, status }),
   });
 
-  console.log('write: ',write)  
+  console.log('writeProfiles: ',writeProfiles.length);
+  console.log('writeMatches: ',writeMatches.length);
+  console.log('writePlayersMatches: ',writePlayersMatches.length); 
   //--------------------------------------------------
 
   const { dataPlayersMatches } = await pull('/api/database/read',
@@ -96,24 +98,23 @@ export default async function Request(id) {
   }
   const filter = statusPerPlayers.filter((x) => x.length >= 10);
 
-  const AverageStatusPlayers = [];
+  const normalStatusPlayers = [];
   for (let i = 0; i < filter.length; i += 1) {
-    AverageStatusPlayers.push({
+    normalStatusPlayers.push({
       personaname: filter[i][0].personaname,
       avatarfull: filter[i][0].avatarfull,
       loccountrycode: filter[i][0].loccountrycode,
       account_id: filter[i][0].account_id,
-      ...StatusMedia(filter[i]),
+      ...Normal(filter[i]),
     });
   }
 
-  const result = AverageStatusPlayers.sort((a, b) => {
+  const result = normalStatusPlayers.sort((a, b) => {
     if (a.ranking > b.ranking) return -1;
     return a.ranking < b.ranking ? 1 : 0;
   });
 
   // Media
-  console.log('Media', StatusMedia(result));
-
+  console.log('Media:', Normal(result));
   return result;
 }

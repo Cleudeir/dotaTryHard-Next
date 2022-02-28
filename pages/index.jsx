@@ -11,7 +11,8 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
 
   async function start() {   
-    if(id){
+    setRank(null);
+    if(id){      
       setLoading(true)
     if(id>1818577144){
       let steamId = new SteamID(`${id}`);
@@ -21,19 +22,21 @@ export default function Home() {
       setId(accountId);
     }      
       console.log('start');
+      localStorage.setItem("id",id)
       const req = await Request(id);
       setLoading(false)
-      localStorage.setItem("id",id)
+      
       setRank(req.splice(0, 300));
-    }    
-  }
-
-  useEffect(() => { 
-    const remember = localStorage.getItem("id");
-    console.log(remember);
-    if(remember){      
-      setId(remember);
     }
+  }
+  
+  useEffect(() => { 
+   
+  const remember = localStorage.getItem("id");
+  console.log(remember);
+  if(remember){      
+    setId(remember);
+  }
   },[]);
 
   return (
@@ -43,10 +46,8 @@ export default function Home() {
         <meta name="description" content="DotaTryHard" />
         <link rel="icon" href="/faicon.png" />
       </Head>
-      <header className={style.header}>
-       
-        <h2>DOTA TRY HARD</h2>
-       
+      <header className={style.header}>       
+        <a href='/'><h2>DOTA TRY HARD</h2> </a>      
       </header>
       <main className={style.main}>
         <div className={style.input}>
@@ -63,7 +64,7 @@ export default function Home() {
               (e) => { setId(e.target.value); }
             }
           />
-          <button className={style.myButton} onClick={start} type="button">Buscar</button>
+          <button className={style.myButton} style={{cursor:"pointer"}} onClick={start} type="button">Buscar</button>
         </div>
         {loading && <img width={50} style={{marginTop:"50px"}} src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif"></img>}
         {rank && (
@@ -73,12 +74,13 @@ export default function Home() {
                 <tr>
                   <td>Nº</td>
                   <td>-</td>
-                  <td>Name</td>                                   
-                  <td>kill</td>
-                  <td>death</td>
-                  <td>assist</td>
+                  <td>Name/ID</td>                                   
+                  <td>K/D/A</td>
+                  <td>L/D</td>
+                  <td>GPM</td>
+                  <td>XPM</td>              
                   <td>Win rate</td>
-                  <td>Ranking</td>
+                  <td>Rank</td>
                 </tr>
               </thead>
               <tbody>
@@ -86,11 +88,12 @@ export default function Home() {
                   <tr key={data.hero_healing + data.net_worth + data.tower_damage * i}>
                     <td>{i + 1}</td>
                     <td style={{paddingTop:"4px"}}><img src={data.avatarfull} alt={data.avatarfull} /></td>
-                    <td>{data.personaname.slice(0,14)}</td>
-                    <td>{data.kills}</td>
-                    <td>{data.deaths}</td>
-                    <td>{data.assists}</td>                                                       
-                    <td>{data.winRate}</td>
+                    <td>{data.personaname.slice(0,14)} <br></br>{data.account_id}</td>
+                    <td>{data.kills}/{data.deaths}/{data.assists}</td> 
+                    <td>{data.last_hits}/{data.denies}</td>     
+                    <td>{data.gold_per_min}</td> 
+                    <td>{data.xp_per_min}</td>                                                      
+                    <td>{data.winRate}%</td>
                     <td>{data.ranking}</td>
                   </tr>
                 ))}

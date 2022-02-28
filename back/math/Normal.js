@@ -17,25 +17,9 @@ export default function StatusAverage(props) {
     winRate: 0,
     ranking: 0,
   };
-  const average = {
-    assists: 13,
-    deaths: 6,
-    denies: 7,
-    gold_per_min: 517,
-    hero_damage: 25993,
-    hero_healing: 1074,
-    kills: 7,
-    last_hits: 174,
-    net_worth: 17791,
-    tower_damage: 3371,
-    xp_per_min: 664,
-    winRate: 50,
-};
-  
 
   if (props) {
     for (let i = 0; i < props.length; i += 1) {
-      if (props[i].win !== null) {
         obj.assists += props[i].assists;
         obj.deaths += props[i].deaths;
         obj.denies += props[i].denies;
@@ -48,8 +32,7 @@ export default function StatusAverage(props) {
         obj.tower_damage += props[i].tower_damage;
         obj.xp_per_min += props[i].xp_per_min;
         obj.win += props[i].win;
-        obj.matches += 1;
-      }
+        obj.matches += 1;      
     }
     if (obj.matches !== 0) {
       obj.assists = parseInt(obj.assists / obj.matches, 10);
@@ -66,6 +49,22 @@ export default function StatusAverage(props) {
       obj.winRate = parseInt((obj.win / obj.matches) * 100, 10);
     }
 
+ // ---------------------------------------------------------------
+    const average = {
+      assists: 13,
+      deaths: 6,
+      denies: 7,
+      gold_per_min: 517,
+      hero_damage: 25993,
+      hero_healing: 1074,
+      kills: 7,
+      last_hits: 174,
+      net_worth: 17791,
+      tower_damage: 3371,
+      xp_per_min: 664,
+      winRate: 50,
+  };
+
     obj.ranking = parseInt(
      ((
       (obj.assists / average.assists)
@@ -79,7 +78,7 @@ export default function StatusAverage(props) {
     + (obj.net_worth / average.net_worth)
     + (obj.tower_damage / average.tower_damage)
     + (obj.xp_per_min / average.xp_per_min)
-    + (obj.winRate / average.winRate))
+    + (obj.winRate / average.winRate)*3)
     /12)
     * 1000,
       10

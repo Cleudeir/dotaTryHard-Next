@@ -17,7 +17,7 @@ a {
   margin: 0px;
 }
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: white;
+  color: rgba(255, 255, 255, 0.527);
   opacity: 1; /* Firefox */
 }
 :root{

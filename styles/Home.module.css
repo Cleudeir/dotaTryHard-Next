@@ -66,7 +66,7 @@
   border-color: #7ea8f8;
   border-style: solid;
   color: #ffff;
-  font-size:12px;
+  font-size:11px;
   margin: 20px auto;  
 }
 
@@ -93,7 +93,6 @@
 .myButton {
   color: white;
   border-radius: 0;
-  cursor: pointer;
   display: inline-block;
   font-family: "Lucida Grande", Tahoma, Verdana, Arial, sans-serif;
   font-size: 13px;
