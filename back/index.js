@@ -23,15 +23,16 @@ export default async function Request(id) {
     method: 'POST',
     body: JSON.stringify('players'),
   }); 
-  console.log('dataPlayers',dataPlayers) 
+  console.log('dataPlayers',dataPlayers.length) 
   //--------------------------------------------------
-
+  console.log('--------------------------') ;
   // Procurar partidas jogadas recentemente
   const matches = await pull(`/api/matches/${id}`,
   {
     method: 'GET',
   });
-  
+  console.log('matches: ', matches.length) 
+
   //--------------------------------------------------
 
   // Procurar players das partidas jogadas recentemente
@@ -39,18 +40,18 @@ export default async function Request(id) {
   {
     method: 'GET',
   });
-  if(players.length>0){
-    console.log('players: ',players.length) 
-  }
+  
+  console.log('players: ', players.length) 
+  
   //--------------------------------------------------
-
+  console.log('--------------------------') ;
   // filtrar existentes
   const newMatches = matches.filter((x) => !dataMatches.includes(x));
   console.log("newMatches: ", newMatches.length)
   const newPlayers = players.filter((x) => !dataPlayers.includes(x));
   console.log("newPlayers: ", newPlayers.length)
   //--------------------------------------------------
-
+  console.log('--------------------------') ;
   // Procurar status de cada partida
   const status = await pull('/api/status', {
     method: 'POST',
@@ -70,7 +71,7 @@ export default async function Request(id) {
   console.log('profiles: ',profiles.length)
 
   //--------------------------------------------------
-
+  console.log('--------------------------') ;
   // escrever na data base
 
   const {writeProfiles,    writeMatches,     writePlayersMatches} = await pull('/api/database/write', {
@@ -113,7 +114,7 @@ export default async function Request(id) {
     if (a.ranking > b.ranking) return -1;
     return a.ranking < b.ranking ? 1 : 0;
   });
-
+  console.log('--------------------------') ;
   // Media
   console.log('Media:', Normal(result));
   return result;
