@@ -11,9 +11,8 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
 
   async function start() {   
-    setRank(null);
-    if(id){      
-      setLoading(true)
+    setRank(null);     
+    setLoading(true)
     if(id>1818577144){
       let steamId = new SteamID(`${id}`);
       let unfilteredAccountId = steamId.getSteam3RenderedID();
@@ -24,14 +23,10 @@ export default function Home() {
       console.log('start');
       localStorage.setItem("id",id)
       const req = await Request(id);
-      setLoading(false)
-      
-      setRank(req.splice(0, 300));
-    }
-  }
-  
-  useEffect(() => { 
-   
+      setLoading(false)      
+      setRank(req.splice(0, 300));    
+  }  
+  useEffect(() => {    
   const remember = localStorage.getItem("id");
   console.log(remember);
   if(remember){      
