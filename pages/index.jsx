@@ -9,6 +9,7 @@ export default function Home() {
   const [id, setId] = useState(false); // 87683422
   const [rank, setRank] = useState(null);
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
 
   async function start() {   
     setRank(null);     
@@ -22,9 +23,12 @@ export default function Home() {
     }      
       console.log('start');
       localStorage.setItem("id",id)
-      const req = await Request(id);
+      const {status , message , data} = await Request(id);
+      if(status == "Error"){
+        setError(message)
+      }
       setLoading(false)      
-      setRank(req.splice(0, 300));    
+      setRank(data);    
   }  
   useEffect(() => {    
   const remember = localStorage.getItem("id");
@@ -62,6 +66,7 @@ export default function Home() {
           <button className={style.myButton} style={{cursor:"pointer"}} onClick={start} type="button">Buscar</button>
         </div>
         {loading && <img width={50} style={{marginTop:"50px"}} src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif"></img>}
+        {error && <div><h4 style={{margin:"20px auto"}} className={style.texto}>{error}</h4></div>}
         {rank && (
           <div>
             <table className={style.table}>

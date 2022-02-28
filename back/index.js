@@ -16,16 +16,29 @@ export default async function Request(id) {
     body: JSON.stringify('matches'),
   });
 
-  console.log('dataMatches: ',dataMatches.length)   
+
   //-------------------------------------------------
   const { dataPlayers } = await pull('/api/database/read',
   { 
     method: 'POST',
     body: JSON.stringify('players'),
   }); 
-  console.log('dataPlayers',dataPlayers.length) 
+
   //--------------------------------------------------
   console.log('--------------------------') ;
+  //-----------------------------------------------------
+
+  if(dataPlayers == undefined && dataMatches == undefined ){
+    return {
+      status: "Error",
+      message: "SERVIDOR DATABASE OFFILINE, FAVOR TENTAR MAIS TARDE!",
+      data: null
+  }
+  }
+  console.log('dataPlayers',dataPlayers) 
+  console.log('dataMatches: ',dataMatches)   
+
+  //--------------------------------------------------
   // Procurar partidas jogadas recentemente
   const matches = await pull(`/api/matches/${id}`,
   {
@@ -117,5 +130,9 @@ export default async function Request(id) {
   console.log('--------------------------') ;
   // Media
   console.log('Media:', Normal(result));
-  return result;
+  return {
+    status: "ok",
+    message: "Tudo ocorreu bem",
+    data: result
+};
 }
