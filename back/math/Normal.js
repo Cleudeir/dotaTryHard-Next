@@ -20,19 +20,19 @@ export default function StatusAverage(props) {
 
   if (props) {
     for (let i = 0; i < props.length; i += 1) {
-        obj.assists += props[i].assists;
-        obj.deaths += props[i].deaths;
-        obj.denies += props[i].denies;
-        obj.gold_per_min += props[i].gold_per_min;
-        obj.hero_damage += props[i].hero_damage;
-        obj.hero_healing += props[i].hero_healing;
-        obj.kills += props[i].kills;
-        obj.last_hits += props[i].last_hits;
-        obj.net_worth += props[i].net_worth;
-        obj.tower_damage += props[i].tower_damage;
-        obj.xp_per_min += props[i].xp_per_min;
-        obj.win += props[i].win;
-        obj.matches += 1;      
+      obj.assists += props[i].assists;
+      obj.deaths += props[i].deaths;
+      obj.denies += props[i].denies;
+      obj.gold_per_min += props[i].gold_per_min;
+      obj.hero_damage += props[i].hero_damage;
+      obj.hero_healing += props[i].hero_healing;
+      obj.kills += props[i].kills;
+      obj.last_hits += props[i].last_hits;
+      obj.net_worth += props[i].net_worth;
+      obj.tower_damage += props[i].tower_damage;
+      obj.xp_per_min += props[i].xp_per_min;
+      obj.win += props[i].win;
+      obj.matches += 1;
     }
     if (obj.matches !== 0) {
       obj.assists = parseInt(obj.assists / obj.matches, 10);
@@ -49,7 +49,7 @@ export default function StatusAverage(props) {
       obj.winRate = parseInt((obj.win / obj.matches) * 100, 10);
     }
 
- // ---------------------------------------------------------------
+    // ---------------------------------------------------------------
     const average = {
       assists: 13,
       deaths: 6,
@@ -63,11 +63,11 @@ export default function StatusAverage(props) {
       tower_damage: 3371,
       xp_per_min: 664,
       winRate: 50,
-  };
+    };
 
     obj.ranking = parseInt(
-     ((
-      (obj.assists / average.assists)
+      ((
+        (obj.assists / average.assists)
     + (obj.denies / average.denies)
     + (average.deaths / obj.deaths)
     + (obj.gold_per_min / average.gold_per_min)
@@ -78,10 +78,10 @@ export default function StatusAverage(props) {
     + (obj.net_worth / average.net_worth)
     + (obj.tower_damage / average.tower_damage)
     + (obj.xp_per_min / average.xp_per_min)
-    + (obj.winRate / average.winRate)*3)
-    /12)
+    + (obj.winRate / average.winRate) * 3)
+    / 12)
     * 1000,
-      10
+      10,
     );
   }
   return obj;

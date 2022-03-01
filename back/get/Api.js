@@ -1,8 +1,7 @@
 export default async function Api() {
   let key = '';
   const hours = new Date().getHours();
-  if (hours % 2 == 0) { key = process.env.key_api}
-  else{key = process.env.key_api2 }
+  if (hours % 2 === 0) { key = process.env.key_api; } else { key = process.env.key_api2; }
   const obj = {
     base_url: process.env.base_url,
     game_mode: process.env.game_mode,

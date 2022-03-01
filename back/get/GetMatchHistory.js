@@ -1,16 +1,35 @@
-import Api from './Api';
+import api from './Api';
 
 export default async function GetMatchHistory(props) {
-  const api = await Api();
-  const request = await fetch(`${api.base_url}IDOTA2Match_570/GetMatchHistory/v1/?account_id=${props}&game_mode=${api.game_mode}&key=${api.key_api}`,)
+  const objApi = await api();
+  const request = await fetch(
+    `${objApi.base_url}IDOTA2Match_570/GetMatchHistory/v1/?account_id=${props}&game_mode=${objApi.game_mode}&key=${objApi.key_api}`,
+  )
     .then((response) => response.json())
     .then((data) => {
-      if(data.result.matches){
-        const x = data.result.matches;
+      if (data.result.matches) {
+        const x = {
+          status: 200,
+          message: 'ok',
+          data: data.result.matches,
+        };
         return x;
-      }  
-        return null;      
+      } if (data.result.status) {
+        return {
+          status: 15,
+          message: data.result.statusDetail,
+          data: null,
+        };
+      }
+      return null;
     })
-    .catch((error) => {console.log(error.message); return null});
+    .catch((error) => {
+      console.log(error.message);
+      return {
+        status: 500,
+        message: 'Request error, repite please',
+        data: null,
+      };
+    });
   return request;
 }

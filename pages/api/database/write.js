@@ -107,11 +107,11 @@ export default async function Write(req, res) {
     }
     res.setHeader('Content-Type', 'application/json');
     res.status(200).json(
-    {
-      writeProfiles,
-      writeMatches,
-      writePlayersMatches,
-    }
+      {
+        writeProfiles,
+        writeMatches,
+        writePlayersMatches,
+      },
     );
   } else {
     res.status(500).send(connection);

@@ -4,19 +4,30 @@
         "es2021": true,
         "node": true
     },
-    "extends": "plugin:react/recommended",
+    "extends": [
+        "plugin:react/recommended",
+        "airbnb"
+    ],
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true
         },
-        "ecmaVersion": 12,
+        "ecmaVersion": "latest",
         "sourceType": "module"
     },
     "plugins": [
         "react"
     ],
     "rules": {
-        "react/react-in-jsx-scope": 0,
-        "react/jsx-uses-react": 0
+        "linebreak-style": ["error", "windows"],
+        "no-console": "off",
+        "no-restricted-syntax": [
+            "error",
+            {
+                "selector": "CallExpression[callee.object.name='console'][callee.property.name!=/^(log|warn|error|info|trace)$/]",
+                "message": "Unexpected property on console object was called"
+            }
+        ],
+        "react/jsx-props-no-spreading": 0
     }
 }

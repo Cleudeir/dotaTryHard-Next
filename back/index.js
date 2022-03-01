@@ -5,74 +5,95 @@ export default async function Request(id) {
     const result = await fetch(url, parameter)
       .then((resp) => resp.json())
       .then((resp) => resp)
-      .catch((err) => { console.log(err.message); return [] });
+      .catch((err) => { console.log(err.message); return []; });
     return result;
   }
   // procurar dados salvos database
 
-  const { dataMatches } = await pull('/api/database/read',
-  { 
-    method: 'POST',
-    body: JSON.stringify('matches'),
-  });
+  const { dataMatches } = await pull(
+    '/api/database/read',
+    {
+      method: 'POST',
+      body: JSON.stringify('matches'),
+    },
+  );
 
-
+  if (dataMatches === undefined) {
+    return {
+      status: 'Error',
+      message: 'SERVIDOR DATABASE OFFILINE, FAVOR TENTAR MAIS TARDE!',
+      data: null,
+    };
+  }
   //-------------------------------------------------
-  const { dataPlayers } = await pull('/api/database/read',
-  { 
-    method: 'POST',
-    body: JSON.stringify('players'),
-  }); 
+  const { dataPlayers } = await pull(
+    '/api/database/read',
+    {
+      method: 'POST',
+      body: JSON.stringify('players'),
+    },
+  );
 
   //--------------------------------------------------
-  console.log('--------------------------') ;
-  //-----------------------------------------------------
+  console.log('--------------------------');
+  //--------------------------------------------------
 
-  if(dataPlayers == undefined && dataMatches == undefined ){
-    return {
-      status: "Error",
-      message: "SERVIDOR DATABASE OFFILINE, FAVOR TENTAR MAIS TARDE!",
-      data: null
-  }
-  }
-  console.log('dataPlayers',dataPlayers) 
-  console.log('dataMatches: ',dataMatches)   
+  console.log('dataPlayers', dataPlayers.length);
+  console.log('dataMatches: ', dataMatches.length);
 
   //--------------------------------------------------
   // Procurar partidas jogadas recentemente
-  const matches = await pull(`/api/matches/${id}`,
-  {
-    method: 'GET',
-  });
-  console.log('matches: ', matches.length) 
+  const matches = await pull(
+    `/api/matches/${id}`,
+    {
+      method: 'GET',
+    },
+  );
+  if (!matches.data) {
+    return {
+      status: matches.status,
+      message: matches.message,
+      data: null,
+    };
+  }
 
+  console.log('matches: ', matches.message);
   //--------------------------------------------------
 
   // Procurar players das partidas jogadas recentemente
-  const players = await pull(`/api/players/${id}`,
-  {
-    method: 'GET',
-  });
-  
-  console.log('players: ', players.length) 
-  
+  const players = await pull(
+    `/api/players/${id}`,
+    {
+      method: 'GET',
+    },
+  );
+  if (!players.data) {
+    return {
+      status: players.status,
+      message: players.message,
+      data: null,
+    };
+  }
+
+  console.log('players: ', players.message);
+
   //--------------------------------------------------
-  console.log('--------------------------') ;
+  console.log('--------------------------');
   // filtrar existentes
-  const newMatches = matches.filter((x) => !dataMatches.includes(x));
-  console.log("newMatches: ", newMatches.length)
-  const newPlayers = players.filter((x) => !dataPlayers.includes(x));
-  console.log("newPlayers: ", newPlayers.length)
+  const newMatches = matches.data.filter((x) => !dataMatches.includes(x));
+  console.log('newMatches: ', newMatches.length);
+  const newPlayers = players.data.filter((x) => !dataPlayers.includes(x));
+  console.log('newPlayers: ', newPlayers.length);
   //--------------------------------------------------
-  console.log('--------------------------') ;
+  console.log('--------------------------');
   // Procurar status de cada partida
   const status = await pull('/api/status', {
     method: 'POST',
     body: JSON.stringify(newMatches),
   });
- 
- console.log('status: ',status.length) 
-  
+
+  console.log('status: ', status.length);
+
   //--------------------------------------------------
 
   // Procurar informações do perfil
@@ -81,28 +102,44 @@ export default async function Request(id) {
     body: JSON.stringify(newPlayers),
   });
 
-  console.log('profiles: ',profiles.length)
+  console.log('profiles: ', profiles.length);
 
   //--------------------------------------------------
-  console.log('--------------------------') ;
+  console.log('--------------------------');
   // escrever na data base
 
-  const {writeProfiles,    writeMatches,     writePlayersMatches} = await pull('/api/database/write', {
+  const { writeProfiles, writeMatches, writePlayersMatches } = await pull('/api/database/write', {
     method: 'POST',
     body: JSON.stringify({ profiles, status }),
   });
 
-  console.log('writeProfiles: ',writeProfiles.length);
-  console.log('writeMatches: ',writeMatches.length);
-  console.log('writePlayersMatches: ',writePlayersMatches.length); 
+  console.log('writeProfiles: ', writeProfiles.length);
+  console.log('writeMatches: ', writeMatches.length);
+  console.log('writePlayersMatches: ', writePlayersMatches.length);
   //--------------------------------------------------
 
-  const { dataPlayersMatches } = await pull('/api/database/read',
-  { 
-    method: 'POST',
-    body: JSON.stringify('playersMatches'),
-  });
+  const { dataPlayersMatches } = await pull(
+    '/api/database/read',
+    {
+      method: 'POST',
+      body: JSON.stringify('playersMatches'),
+    },
+  );
 
+  console.log('dataPlayersMatches: ', dataPlayersMatches.length);
+
+  const { avgStatus } = await pull(
+    '/api/database/read',
+    {
+      method: 'POST',
+      body: JSON.stringify('avg'),
+    },
+  );
+
+  console.log(avgStatus);
+
+  console.log('dataPlayersMatches: ', dataPlayersMatches.length);
+  //---------------------------------------------------
   const statusPerPlayers = [];
 
   for (let i = 0; i < dataPlayers.length; i += 1) {
@@ -127,12 +164,12 @@ export default async function Request(id) {
     if (a.ranking > b.ranking) return -1;
     return a.ranking < b.ranking ? 1 : 0;
   });
-  console.log('--------------------------') ;
+  console.log('--------------------------');
   // Media
   console.log('Media:', Normal(result));
   return {
-    status: "ok",
-    message: "Tudo ocorreu bem",
-    data: result
-};
+    status: 'ok',
+    message: 'Tudo ocorreu bem',
+    data: result,
+  };
 }
