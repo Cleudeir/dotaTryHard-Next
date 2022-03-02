@@ -40,6 +40,7 @@ export default async function Request(id) {
 
   console.log('dataPlayers', dataPlayers.length);
   console.log('dataMatches: ', dataMatches.length);
+  console.log('--------------------------');
 
   //--------------------------------------------------
   // Procurar partidas jogadas recentemente
@@ -57,7 +58,7 @@ export default async function Request(id) {
     };
   }
 
-  console.log('matches: ', matches.message);
+  console.log('matches: ', matches.data.length);
   //--------------------------------------------------
 
   // Procurar players das partidas jogadas recentemente
@@ -75,7 +76,7 @@ export default async function Request(id) {
     };
   }
 
-  console.log('players: ', players.message);
+  console.log('players: ', players.data.length);
 
   //--------------------------------------------------
   console.log('--------------------------');
