@@ -9,7 +9,7 @@ export default async function Players(req, res) {
   const pull = await GetMatchHistory(account_id);
   if (pull.data) {
     const list = await ListPlayers(pull.data);
-    const qnt = 25;
+    const qnt = 10;
     const random = Math.floor(Math.random() * (list.length - qnt));
     console.log(random, random + qnt);
     const slice = list.slice(random, random + qnt);

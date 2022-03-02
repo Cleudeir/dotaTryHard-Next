@@ -2,7 +2,7 @@ export default function Ranking({ dataAvg, dataAvgAll }) {
   const result = [];
   const average = dataAvgAll;
 
-  average.winRate = parseFloat((+average.win / +average.matches) * 100, 2).toFixed(1);
+  average.winRate = parseFloat((+average.win / +average.matches) * 100, 2).toFixed(0);
 
   for (let i = 0; i < dataAvg.length; i += 1) {
     const obj = dataAvg[i];
@@ -20,7 +20,7 @@ export default function Ranking({ dataAvg, dataAvgAll }) {
     obj.xp_per_min = +obj.xp_per_min;
     obj.win = +obj.win;
 
-    obj.winRate = parseFloat((+obj.win / +obj.matches) * 100, 2).toFixed(1);
+    obj.winRate = parseFloat((+obj.win / +obj.matches) * 100, 2).toFixed(0);
 
     obj.ranking = parseInt(
       ((

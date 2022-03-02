@@ -21,7 +21,7 @@ export default async function Request(id) {
   if (dataMatches === undefined) {
     return {
       status: 'Error',
-      message: 'SERVIDOR DATABASE OFFILINE, FAVOR TENTAR MAIS TARDE!',
+      message: 'SERVIDOR DATABASE OFFLINE, FAVOR TENTAR MAIS TARDE!',
       data: null,
     };
   }
@@ -38,8 +38,8 @@ export default async function Request(id) {
   console.log('--------------------------');
   //--------------------------------------------------
 
-  console.log('dataPlayers', dataPlayers);
-  console.log('dataMatches: ', dataMatches);
+  console.log('dataPlayers', dataPlayers.length);
+  console.log('dataMatches: ', dataMatches.length);
 
   //--------------------------------------------------
   // Procurar partidas jogadas recentemente

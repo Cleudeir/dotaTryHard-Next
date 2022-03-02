@@ -65,7 +65,7 @@ export default async function Read(req, res) {
            ) as tabela      
            on tabela.account_id = PLAYERS.account_id;`;
 
-      const dataAvg = (await queryMySql(avg)).filter((x) => x.matches > 10);
+      const dataAvg = (await queryMySql(avg)).filter((x) => x.matches >= 10);
 
       const avgAll = `SELECT 
       ROUND(AVG(assists),0) AS assists, 

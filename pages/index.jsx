@@ -61,6 +61,7 @@ export default function Home() {
           </div>
           <input
             type="number"
+            pattern="[0-9]"
             placeholder="Account id"
             className={style.myButton}
             value={id}
@@ -87,7 +88,11 @@ export default function Home() {
                   <td>L/D</td>
                   <td>GPM</td>
                   <td>XPM</td>
-                  <td>Win rate</td>
+                  <td>
+                    W/M
+                    <br />
+                    Rate
+                  </td>
                   <td>Rank</td>
                 </tr>
               </thead>
@@ -117,6 +122,10 @@ export default function Home() {
                     <td>{data.gold_per_min}</td>
                     <td>{data.xp_per_min}</td>
                     <td>
+                      {data.win}
+                      /
+                      {data.matches}
+                      <br />
                       {data.winRate}
                       %
                     </td>

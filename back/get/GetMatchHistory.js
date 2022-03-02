@@ -27,7 +27,7 @@ export default async function GetMatchHistory(props) {
       console.log(error.message);
       return {
         status: 500,
-        message: 'Request error, repite please',
+        message: 'Request error, repete please',
         data: null,
       };
     });

@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 import Api from './Api';
 
 const SteamID = require('steamid');

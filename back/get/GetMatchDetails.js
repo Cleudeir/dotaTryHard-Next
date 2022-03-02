@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 import api from './Api';
 
 export default async function GetMatchDetails(props) {
