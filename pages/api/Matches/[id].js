@@ -7,7 +7,7 @@ export default async function Matches(req, res) {
   const pull = await GetMatchHistory(id);
   if (pull.data) {
     const list = await ListMatchs(pull.data);
-    const qnt = 25;
+    const qnt = 50;
     const random = Math.floor(Math.random() * (list.length - qnt));
     console.log(random, random + qnt);
     const result = list.slice(random, random + qnt);
