@@ -126,8 +126,10 @@ export default async function Request(id) {
       body: JSON.stringify('avg'),
     },
   );
+  console.log('--------------------------');
+
   console.log('dataAvg: ', dataAvg.length);
-  console.log('dataAvgAll: ', dataAvgAll.length);
+  console.log('dataAvgAll: ', dataAvgAll);
 
   //---------------------------------------------------
 
