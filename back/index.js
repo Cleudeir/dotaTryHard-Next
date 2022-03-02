@@ -1,4 +1,4 @@
-import Normal from './math/Normal';
+import Ranking from './math/Ranking';
 
 export default async function Request(id) {
   async function pull(url, parameter) {
@@ -38,8 +38,8 @@ export default async function Request(id) {
   console.log('--------------------------');
   //--------------------------------------------------
 
-  console.log('dataPlayers', dataPlayers.length);
-  console.log('dataMatches: ', dataMatches.length);
+  console.log('dataPlayers', dataPlayers);
+  console.log('dataMatches: ', dataMatches);
 
   //--------------------------------------------------
   // Procurar partidas jogadas recentemente
@@ -118,55 +118,28 @@ export default async function Request(id) {
   console.log('writePlayersMatches: ', writePlayersMatches.length);
   //--------------------------------------------------
 
-  const { dataPlayersMatches } = await pull(
-    '/api/database/read',
-    {
-      method: 'POST',
-      body: JSON.stringify('playersMatches'),
-    },
-  );
-
-  console.log('dataPlayersMatches: ', dataPlayersMatches.length);
-
-  const { avgStatus } = await pull(
+  // Media
+  const { dataAvg, dataAvgAll } = await pull(
     '/api/database/read',
     {
       method: 'POST',
       body: JSON.stringify('avg'),
     },
   );
+  console.log('dataAvg: ', dataAvg, 'dataAvgAll: ', dataAvgAll);
 
-  console.log(avgStatus);
-
-  console.log('dataPlayersMatches: ', dataPlayersMatches.length);
   //---------------------------------------------------
-  const statusPerPlayers = [];
 
-  for (let i = 0; i < dataPlayers.length; i += 1) {
-    statusPerPlayers.push(dataPlayersMatches.filter(
-      (x) => +x.account_id === +dataPlayers[i],
-    ));
-  }
-  const filter = statusPerPlayers.filter((x) => x.length >= 10);
+  const ranked = await Ranking({ dataAvg, dataAvgAll });
+  console.log('ranked', ranked);
+  //---------------------------------------------------
 
-  const normalStatusPlayers = [];
-  for (let i = 0; i < filter.length; i += 1) {
-    normalStatusPlayers.push({
-      personaname: filter[i][0].personaname,
-      avatarfull: filter[i][0].avatarfull,
-      loccountrycode: filter[i][0].loccountrycode,
-      account_id: filter[i][0].account_id,
-      ...Normal(filter[i]),
-    });
-  }
-
-  const result = normalStatusPlayers.sort((a, b) => {
+  const result = ranked.sort((a, b) => {
     if (a.ranking > b.ranking) return -1;
     return a.ranking < b.ranking ? 1 : 0;
   });
   console.log('--------------------------');
-  // Media
-  console.log('Media:', Normal(result));
+
   return {
     status: 'ok',
     message: 'Tudo ocorreu bem',

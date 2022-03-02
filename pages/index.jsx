@@ -26,6 +26,7 @@ export default function Home() {
     console.log('start');
     localStorage.setItem('id', id);
     const { status, message, data } = await Request(id);
+    console.log(data);
     if (status !== 'ok') {
       setError(message);
     }
