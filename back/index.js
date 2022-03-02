@@ -126,12 +126,13 @@ export default async function Request(id) {
       body: JSON.stringify('avg'),
     },
   );
-  console.log('dataAvg: ', dataAvg, 'dataAvgAll: ', dataAvgAll);
+  console.log('dataAvg: ', dataAvg.length);
+  console.log('dataAvgAll: ', dataAvgAll.length);
 
   //---------------------------------------------------
 
   const ranked = await Ranking({ dataAvg, dataAvgAll });
-  console.log('ranked', ranked);
+
   //---------------------------------------------------
 
   const result = ranked.sort((a, b) => {
