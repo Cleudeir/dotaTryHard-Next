@@ -73,10 +73,10 @@ export default function Home() {
           <button className={style.myButton} style={{ cursor: 'pointer' }} onClick={start} type="button">Buscar</button>
         </div>
         {loading && <img width={50} style={{ marginTop: '50px' }} alt="loading" src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" />}
-        {error && <div><h5 style={{ margin: '20px auto' }} className={style.texto}>{error}</h5></div>}
+        {error && <div><h6 style={{ margin: '20px auto' }} className={style.texto}>{error}</h6></div>}
         {!rank && !loading && (
         <div>
-          <h5 style={{ margin: '20px auto' }} className={style.texto}>
+          <h6 style={{ margin: '20px auto' }} className={style.texto}>
             Ranking de Ability Draft
             <br />
             Baseia-se:
@@ -84,7 +84,7 @@ export default function Home() {
             Na média individual comparada com a média geral
             <br />
             Sendo 1000 pontos a média geral.
-          </h5>
+          </h6>
         </div>
         )}
         {rank && (
