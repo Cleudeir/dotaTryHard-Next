@@ -74,6 +74,19 @@ export default function Home() {
         </div>
         {loading && <img width={50} style={{ marginTop: '50px' }} alt="loading" src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" />}
         {error && <div><h4 style={{ margin: '20px auto' }} className={style.texto}>{error}</h4></div>}
+        {!rank && !loading && (
+        <div>
+          <h4 style={{ margin: '20px auto' }} className={style.texto}>
+            Ranking de Ability Draft
+            <br />
+            Baseia-se:
+            <br />
+            Na média individual comparada com a média geral
+            <br />
+            Sendo 1000 pontos a média geral.
+          </h4>
+        </div>
+        )}
         {rank && (
           <div>
             <table className={style.table}>
@@ -81,11 +94,28 @@ export default function Home() {
                 <tr>
                   <td>Nº</td>
                   <td>-</td>
-                  <td>Name/ID</td>
-                  <td>K/D/A</td>
-                  <td>L/D</td>
-                  <td>GPM</td>
-                  <td>XPM</td>
+                  <td>
+                    Name
+                    <br />
+                    Account_ID
+                  </td>
+                  <td>
+                    K/D/A
+                    <br />
+                    L/D
+                  </td>
+                  <td>
+                    GPM
+                    <br />
+                    XPM
+                  </td>
+                  <td>
+                    Hero
+                    <br />
+                    Tower
+                    <br />
+                    Heal
+                  </td>
                   <td>
                     W/M
                     <br />
@@ -101,7 +131,6 @@ export default function Home() {
                     <td style={{ paddingTop: '4px' }}><img src={data.avatarfull} alt={data.avatarfull} /></td>
                     <td>
                       {data.personaname.slice(0, 14)}
-                      {' '}
                       <br />
                       {data.account_id}
                     </td>
@@ -111,14 +140,23 @@ export default function Home() {
                       {data.deaths}
                       /
                       {data.assists}
-                    </td>
-                    <td>
+                      <br />
                       {data.last_hits}
                       /
                       {data.denies}
                     </td>
-                    <td>{data.gold_per_min}</td>
-                    <td>{data.xp_per_min}</td>
+                    <td>
+                      {data.gold_per_min.toLocaleString('pt-BR')}
+                      <br />
+                      {data.xp_per_min.toLocaleString('pt-BR')}
+                    </td>
+                    <td>
+                      {data.hero_damage.toLocaleString('pt-BR')}
+                      <br />
+                      {data.tower_damage.toLocaleString('pt-BR')}
+                      <br />
+                      {data.hero_healing.toLocaleString('pt-BR')}
+                    </td>
                     <td>
                       {data.win}
                       /
@@ -127,7 +165,7 @@ export default function Home() {
                       {data.winRate}
                       %
                     </td>
-                    <td>{data.ranking}</td>
+                    <td>{data.ranking.toLocaleString('pt-BR')}</td>
                   </tr>
                 ))}
               </tbody>
