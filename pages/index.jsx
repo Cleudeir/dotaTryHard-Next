@@ -44,7 +44,8 @@ export default function Home() {
       <Head>
         <title>DotaTryHard</title>
         <meta name="description" content="DotaTryHard" />
-        <link rel="icon" href="/faicon.png" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <link rel="shortcut icon" href="/favicon.png" />
       </Head>
       <header className={style.header}>
         <a href="/">
@@ -74,7 +75,7 @@ export default function Home() {
         </div>
         {loading && <img width={50} style={{ marginTop: '50px' }} alt="loading" src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" />}
         {error && <div><h6 style={{ margin: '20px auto' }} className={style.texto}>{error}</h6></div>}
-        {!rank && !loading && (
+        {!rank && !loading && !error && (
         <div>
           <h6 style={{ margin: '20px auto' }} className={style.texto}>
             Ranking de Ability Draft
