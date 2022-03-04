@@ -85,8 +85,6 @@ export default function Home() {
             Baseia-se:
             <br />
             Na média individual comparada com a média geral
-            <br />
-            Sendo 1000 pontos a média geral.
           </h6>
         </div>
         )}
