@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Request from '../back';
 import style from '../styles/Home.module.css';
+import Auto from '../back/auto';
 
 const SteamID = require('steamid');
 const React = require('react');
@@ -37,6 +38,7 @@ export default function Home() {
     if (remember) {
       setId(remember);
     }
+    console.log(Auto());
   }, []);
 
   return (
@@ -48,7 +50,7 @@ export default function Home() {
         <link rel="shortcut icon" href="/favicon.png" />
       </Head>
       <header className={style.header}>
-        <a href="/">
+        <a href="https://dota-try-hard.vercel.app/">
           <h2>DOTA TRY HARD</h2>
           {' '}
         </a>
@@ -127,7 +129,7 @@ export default function Home() {
               </thead>
               <tbody>
                 {rank && rank.map((data, i) => (
-                  <tr key={data.hero_healing * 100}>
+                  <tr key={data.account_id}>
                     <td>{i + 1}</td>
                     <td style={{ paddingTop: '4px' }}><img src={data.avatarfull} alt={data.avatarfull} /></td>
                     <td>

@@ -8,41 +8,7 @@ export default async function Request(id) {
       .catch((err) => { console.log(err.message); return []; });
     return result;
   }
-  // procurar dados salvos database
 
-  const { dataMatches } = await pull(
-    '/api/database/read',
-    {
-      method: 'POST',
-      body: JSON.stringify('matches'),
-    },
-  );
-
-  if (dataMatches === undefined) {
-    return {
-      status: 'Error',
-      message: 'SERVIDOR DATABASE OFFLINE, FAVOR TENTAR MAIS TARDE!',
-      data: null,
-    };
-  }
-  //-------------------------------------------------
-  const { dataPlayers } = await pull(
-    '/api/database/read',
-    {
-      method: 'POST',
-      body: JSON.stringify('players'),
-    },
-  );
-
-  //--------------------------------------------------
-  console.log('--------------------------');
-  //--------------------------------------------------
-
-  console.log('dataPlayers', dataPlayers.length);
-  console.log('dataMatches: ', dataMatches.length);
-  console.log('--------------------------');
-
-  //--------------------------------------------------
   // Procurar partidas jogadas recentemente
   const matches = await pull(
     `/api/matches/${id}`,
@@ -79,6 +45,42 @@ export default async function Request(id) {
   console.log('players: ', players.data.length);
 
   //--------------------------------------------------
+  // procurar dados salvos database
+
+  const { dataMatches } = await pull(
+    '/api/database/read',
+    {
+      method: 'POST',
+      body: JSON.stringify('matches'),
+    },
+  );
+
+  if (dataMatches === undefined) {
+    return {
+      status: 'Error',
+      message: 'SERVIDOR DATABASE OFFLINE, FAVOR TENTAR MAIS TARDE!',
+      data: null,
+    };
+  }
+  //-------------------------------------------------
+  const { dataPlayers } = await pull(
+    '/api/database/read',
+    {
+      method: 'POST',
+      body: JSON.stringify('players'),
+    },
+  );
+
+  //--------------------------------------------------
+  console.log('--------------------------');
+  //--------------------------------------------------
+
+  console.log('dataPlayers', dataPlayers.length);
+  console.log('dataMatches: ', dataMatches.length);
+  console.log('--------------------------');
+
+  //--------------------------------------------------
+
   console.log('--------------------------');
   // filtrar existentes
   const newMatches = matches.data.filter((x) => !dataMatches.includes(x));
@@ -129,7 +131,7 @@ export default async function Request(id) {
   );
   console.log('--------------------------');
 
-  console.log('dataAvg: ', dataAvg.length);
+  console.log('dataAvg: ', dataAvg);
   console.log('dataAvgAll: ', dataAvgAll);
 
   //---------------------------------------------------

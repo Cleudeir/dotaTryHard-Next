@@ -45,27 +45,30 @@ export default async function Read(req, res) {
     }
 
     else if (body === 'avg') {
+      const matchesMIn = 15;
       const avg = `SELECT * FROM PLAYERS JOIN
       (SELECT account_id,
-            ROUND(AVG(assists),0) AS assists, 
-            ROUND(AVG(kills),0) AS kills,
-            ROUND(AVG(deaths),0) AS deaths,
-            ROUND(AVG(denies),0) AS denies,
-            ROUND(AVG(gold_per_min),0) AS gold_per_min,
-            ROUND(AVG(hero_damage),0) AS hero_damage,
-            ROUND(AVG(hero_healing),0) AS hero_healing,
-            ROUND(AVG(last_hits),0) AS last_hits,
-            ROUND(AVG(net_worth),0) AS net_worth,
-            ROUND(AVG(tower_damage),0) AS tower_damage,
-            ROUND(AVG(xp_per_min),0) AS xp_per_min,
-            SUM(win) AS win,
-            COUNT(account_id) AS matches
-           FROM PLAYERS_MATCHES      
-           GROUP BY account_id
-           ) as tabela      
-           on tabela.account_id = PLAYERS.account_id;`;
+      ROUND(AVG(assists),0) AS assists, 
+      ROUND(AVG(kills),0) AS kills,
+      ROUND(AVG(deaths),0) AS deaths,
+      ROUND(AVG(denies),0) AS denies,
+      ROUND(AVG(gold_per_min),0) AS gold_per_min,
+      ROUND(AVG(hero_damage),0) AS hero_damage,
+      ROUND(AVG(hero_healing),0) AS hero_healing,
+      ROUND(AVG(last_hits),0) AS last_hits,
+      ROUND(AVG(net_worth),0) AS net_worth,
+      ROUND(AVG(tower_damage),0) AS tower_damage,
+      ROUND(AVG(xp_per_min),0) AS xp_per_min,
+      SUM(win) AS win,
+      COUNT(account_id) AS matches
+      FROM PLAYERS_MATCHES      
+      GROUP BY account_id
+      HAVING matches > ${matchesMIn}
+      ORDER BY matches desc
+      ) as tabela      
+      on tabela.account_id = PLAYERS.account_id;`;
 
-      const dataAvg = (await queryMySql(avg)).filter((x) => x.matches >= 20);
+      const dataAvg = await queryMySql(avg);
 
       const avgAll = `SELECT 
       ROUND(AVG(assists),0) AS assists, 
@@ -83,7 +86,7 @@ export default async function Read(req, res) {
       COUNT(account_id) AS matches
       FROM PLAYERS_MATCHES;`;
 
-      const dataAvgAll = (await queryMySql(avgAll))[0];
+      const [dataAvgAll] = (await queryMySql(avgAll));
 
       res.status(200).send({ dataAvg, dataAvgAll });
     }
