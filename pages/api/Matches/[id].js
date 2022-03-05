@@ -2,6 +2,7 @@ import GetMatchHistory from '../../../back/get/GetMatchHistory';
 import ListMatchs from '../../../back/math/ListMatchs';
 
 export default async function Matches(req, res) {
+  console.log('--------------------------');
   console.log('Matches');
   const { id } = req.query;
   const pull = await GetMatchHistory(id);
@@ -9,7 +10,6 @@ export default async function Matches(req, res) {
     const list = await ListMatchs(pull.data);
     const qnt = 20;
     const random = Math.floor(Math.random() * (list.length - qnt));
-    console.log(random, random + qnt);
     const result = list.slice(random, random + qnt);
     res.status(200).json({
       status: pull.status,

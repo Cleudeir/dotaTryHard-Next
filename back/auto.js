@@ -9,7 +9,10 @@ export default async function Auto(dataPlayers) {
       .catch((err) => { console.log(err.message); return []; });
     return result;
   }
-  console.log('dataPlayers: ', dataPlayers.length);
+  console.log(
+    `%c dataPlayers: ${dataPlayers.length} `,
+    'background: #ffff; color: black',
+  );
   if (dataPlayers === undefined || dataPlayers.length < 1) {
     console.log('Error : Banco de dados offline');
     return null;
@@ -26,7 +29,10 @@ export default async function Auto(dataPlayers) {
     console.log('Error : Banco de dados offline');
     return null;
   }
-  console.log('dataMatches: ', dataMatches.length);
+  console.log(
+    `%c dataMatches: ${dataMatches.length} `,
+    'background: #ffff; color: black',
+  );
 
   let count = 0;
   //--------------------------------------------------
@@ -35,8 +41,8 @@ export default async function Auto(dataPlayers) {
   async function autoSearch() {
     console.log('--------------------------');
     // procurar dados salvos database
-    const id = dataPlayers.sort(() => Math.random() - 0.5)[count];
-    console.log('id: ', id);
+    const id = dataPlayers[count];
+    console.log('id: ', id, '   loop:', count + 1, '/', dataPlayers.length);
     // Procurar partidas jogadas recentemente
     const matches = await pull(
       `/api/matches/${id}`,
