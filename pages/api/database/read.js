@@ -43,7 +43,7 @@ export default async function Read(req, res) {
     }
 
     else if (body === 'avg') {
-      const matchesMIn = 20;
+      const matchesMIn = 10;
       const avg = `SELECT * FROM PLAYERS JOIN
       (SELECT account_id,
       ROUND(AVG(assists),0) AS assists, 

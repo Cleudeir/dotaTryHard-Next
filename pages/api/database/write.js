@@ -29,10 +29,12 @@ export default async function Write(req, res) {
   async function matchesInsert(props) {
     const matches = `insert into MATCHES (
       match_id,
-      start_time) 
+      start_time,
+      cluster) 
       values (
         ${props.match_id},
-        ${props.start_time}
+        ${props.start_time},
+        '${props.cluster}'
         );`;
     const queryMatches = await queryMySql(matches);
     return queryMatches;
@@ -40,7 +42,6 @@ export default async function Write(req, res) {
   async function playersMatchesInsert(props) {
     const playersMatches = ` 
      insert into PLAYERS_MATCHES  (
-      id,
       account_id,
       match_id,
       assists,    
@@ -56,7 +57,6 @@ export default async function Write(req, res) {
       xp_per_min,
       win) 
       VALUES (
-      ${props.account_id + props.match_id},
       ${props.account_id},
       ${props.match_id},
       ${props.assists},    
@@ -87,11 +87,12 @@ export default async function Write(req, res) {
     }
     const transformArrayUniqueMatches = [...uniqueMatches];
     const arrayUniqueMatches = [];
+
     for (let i = 0; i < transformArrayUniqueMatches.length; i += 1) {
-      const { match_id, start_time } = status.filter(
+      const { match_id, start_time, cluster } = status.filter(
         (x) => x.match_id === transformArrayUniqueMatches[i],
       )[0];
-      arrayUniqueMatches.push({ match_id, start_time });
+      arrayUniqueMatches.push({ match_id, start_time, cluster });
     }
     //-------------------------------
 
@@ -102,10 +103,11 @@ export default async function Write(req, res) {
     for (let i = 0; i < arrayUniqueMatches.length; i += 1) {
       writeMatches.push(matchesInsert(arrayUniqueMatches[i]));
     }
+
     for (let i = 0; i < status.length; i += 1) {
       writePlayersMatches.push(playersMatchesInsert(status[i]));
     }
-    res.setHeader('Content-Type', 'application/json');
+
     res.status(200).json(
       {
         writeProfiles,

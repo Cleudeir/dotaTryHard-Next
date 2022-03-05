@@ -1,4 +1,7 @@
-export default async function Auto() {
+/* eslint-disable no-use-before-define */
+export default async function Auto(dataPlayers) {
+  console.log('--------------------------');
+  console.log('Auto request');
   async function pull(url, parameter) {
     const result = await fetch(url, parameter)
       .then((resp) => resp.json())
@@ -6,15 +9,8 @@ export default async function Auto() {
       .catch((err) => { console.log(err.message); return []; });
     return result;
   }
-
-  const { dataPlayers } = await pull(
-    '/api/database/read',
-    {
-      method: 'POST',
-      body: JSON.stringify('players'),
-    },
-  );
-  if (dataPlayers === undefined) {
+  console.log('dataPlayers: ', dataPlayers.length);
+  if (dataPlayers === undefined || dataPlayers.length < 1) {
     console.log('Error : Banco de dados offline');
     return null;
   }
@@ -34,6 +30,7 @@ export default async function Auto() {
 
   let count = 0;
   //--------------------------------------------------
+  const setInt = setInterval(autoSearch, 10000);
 
   async function autoSearch() {
     console.log('--------------------------');
@@ -119,7 +116,7 @@ export default async function Auto() {
     }
     //--------------------------------------------------
     count += 1;
+    if (count >= dataPlayers.length) { console.log('-------------End'); clearInterval(setInt); }
     return [];
   }
-  setTimeout(() => { setInterval(autoSearch, 10000); }, 10000);
 }

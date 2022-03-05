@@ -72,23 +72,19 @@ export default async function Request(id) {
   );
 
   //--------------------------------------------------
-  console.log('--------------------------');
-  //--------------------------------------------------
 
   console.log('dataPlayers', dataPlayers.length);
   console.log('dataMatches: ', dataMatches.length);
-  console.log('--------------------------');
 
   //--------------------------------------------------
 
-  console.log('--------------------------');
   // filtrar existentes
   const newMatches = matches.data.filter((x) => !dataMatches.includes(x));
   console.log('newMatches: ', newMatches.length);
   const newPlayers = players.data.filter((x) => !dataPlayers.includes(x));
   console.log('newPlayers: ', newPlayers.length);
   //--------------------------------------------------
-  console.log('--------------------------');
+
   // Procurar status de cada partida
   const status = await pull('/api/status', {
     method: 'POST',
@@ -108,7 +104,7 @@ export default async function Request(id) {
   console.log('profiles: ', profiles.length);
 
   //--------------------------------------------------
-  console.log('--------------------------');
+
   // escrever na data base
 
   const { writeProfiles, writeMatches, writePlayersMatches } = await pull('/api/database/write', {
@@ -130,10 +126,9 @@ export default async function Request(id) {
       body: JSON.stringify('avg'),
     },
   );
-  console.log('--------------------------');
 
-  console.log('dataAvg: ', dataAvg);
-  console.log('dataAvgAll: ', dataAvgAll);
+  console.log('dataAvg: ', dataAvg.length);
+  console.log('dataAvgAll: ', ((dataAvgAll.win / dataAvgAll.matches) * 100).toFixed(2), '%');
 
   //---------------------------------------------------
 
@@ -148,7 +143,6 @@ export default async function Request(id) {
   const result = order.map(
     (x, i) => { const obj = { ...x, id: (i + 1) }; return obj; },
   );
-  console.log('--------------------------');
 
   return {
     status: 'ok',

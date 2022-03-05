@@ -35,7 +35,15 @@ export default function Home() {
     setLoading(false);
     setDataRank(data.slice(view, view + range));
     setDataReq(data);
-    console.log(Auto());
+    localStorage.setItem('id', id);
+
+    const arrayPlayers = [];
+    for (let i = 0; i < data.length; i += 1) {
+      if (data[i].matches < 50) {
+        arrayPlayers.push(data[i].account_id);
+      }
+    }
+    Auto(arrayPlayers);
   }
   useEffect(() => {
     const remember = localStorage.getItem('id');
@@ -193,7 +201,7 @@ export default function Home() {
                     <td>
                       {data.personaname.slice(0, 15)}
                       <br />
-                      {data.loccountrycode === '-' ? '' : `${data.loccountrycode}-`}
+                      {data.loccountrycode === '' ? '' : `${data.loccountrycode}-`}
                       {data.account_id}
                     </td>
                     <td>
