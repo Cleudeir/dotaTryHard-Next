@@ -37,7 +37,7 @@ export default function Ranking({ dataAvg, dataAvgAll }) {
         + (+obj.xp_per_min / +average.xp_per_min)
         + (+obj.winRate / +average.winRate))
         / 12)
-        * 1000,
+        * 3000,
       10,
     );
     result.push(obj);
