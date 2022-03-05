@@ -13,7 +13,7 @@ export default async function Read(req, res) {
       .catch(() => []);
     return result;
   }
-
+  const n = 1000;
   if (connection) {
     if (body === 'matches') {
       // matches
@@ -21,7 +21,6 @@ export default async function Read(req, res) {
       const tableNumberRows = +count['COUNT(*)'];
       console.log('tableNumberRows', tableNumberRows);
       const dataMatches = [];
-      const n = 1000;
       for (let i = 1; i < tableNumberRows; i += n) {
         const select = `SELECT match_id FROM MATCHES LIMIT ${i},${n};`;
         dataMatches.push(...await queryMySql(select)
@@ -35,7 +34,6 @@ export default async function Read(req, res) {
       const tableNumberRows = +count['COUNT(*)'];
       console.log('tableNumberRows', tableNumberRows);
       const dataPlayers = [];
-      const n = 1000;
       for (let i = 1; i < tableNumberRows; i += n) {
         const select = `SELECT account_id FROM PLAYERS LIMIT ${i},${n};`;
         dataPlayers.push(...await queryMySql(select)
@@ -45,7 +43,7 @@ export default async function Read(req, res) {
     }
 
     else if (body === 'avg') {
-      const matchesMIn = 15;
+      const matchesMIn = 20;
       const avg = `SELECT * FROM PLAYERS JOIN
       (SELECT account_id,
       ROUND(AVG(assists),0) AS assists, 
@@ -68,8 +66,6 @@ export default async function Read(req, res) {
       ) as tabela      
       on tabela.account_id = PLAYERS.account_id;`;
 
-      const dataAvg = await queryMySql(avg);
-
       const avgAll = `SELECT 
       ROUND(AVG(assists),0) AS assists, 
       ROUND(AVG(kills),0) AS kills,
@@ -86,6 +82,7 @@ export default async function Read(req, res) {
       COUNT(account_id) AS matches
       FROM PLAYERS_MATCHES;`;
 
+      const dataAvg = await queryMySql(avg);
       const [dataAvgAll] = (await queryMySql(avgAll));
 
       res.status(200).send({ dataAvg, dataAvgAll });

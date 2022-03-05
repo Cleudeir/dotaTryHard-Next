@@ -9,19 +9,22 @@ const React = require('react');
 
 export default function Home() {
   const [id, setId] = useState(false); // 87683422
-  const [rank, setRank] = useState(null);
+  const [dataRank, setDataRank] = useState(null);
+  const [dataReq, setDataReq] = useState(null);
+  const [filter, setFilter] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [view, setView] = useState(0);
+  const [range] = useState(50);
 
   async function start() {
-    setRank(null);
+    setDataRank(null);
     setError(false);
     setLoading(true);
     if (id > 1818577144) {
       const steamId = new SteamID(`${id}`);
-      const unfilteredAccountId = steamId.getSteam3RenderedID();
-      const accountId = unfilteredAccountId.slice(5, 50).replace(']', '');
-      console.log(accountId);
+      const unfiltered = steamId.getSteam3RenderedID();
+      const accountId = unfiltered.slice(5, 50).replace(']', '');
       setId(accountId);
     }
     console.log('start');
@@ -30,16 +33,27 @@ export default function Home() {
       setError(message);
     }
     setLoading(false);
-    setRank(data);
+    setDataRank(data.slice(view, view + range));
+    setDataReq(data);
+    console.log(Auto());
   }
   useEffect(() => {
     const remember = localStorage.getItem('id');
-    console.log(remember);
     if (remember) {
       setId(remember);
     }
-    console.log(Auto());
   }, []);
+  function pages(props) {
+    console.log('---------');
+    let value = view + range * props;
+    if (value < 0) {
+      value = 0;
+    } else if (value > dataReq.length - range) {
+      value = dataReq.length - range;
+    }
+    setView(value);
+    setDataRank(dataReq.slice(value, value + range));
+  }
 
   return (
     <div className={style.container}>
@@ -60,25 +74,28 @@ export default function Home() {
           <div className={style.texto}>
             <h6>SEARCH WITH YOUR ACCOUNT_ID OR STEAM_ID</h6>
           </div>
-          <input
-            type="number"
-            pattern="[0-9]"
-            placeholder="Account id"
-            className={style.myButton}
-            value={id}
-            style={{ textAlign: 'center' }}
-            onChange={
+          <div>
+            <input
+              type="number"
+              pattern="[0-9]"
+              placeholder="Account id"
+              className={style.myButton}
+              value={id}
+              style={{ textAlign: 'center' }}
+              onChange={
               (e) => {
                 setId(e.target.value);
               }
             }
-          />
-          <button className={style.myButton} style={{ cursor: 'pointer' }} onClick={start} type="button">Buscar</button>
+            />
+            <button className={style.myButton} style={{ cursor: 'pointer' }} onClick={start} type="button">SEARCH</button>
+          </div>
         </div>
         {loading && <img width={50} style={{ marginTop: '50px' }} alt="loading" src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" />}
         {error && <div><h6 style={{ margin: '20px auto' }} className={style.texto}>{error}</h6></div>}
-        {!rank && !loading && !error && (
+        {!dataRank && !loading && !error && (
         <div>
+
           <h6 style={{ margin: '20px auto' }} className={style.texto}>
             Ranking de Ability Draft
             <br />
@@ -88,17 +105,60 @@ export default function Home() {
           </h6>
         </div>
         )}
-        {rank && (
-          <div>
+        {dataRank && (
+          <div className={style.pages}>
+            <div>
+              <button
+                type="button"
+                className={style.myButton}
+                onClick={() => {
+                  pages(-1);
+                }}
+              >
+                <h6>BACK</h6>
+              </button>
+              <button
+                type="button"
+                className={style.myButton}
+                onClick={() => {
+                  pages(1);
+                }}
+              >
+                <h6>NEXT</h6>
+              </button>
+              <input
+                type="text"
+                placeholder="Nick"
+                className={style.myButton}
+                value={filter}
+                style={{ textAlign: 'center', width: '130px', textTransform: 'none' }}
+                onChange={
+              (e) => {
+                console.log('------------');
+                console.log(dataReq.length);
+                console.log(dataRank.length);
+                setFilter(e.target.value);
+                setDataRank(dataReq.filter(
+                  (x) => (
+                    x.personaname.slice(0, filter.length)).toUpperCase() === filter.toUpperCase(),
+                ));
+                if (e.target.value === '') {
+                  setDataRank(dataReq.slice(view, view + range));
+                }
+              }
+            }
+              />
+
+            </div>
             <table className={style.table}>
               <thead>
                 <tr>
                   <td>Nº</td>
                   <td>-</td>
                   <td>
-                    Name
+                    Nick
                     <br />
-                    Account_ID
+                    Country-Id
                   </td>
                   <td>
                     K/D/A
@@ -126,13 +186,14 @@ export default function Home() {
                 </tr>
               </thead>
               <tbody>
-                {rank && rank.map((data, i) => (
+                {dataRank && dataRank.map((data) => (
                   <tr key={data.account_id}>
-                    <td>{i + 1}</td>
+                    <td>{data.id}</td>
                     <td style={{ paddingTop: '4px' }}><img src={data.avatarfull} alt={data.avatarfull} /></td>
                     <td>
-                      {data.personaname.slice(0, 14)}
+                      {data.personaname.slice(0, 15)}
                       <br />
+                      {data.loccountrycode === '-' ? '' : `${data.loccountrycode}-`}
                       {data.account_id}
                     </td>
                     <td>

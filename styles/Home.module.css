@@ -32,12 +32,25 @@
   border-style: solid;
   border-color: var(--cor03);  
   padding: 5px 20px;
+  width: 360px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 .main .texto{
   border-color: var(--cor03);  
   padding: 5px 20px;
   color: white;
   text-transform:uppercase;
+}
+.main .pages{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 360px;
+  margin-top: 10px;
 }
 .footer {
   color:#FFFFFF;
@@ -67,7 +80,7 @@
   border-style: solid;
   color: #ffff;
   font-size:10.6px;
-  margin: 20px auto;  
+  margin-bottom: 20px;
 }
 
 .table td, .table th {

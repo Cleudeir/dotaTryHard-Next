@@ -115,10 +115,11 @@ export default async function Request(id) {
     method: 'POST',
     body: JSON.stringify({ profiles, status }),
   });
-
-  console.log('writeProfiles: ', writeProfiles.length);
-  console.log('writeMatches: ', writeMatches.length);
-  console.log('writePlayersMatches: ', writePlayersMatches.length);
+  if (writeProfiles && writeMatches && writePlayersMatches) {
+    console.log('writeProfiles: ', writeProfiles.length);
+    console.log('writeMatches: ', writeMatches.length);
+    console.log('writePlayersMatches: ', writePlayersMatches.length);
+  }
   //--------------------------------------------------
 
   // Media
@@ -140,10 +141,13 @@ export default async function Request(id) {
 
   //---------------------------------------------------
 
-  const result = ranked.sort((a, b) => {
+  const order = ranked.sort((a, b) => {
     if (a.ranking > b.ranking) return -1;
     return a.ranking < b.ranking ? 1 : 0;
   });
+  const result = order.map(
+    (x, i) => { const obj = { ...x, id: (i + 1) }; return obj; },
+  );
   console.log('--------------------------');
 
   return {

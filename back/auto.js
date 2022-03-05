@@ -18,12 +18,27 @@ export default async function Auto() {
     console.log('Error : Banco de dados offline');
     return null;
   }
+  //--------------------------------------------------
+  const { dataMatches } = await pull(
+    '/api/database/read',
+    {
+      method: 'POST',
+      body: JSON.stringify('matches'),
+    },
+  );
+  if (dataMatches === undefined) {
+    console.log('Error : Banco de dados offline');
+    return null;
+  }
+  console.log('dataMatches: ', dataMatches.length);
 
   let count = 0;
+  //--------------------------------------------------
+
   async function autoSearch() {
     console.log('--------------------------');
     // procurar dados salvos database
-    const id = dataPlayers[count];
+    const id = dataPlayers.sort(() => Math.random() - 0.5)[count];
     console.log('id: ', id);
     // Procurar partidas jogadas recentemente
     const matches = await pull(
@@ -38,20 +53,7 @@ export default async function Auto() {
       return null;
     }
     console.log('matches: ', matches.data.length);
-    //--------------------------------------------------
-    const { dataMatches } = await pull(
-      '/api/database/read',
-      {
-        method: 'POST',
-        body: JSON.stringify('matches'),
-      },
-    );
-    if (dataMatches === undefined) {
-      console.log('Error : Banco de dados offline');
-      count += 1;
-      return null;
-    }
-    console.log('dataMatches: ', dataMatches.length);
+
     //--------------------------------------------------
 
     // Procurar players das partidas jogadas recentemente
@@ -110,14 +112,14 @@ export default async function Auto() {
       method: 'POST',
       body: JSON.stringify({ profiles, status }),
     });
-
-    console.log('writeProfiles: ', writeProfiles.length);
-    console.log('writeMatches: ', writeMatches.length);
-    console.log('writePlayersMatches: ', writePlayersMatches.length);
+    if (writeProfiles && writeMatches && writePlayersMatches) {
+      console.log('writeProfiles: ', writeProfiles.length);
+      console.log('writeMatches: ', writeMatches.length);
+      console.log('writePlayersMatches: ', writePlayersMatches.length);
+    }
     //--------------------------------------------------
     count += 1;
     return [];
   }
-
-  setInterval(autoSearch, 10000);
+  setTimeout(() => { setInterval(autoSearch, 10000); }, 10000);
 }
