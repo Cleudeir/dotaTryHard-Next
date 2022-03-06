@@ -38,7 +38,7 @@ export default function Home() {
       setDataReq(data);
 
       const arrayPlayers = [];
-      for (let i = 0; i < 5; i += 1) {
+      for (let i = 0; i < 10; i += 1) {
         arrayPlayers.push(id);
       }
 
