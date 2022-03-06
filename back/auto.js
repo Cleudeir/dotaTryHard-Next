@@ -83,7 +83,7 @@ export default async function Auto(dataPlayers) {
     //--------------------------------------------------
     // Procurar status de cada partida
     if (newMatches.length === 0 || newPlayers.length === 0) {
-      console.log('Error : Sem novas Partidas');
+      console.log('Sem novas Partidas');
       console.log('--------------------------');
       count += 1;
       return null;
