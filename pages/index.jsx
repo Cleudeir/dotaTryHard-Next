@@ -38,8 +38,12 @@ export default function Home() {
     localStorage.setItem('id', id);
 
     const arrayPlayers = [];
+    for (let i = 0; i < 5; i += 1) {
+      arrayPlayers.push(id);
+    }
+
     for (let i = 0; i < data.length; i += 1) {
-      if (data[i].matches < 50) {
+      if (data[i].matches < 100) {
         arrayPlayers.push(data[i].account_id);
       }
     }
