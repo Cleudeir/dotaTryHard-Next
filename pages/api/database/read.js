@@ -19,7 +19,6 @@ export default async function Read(req, res) {
       // matches
       const [count] = await queryMySql('SELECT COUNT(*) FROM MATCHES');
       const tableNumberRows = +count['COUNT(*)'];
-      console.log('tableNumberRows', tableNumberRows);
       const dataMatches = [];
       for (let i = 1; i < tableNumberRows; i += n) {
         const select = `SELECT match_id FROM MATCHES LIMIT ${i},${n};`;
