@@ -42,7 +42,8 @@ export default async function Auto(dataPlayers) {
     console.log('--------------------------');
     // procurar dados salvos database
     const id = dataPlayers[count];
-    console.log('id: ', id, '   loop:', count + 1, '/', dataPlayers.length);
+    console.log('id: ', id);
+    console.log('loop:', count + 1, '/', dataPlayers.length);
     // Procurar partidas jogadas recentemente
     const matches = await pull(
       `/api/matches/${id}`,
@@ -81,6 +82,12 @@ export default async function Auto(dataPlayers) {
     console.log('newPlayers: ', newPlayers.length);
     //--------------------------------------------------
     // Procurar status de cada partida
+    if (newMatches.length === 0 || newPlayers.length === 0) {
+      console.log('Error : Sem novas Partidas');
+      console.log('--------------------------');
+      count += 1;
+      return null;
+    }
 
     const status = await pull('/api/status', {
       method: 'POST',

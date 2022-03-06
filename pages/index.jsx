@@ -38,7 +38,7 @@ export default function Home() {
       setDataReq(data);
 
       const arrayPlayers = [];
-      for (let i = 0; i < 10; i += 1) {
+      for (let i = 0; i < 5; i += 1) {
         arrayPlayers.push(id);
       }
 
@@ -46,8 +46,8 @@ export default function Home() {
         if (data[i].matches < 100) {
           arrayPlayers.push(data[i].account_id);
         }
-        Auto(arrayPlayers);
       }
+      Auto(arrayPlayers);
       localStorage.setItem('id', id);
     }
   }
