@@ -70,9 +70,10 @@ export default function Home() {
     setDataRank(dataReq.slice(value, value + range));
   }
   function filterText(props) {
+    const letter = props;
     setFilter(props);
     setDataRank(dataReq.filter(
-      (x) => (x.personaname.slice(0, filter.length)).toUpperCase() === filter.toUpperCase(),
+      (x) => (x.personaname.slice(0, letter.length)).toUpperCase() === letter.toUpperCase(),
     ));
     if (props === '') {
       setDataRank(dataReq.slice(view, view + range));
