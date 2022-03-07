@@ -82,13 +82,6 @@ export default async function Auto(dataPlayers) {
     console.log('newPlayers: ', newPlayers.length);
     //--------------------------------------------------
     // Procurar status de cada partida
-    if (newMatches.length === 0 || newPlayers.length === 0) {
-      console.log('Sem novas Partidas');
-      console.log('--------------------------');
-      count += 1;
-      return null;
-    }
-
     const status = await pull('/api/status', {
       method: 'POST',
       body: JSON.stringify(newMatches),

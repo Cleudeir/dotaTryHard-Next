@@ -66,6 +66,7 @@ export default function Home() {
     <div className={style.container}>
       <Header />
       <main className={style.main}>
+        {!graph && <img width={50} style={{ marginTop: '50px' }} alt="loading" src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" />}
         {graph && (
         <div>
           <Line

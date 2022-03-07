@@ -88,7 +88,7 @@ export default function Home() {
     <div className={style.container}>
       <Header cleanDataHome={() => cleanDataHome} />
       <main className={style.main}>
-        {!dataRank && (
+        {!dataRank && !loading && (
         <div className={style.input}>
           <div className={style.texto}>
             <h6>SEARCH WITH YOUR ACCOUNT_ID OR STEAM_ID</h6>
