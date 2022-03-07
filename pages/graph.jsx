@@ -1,17 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler,
+  Chart as ChartJS, CategoryScale, LinearScale, PointElement,
+  LineElement, Title, Tooltip, Legend, Filler,
 } from 'chart.js';
-import Request from '../back';
+import Graph from '../back/graph';
 import style from '../styles/Home.module.css';
 import Header from '../front/Header';
 
@@ -30,7 +23,7 @@ export default function Home() {
       Filler,
     );
     console.log('start');
-    const { data } = await Request(87683422);
+    const { data } = await Graph(87683422);
     if (data) {
       const rankedY = [];
       const rankedX = [];
@@ -38,7 +31,7 @@ export default function Home() {
       for (let i = 0; i < data.length; i += 1) {
         let numY = ((data[i].ranking - 3000) / 3000);
         numY *= 100;
-        rankedY.push(numY);
+        rankedY.push(numY.toFixed(2));
 
         let numX = parseInt((i / data.length) * 100, 10);
         if (numX <= 50) {
@@ -48,11 +41,10 @@ export default function Home() {
         rankedX.push(data[i].ranking);
       }
       setGraph({
-        xAxisID: 'Variância (%) X Ranking (pts)',
         labels: rankedX,
         datasets: [
           {
-            label: 'Variância (%)',
+            label: 'Desvio (%)',
             data: rankedY,
             fill: true,
             lineTension: 1,

@@ -84,6 +84,7 @@ export default function Home() {
     <div className={style.container}>
       <Header />
       <main className={style.main}>
+        {!dataRank && (
         <div className={style.input}>
           <div className={style.texto}>
             <h6>SEARCH WITH YOUR ACCOUNT_ID OR STEAM_ID</h6>
@@ -97,6 +98,7 @@ export default function Home() {
             </button>
           </div>
         </div>
+        )}
 
         {loading && <img width={50} style={{ marginTop: '50px' }} alt="loading" src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" />}
 
