@@ -4,7 +4,7 @@ import style from '../styles/Home.module.css';
 
 const React = require('react');
 
-export default function Header() {
+export default function Header(cleanDataHome) {
   return (
     <div className={style.header}>
       <Head>
@@ -16,7 +16,7 @@ export default function Header() {
       <h3 className={style.title}>DOTA TRY HARD</h3>
       <header>
         <Link href="/" passHref>
-          <a href="replace" className={style.myButton}>
+          <a onClick={() => cleanDataHome()} href="replace" className={style.myButton}>
             Home
           </a>
         </Link>

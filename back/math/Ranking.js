@@ -23,25 +23,25 @@ export default function Ranking({ dataAvg, dataAvgAll }) {
     obj.winRate = parseFloat((+obj.win / +obj.matches) * 100, 2).toFixed(0);
 
     obj.ranking = parseInt(
-      ((
-        (+obj.assists / +average.assists)
-        * (+obj.denies / +average.denies)
-        * (+average.deaths / +obj.deaths)
-        * (+obj.gold_per_min / +average.gold_per_min)
-        * (+obj.hero_damage / +average.hero_damage)
-        * (+obj.hero_healing / +average.hero_healing)
-        * (+obj.kills / +average.kills)
-        * (+obj.last_hits / +average.last_hits)
-        * (+obj.net_worth / +average.net_worth)
-        * (+obj.tower_damage / +average.tower_damage)
-        * (+obj.xp_per_min / +average.xp_per_min)
-        * (+obj.winRate / +average.winRate)
-      ) ** (1 / 12)
-      )
+      (
+        (
+          (+obj.assists / +average.assists)
+        + (+obj.denies / +average.denies)
+        + (+average.deaths / +obj.deaths)
+        + (+obj.gold_per_min / +average.gold_per_min)
+        + (+obj.hero_damage / +average.hero_damage)
+        + (+obj.hero_healing / +average.hero_healing) * 0.3
+        + (+obj.kills / +average.kills)
+        + (+obj.last_hits / +average.last_hits)
+        + (+obj.net_worth / +average.net_worth)
+        + (+obj.tower_damage / +average.tower_damage)
+        + (+obj.xp_per_min / +average.xp_per_min)
+        + (+obj.winRate / +average.winRate)
+        )
+        / 12)
         * 3000,
       10,
     );
-    console.log(obj.ranking);
     result.push(obj);
   }
 

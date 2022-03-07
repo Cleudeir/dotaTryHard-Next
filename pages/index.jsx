@@ -79,10 +79,14 @@ export default function Home() {
       setDataRank(dataReq.slice(view, view + range));
     }
   }
+  function cleanDataHome() {
+    console.log('apertou');
+    setDataRank(null);
+  }
 
   return (
     <div className={style.container}>
-      <Header />
+      <Header cleanDataHome={() => cleanDataHome} />
       <main className={style.main}>
         {!dataRank && (
         <div className={style.input}>
