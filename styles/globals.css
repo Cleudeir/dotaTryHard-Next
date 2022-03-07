@@ -1,9 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=Indie+Flower&family=Roboto:wght@100;300&family=Ubuntu+Mono&display=swap');
 html,
-body {
- 
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-    background-color: #fff;
+body { 
+  font-family: 'Ubuntu Mono', monospace;
+  background-color: #fff;
 }
 
 a {
@@ -33,4 +32,12 @@ input[type='number'] {
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
+}
+body::-webkit-scrollbar {
+  width: 10px;
+  background-color: var(--cor03); 
+} 
+
+body::-webkit-scrollbar-thumb {   
+background-color: var(--cor02);   
 }

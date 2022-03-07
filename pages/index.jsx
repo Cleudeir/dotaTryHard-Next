@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import Head from 'next/head';
 import Request from '../back';
 import style from '../styles/Home.module.css';
 import Auto from '../back/auto';
+import Header from '../front/Header';
 
 const SteamID = require('steamid');
 const React = require('react');
@@ -82,17 +82,7 @@ export default function Home() {
 
   return (
     <div className={style.container}>
-      <Head>
-        <title>DotaTryHard</title>
-        <meta name="description" content="DotaTryHard" />
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <link rel="shortcut icon" href="/favicon.png" />
-      </Head>
-      <header className={style.header}>
-        <a href="https://dota-try-hard.vercel.app/">
-          <h2>DOTA TRY HARD</h2>
-        </a>
-      </header>
+      <Header />
       <main className={style.main}>
         <div className={style.input}>
           <div className={style.texto}>
@@ -113,18 +103,6 @@ export default function Home() {
         {error && (
         <div>
           <h6 style={{ margin: '20px auto' }} className={style.texto}>{error}</h6>
-        </div>
-        )}
-
-        {!dataRank && !loading && !error && (
-        <div>
-          <h6 style={{ margin: '20px auto' }} className={style.texto}>
-            Ranking de Ability Draft
-            <br />
-            Baseia-se:
-            <br />
-            Na média individual comparada com a média geral
-          </h6>
         </div>
         )}
         {dataRank && (
