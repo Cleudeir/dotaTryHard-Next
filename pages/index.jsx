@@ -134,7 +134,7 @@ export default function Home() {
                   <td>K/D/A<br />L/D</td>
                   <td>GPM<br />XPM</td>
                   <td>Hero<br />Tower<br />Heal</td>
-                  <td>W/M<br />Rate</td>
+                  <td>W/L<br />Rate</td>
                   <td>Rank</td>
                 </tr>
               </thead>
@@ -163,7 +163,7 @@ export default function Home() {
                       {data.hero_healing.toLocaleString('pt-BR')}
                     </td>
                     <td>
-                      {data.win}/{data.matches}<br />
+                      {data.win}/{data.matches - data.win}<br />
                       {data.winRate}%
                     </td>
                     <td>
