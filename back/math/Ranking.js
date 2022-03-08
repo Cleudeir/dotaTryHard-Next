@@ -30,7 +30,7 @@ export default async function Ranking({ dataAvg, dataAvgAll }) {
         + (+average.deaths / +obj.deaths)
         + (+obj.gold_per_min / +average.gold_per_min)
         + (+obj.hero_damage / +average.hero_damage)
-        + (+obj.hero_healing / +average.hero_healing) * 0.3
+        + (+obj.hero_healing / +average.hero_healing)
         + (+obj.kills / +average.kills)
         + (+obj.last_hits / +average.last_hits)
         + (+obj.net_worth / +average.net_worth)
