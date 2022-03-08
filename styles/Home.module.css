@@ -76,8 +76,8 @@
 }
 
 .table {
-  width: 100%;
-  min-width: 360px;
+  width: 98%;
+  min-width: 350px;
   background-color: var(--cor02);
   border-collapse: collapse;
   border-color: #7ea8f8;
@@ -97,7 +97,7 @@
 }
 
 .table thead {
-  background-color: var(--cor01);
+  background-color: rgba(39, 69, 136, 0.8);
   box-shadow:  0px 0px 3px rgba(0, 0, 0, 1);
   font-weight:600;
   text-transform: capitalize;

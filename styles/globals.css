@@ -20,10 +20,10 @@ a {
   opacity: 1; /* Firefox */
 }
 :root{
-  --cor01 : #304876;
-  --cor02 : #4e6694;
-  --cor03 : #8fa2c5;
-  --cor04 : #c1cada;
+  --cor01 : #1c2026;
+  --cor02 : #222d43;
+  --cor03 : #6c7077;
+  --cor04 : #8685af;
 }
 input[type='number'] {
   -moz-appearance:textfield;
