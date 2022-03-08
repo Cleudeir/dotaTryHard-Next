@@ -1,4 +1,4 @@
-export default function Ranking({ dataAvg, dataAvgAll }) {
+export default async function Ranking({ dataAvg, dataAvgAll }) {
   const result = [];
   const average = dataAvgAll;
 
