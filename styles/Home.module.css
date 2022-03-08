@@ -97,7 +97,7 @@
 }
 
 .table thead {
-  background-color: rgba(39, 69, 136, 0.8);
+  background-color: var(--cor05);
   box-shadow:  0px 0px 3px rgba(0, 0, 0, 1);
   font-weight:600;
   text-transform: capitalize;
@@ -131,7 +131,7 @@
   border-width: 1px;
   border-style: solid;
   border-color: var(--cor02);
-  background: rgba(10,10,10,0.15);
+  background: var(--cor05);
   border-image: 1px solid linear-gradient(var(--cor02), var(--cor01));
   color: #FFFFFF !important;
   text-shadow: 1px 1px 0 rgb(10 10 10 / 40%);
