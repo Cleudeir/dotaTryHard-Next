@@ -1,6 +1,6 @@
 import Ranking from './math/Ranking';
 
-export default async function Request() {
+export default async function bot() {
   async function pull(url, parameter) {
     const result = await fetch(url, parameter)
       .then((resp) => resp.json())
@@ -11,7 +11,7 @@ export default async function Request() {
 
   // Media
   const { dataAvg, dataAvgAll } = await pull(
-    '/api/database/read',
+    `${process.env.url}/api/database/read`,
     {
       method: 'POST',
       body: JSON.stringify('avg'),
