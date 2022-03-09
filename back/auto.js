@@ -36,7 +36,7 @@ export default async function Auto(dataPlayers) {
 
   let count = 0;
   //--------------------------------------------------
-  const setInt = setInterval(autoSearch, 10000);
+  const setInt = setInterval(autoSearch, 20000);
 
   async function autoSearch() {
     console.log('--------------------------');

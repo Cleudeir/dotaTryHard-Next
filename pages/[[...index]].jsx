@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import Request from '../back';
 import style from '../styles/Home.module.css';
 import Auto from '../back/auto';
@@ -8,6 +9,8 @@ const SteamID = require('steamid');
 const React = require('react');
 
 export default function Home() {
+  const router = useRouter();
+
   const [id, setId] = useState(false); // 87683422
   const [dataRank, setDataRank] = useState(null);
   const [dataReq, setDataReq] = useState(null);
@@ -43,7 +46,7 @@ export default function Home() {
       }
 
       for (let i = 0; i < data.length; i += 1) {
-        if (data[i].matches < 100) {
+        if (data[i].matches < 20) {
           arrayPlayers.push(data[i].account_id);
         }
       }
@@ -52,11 +55,19 @@ export default function Home() {
     }
   }
   useEffect(() => {
+    const { index } = router.query;
+    if (index && index[0]) {
+      const [valueId] = index;
+      setId(valueId);
+      start()
+      console.log(valueId);
+    }
+
     const remember = localStorage.getItem('id');
     if (remember) {
       setId(remember);
     }
-  }, []);
+  }, [router]);
 
   function pages(props) {
     console.log('---------');
