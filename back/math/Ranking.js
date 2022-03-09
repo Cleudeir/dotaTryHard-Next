@@ -25,20 +25,20 @@ export default async function Ranking({ dataAvg, dataAvgAll }) {
     obj.ranking = parseInt(
       (
         (
-          (+obj.assists / +average.assists) * 10
-        + (+obj.denies / +average.denies) * 10
-        + (+average.deaths / +obj.deaths) * 10
-        + (+obj.gold_per_min / +average.gold_per_min) * 10
-        + (+obj.hero_damage / +average.hero_damage) * 10
-        + (+obj.hero_healing / +average.hero_healing) * 3
-        + (+obj.kills / +average.kills) * 10
-        + (+obj.last_hits / +average.last_hits) * 10
-        + (+obj.net_worth / +average.net_worth) * 10
-        + (+obj.tower_damage / +average.tower_damage) * 10
-        + (+obj.xp_per_min / +average.xp_per_min) * 10
-        + (+obj.winRate / +average.winRate) * 20
+          (+obj.assists / +average.assists) * 1
+        + (+obj.denies / +average.denies) * 1
+        + (+obj.kills / +average.kills) * 0.5
+        + (+average.deaths / +obj.deaths) * 1
+        + (+obj.gold_per_min / +average.gold_per_min) * 0.5
+        + (+obj.hero_damage / +average.hero_damage) * 0.5
+        + (+obj.last_hits / +average.last_hits) * 0.5
+        + (+obj.hero_healing / +average.hero_healing) * 0.5
+        + (+obj.net_worth / +average.net_worth) * 0.5
+        + (+obj.tower_damage / +average.tower_damage) * 2
+        + (+obj.xp_per_min / +average.xp_per_min) * 1
+        + (+obj.winRate / +average.winRate) * 2
         )
-        / (10 * 10 + 3 + 20))
+        / (1 * 4 + 0.5 * 6 + 2 * 2))
         * 3000,
       10,
     );
