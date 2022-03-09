@@ -59,6 +59,7 @@ export default function Home() {
     if (index && index[0]) {
       const [valueId] = index;
       setId(valueId);
+      localStorage.setItem('id', valueId);
       start();
       console.log(valueId);
     }
