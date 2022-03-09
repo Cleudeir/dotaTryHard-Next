@@ -59,7 +59,7 @@ export default function Home() {
     if (index && index[0]) {
       const [valueId] = index;
       setId(valueId);
-      start()
+      start();
       console.log(valueId);
     }
 
