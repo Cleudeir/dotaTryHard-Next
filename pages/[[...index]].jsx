@@ -11,7 +11,7 @@ const React = require('react');
 export default function Home() {
   const router = useRouter();
 
-  const [id, setId] = useState(false); // 87683422
+  const [id, setId] = useState(''); // 87683422
   const [dataRank, setDataRank] = useState(null);
   const [dataReq, setDataReq] = useState(null);
   const [filter, setFilter] = useState('');
@@ -46,7 +46,7 @@ export default function Home() {
       }
 
       for (let i = 0; i < data.length; i += 1) {
-        if (data[i].matches < 20) {
+        if (data[i].matches < 50) {
           arrayPlayers.push(data[i].account_id);
         }
       }
@@ -56,17 +56,17 @@ export default function Home() {
   }
   useEffect(() => {
     const { index } = router.query;
-    if (index && index[0]) {
-      const [valueId] = index;
+    if (index && index[0] && index[0] !== '') {
+      const valueId = index[0];
       setId(valueId);
       localStorage.setItem('id', valueId);
       start();
       console.log(valueId);
-    }
-
-    const remember = localStorage.getItem('id');
-    if (remember) {
-      setId(remember);
+    } else {
+      const remember = localStorage.getItem('id');
+      if (remember) {
+        setId(remember);
+      }
     }
   }, [router]);
 
@@ -100,7 +100,7 @@ export default function Home() {
     <div className={style.container}>
       <Header cleanDataHome={() => cleanDataHome} />
       <main className={style.main}>
-        {!dataRank && !loading && (
+        {!loading && (
         <div className={style.input}>
           <div className={style.texto}>
             <h6>SEARCH WITH YOUR ACCOUNT_ID OR STEAM_ID</h6>

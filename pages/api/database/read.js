@@ -13,7 +13,7 @@ export default async function Read(req, res) {
       .catch(() => []);
     return result;
   }
-  const n = 1000;
+  const n = 2000;
   if (connection) {
     if (body === 'matches') {
       // matches
