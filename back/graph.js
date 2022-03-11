@@ -24,16 +24,11 @@ export default async function Graph() {
       data: null,
     };
   }
-
   console.log('dataAvg: ', dataAvg.length);
   console.log('dataAvgAll: ', ((dataAvgAll.win / dataAvgAll.matches) * 100).toFixed(2), '%');
-
   //---------------------------------------------------
-
   const ranked = await Ranking({ dataAvg, dataAvgAll });
-
   //---------------------------------------------------
-
   const order = ranked.sort((a, b) => {
     if (a.ranking > b.ranking) return -1;
     return a.ranking < b.ranking ? 1 : 0;
