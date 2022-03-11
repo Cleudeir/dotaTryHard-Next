@@ -47,7 +47,7 @@ export default function Disc(req, res) {
       if (comando === 'help' || comando === '?') {
         const m = await message.channel.send('help?');
         m.edit(`
-        🟩
+        
         !p => Verifica seu ping
         !r=account_id => Verifica seu ranked e seu status médio
         !help => Mostra os comandos disponíveis
