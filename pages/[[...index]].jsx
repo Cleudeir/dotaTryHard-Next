@@ -104,7 +104,7 @@ export default function Home() {
         {!loading && (
         <div className={style.input}>
           <div className={style.texto}>
-            <h6>SEARCH WITH YOUR ACCOUNT_ID OR STEAM_ID</h6>
+            <h6><a href="/"> SEARCH WITH YOUR ACCOUNT_ID OR STEAM_ID</a></h6>
           </div>
           <div>
             <select className={style.myButton} style={{ textAlign: 'center', width: '135px' }}
