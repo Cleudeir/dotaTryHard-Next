@@ -33,6 +33,7 @@
         "react/jsx-first-prop-new-line": 0,
         "react/jsx-max-props-per-line": 0,
         "no-shadow":0,
-        "import/no-extraneous-dependencies":0      
+        "import/no-extraneous-dependencies":0,
+        "no-continue":0   
     }
 }

@@ -18,6 +18,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [view, setView] = useState(0);
+  const [country, setCountry] = useState(0);
   const [range] = useState(50);
 
   async function start() {
@@ -31,7 +32,7 @@ export default function Home() {
       setId(accountId);
     }
     console.log('start');
-    const { status, message, data } = await Request(id);
+    const { status, message, data } = await Request({ id, country });
     if (status !== 'ok') {
       setError(message);
     }
@@ -106,7 +107,14 @@ export default function Home() {
             <h6>SEARCH WITH YOUR ACCOUNT_ID OR STEAM_ID</h6>
           </div>
           <div>
-            <input type="number" placeholder="Account id" className={style.myButton} value={id} style={{ textAlign: 'center' }}
+            <select className={style.myButton} style={{ textAlign: 'center', width: '135px' }}
+              value={country} onChange={(e) => { setCountry(e.target.value); }}
+            >
+              <option value={0}>South America</option>
+              <option value={1}>Norte America</option>
+              <option value={2}>Europe</option>
+            </select>
+            <input type="number" placeholder="Account id" className={style.myButton} value={id} style={{ textAlign: 'center', width: '135px' }}
               onChange={(e) => { setId(e.target.value); }}
             />
             <button className={style.myButton} style={{ cursor: 'pointer' }} onClick={start} type="button">

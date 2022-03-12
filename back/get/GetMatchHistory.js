@@ -2,6 +2,7 @@ import api from './Api';
 
 export default async function GetMatchHistory(props) {
   const objApi = await api();
+
   const request = await fetch(
     `${objApi.base_url}IDOTA2Match_570/GetMatchHistory/v1/?account_id=${props}&game_mode=${objApi.game_mode}&key=${objApi.key_api}`,
   )

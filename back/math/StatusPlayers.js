@@ -1,70 +1,148 @@
+import infos from './infos';
+
 /* eslint-disable camelcase */
 export default async function StatusPlayers(props) {
   const statusAllGames = [];
+
   for (let i = 0; i < props.length; i += 1) {
     const {
-      players, radiant_win, match_id, start_time,
+      players, radiant_win, match_id, start_time, duration, radiant_score, dire_score,
     } = props[i];
     let { cluster } = props[i];
-
-    if (cluster >= 200 && cluster < 210) {
-      cluster = 'BRAZIL';
-    } else if (cluster >= 241 && cluster < 250) {
-      cluster = 'CHILE';
-    } else if (cluster >= 251 && cluster < 260) {
-      cluster = 'PERU';
-    } else if (cluster >= 341 && cluster < 350) {
-      cluster = 'ARGENTINA';
-    } else {
-      cluster = 'OUTROS';
+    if (!cluster) {
+      continue;
     }
-    if (cluster !== 'OUTROS') {
-      for (let n = 0; n < players.length; n += 1) {
-        const {
-          assists,
-          account_id,
-          deaths,
-          denies,
-          gold_per_min,
-          hero_damage,
-          hero_healing,
-          kills,
-          last_hits,
-          net_worth,
-          player_slot,
-          tower_damage,
-          xp_per_min,
-        } = players[n];
+    console.log('cluster', cluster);
 
-        let win = 0;
+    const clusterLocal = infos();
+    Object.keys(clusterLocal).forEach((type) => {
+      if (+type === +cluster) {
+        cluster = clusterLocal[type];
+      }
+    });
+    if (typeof cluster === 'number') {
+      cluster = 'unknown';
+    }
+    const m = {
+      radiant_score,
+      dire_score,
+      duration,
+      start_time,
+      match_id,
+      cluster,
+    };
+    const mp = [];
 
-        if (radiant_win) {
-          if (player_slot < 5) {
-            win = 1;
-          }
-        } else if (player_slot > 5) {
+    for (let n = 0; n < players.length; n += 1) {
+      const {
+        assists,
+        account_id,
+        deaths,
+        denies,
+        gold_per_min,
+        hero_damage,
+        hero_healing,
+        kills,
+        last_hits,
+        net_worth,
+        player_slot,
+        tower_damage,
+        xp_per_min,
+        hero_id,
+        item_0,
+        item_1,
+        item_2,
+        item_3,
+        item_4,
+        item_5,
+        backpack_0,
+        backpack_1,
+        backpack_2,
+        item_neutral,
+        leaver_status,
+        aghanims_scepter,
+        aghanims_shard,
+        moonshard,
+        level,
+      } = players[n];
+
+      let { ability_upgrades } = players[n];
+
+      if (!ability_upgrades || ability_upgrades.length < 1) {
+        ability_upgrades = [
+          { ability: -1 },
+          { ability: -2 },
+          { ability: -3 },
+          { ability: -4 }];
+      }
+
+      const uniqueAbility = new Set();
+      for (let j = 0; j < ability_upgrades.length; j += 1) {
+        uniqueAbility.add(ability_upgrades[j].ability);
+      }
+      const [ability_0, ability_1, ability_2, ability_3] = [...uniqueAbility];
+      const ability = {
+        ability_0,
+        ability_1,
+        ability_2,
+        ability_3,
+      };
+      const item = {
+        item_0,
+        item_1,
+        item_2,
+        item_3,
+        item_4,
+        item_5,
+        backpack_0,
+        backpack_1,
+        backpack_2,
+        item_neutral,
+        aghanims_scepter,
+        aghanims_shard,
+        moonshard,
+      };
+
+      let win = 0;
+      let team = '';
+
+      if (player_slot < 5) {
+        team = 0;
+      } else {
+        team = 1;
+      }
+
+      if (radiant_win) {
+        if (player_slot < 5) {
           win = 1;
         }
-        statusAllGames.push({
-          start_time,
-          assists,
-          account_id,
-          deaths,
-          denies,
-          gold_per_min,
-          hero_damage,
-          hero_healing,
-          kills,
-          last_hits,
-          net_worth,
-          tower_damage,
-          xp_per_min,
-          win,
-          match_id,
-          cluster,
-        });
+      } else if (player_slot > 5) {
+        win = 1;
       }
+      mp.push({
+        account_id,
+        match_id,
+        level,
+        team,
+        leaver_status,
+        assists,
+        deaths,
+        denies,
+        gold_per_min,
+        hero_damage,
+        hero_healing,
+        kills,
+        last_hits,
+        net_worth,
+        tower_damage,
+        xp_per_min,
+        win,
+        item,
+        ability,
+        hero_id,
+      });
     }
+    statusAllGames.push({ m, mp });
   }
 
   return statusAllGames;
