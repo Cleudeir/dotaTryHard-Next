@@ -31,8 +31,11 @@ export default function Home() {
       setError(message);
     }
     setLoading(false);
+
     if (data) {
-      console.log(data);
+      const { dataDetailsMatch, dataDetailsStatus } = data;
+      setDataRank(dataDetailsMatch);
+      console.log(dataDetailsMatch, dataDetailsStatus);
       localStorage.setItem('id', accountId);
     }
   }
@@ -65,13 +68,17 @@ export default function Home() {
             <table className={style.table}>
               <thead>
                 <tr>
-                  <td>Nº</td>
+                  {Object.keys(dataRank[0]).map((type) => (
+                    <td>{type}</td>
+                  ))}
                 </tr>
               </thead>
               <tbody>
-                {dataRank && dataRank.map((data, i) => (
-                  <tr key={i}>
-                    <td>{data.id}</td>
+                {dataRank.map((data) => (
+                  <tr>
+                    {Object.keys(data).map((type) => (
+                      <td>{data[type]}</td>
+                    ))}
                   </tr>
                 ))}
               </tbody>
