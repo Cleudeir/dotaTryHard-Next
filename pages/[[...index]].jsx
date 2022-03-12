@@ -107,7 +107,7 @@ export default function Home() {
             <h6><a href="/"> SEARCH WITH YOUR ACCOUNT_ID OR STEAM_ID</a></h6>
           </div>
           <div>
-            <select className={style.myButton} style={{ textAlign: 'center', width: '120px' }}
+            <select className={style.myButton} style={{ textAlign: 'center', width: '45%' }}
               value={country} onChange={(e) => { setCountry(e.target.value); }}
             >
               <option value={0}>World</option>
@@ -115,13 +115,14 @@ export default function Home() {
               <option value={2}>Norte America</option>
               <option value={3}>Europe</option>
             </select>
-            <input type="number" placeholder="Account id" className={style.myButton} value={id} style={{ textAlign: 'center', width: '120px' }}
+            <input type="number" placeholder="Account id" className={style.myButton} value={id} style={{ textAlign: 'center', width: '45%' }}
               onChange={(e) => { setId(e.target.value); }}
             />
-            <button className={style.myButton} style={{ cursor: 'pointer' }} onClick={start} type="button">
-              SEARCH
-            </button>
+
           </div>
+          <button className={style.myButton} style={{ cursor: 'pointer' }} onClick={start} type="button">
+            SEARCH
+          </button>
         </div>
         )}
 
