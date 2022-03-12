@@ -8,6 +8,7 @@ export default async function Read(req, res) {
   console.log('country:', country);
 
   const region = [
+    '"CHILE","BRAZIL","PERU","ARGENTINA","US WEST","US EAST","EUROPE","STOCKHOLM"',
     '"CHILE","BRAZIL","PERU","ARGENTINA"',
     '"US WEST","US EAST"',
     '"EUROPE","STOCKHOLM"',

@@ -22,7 +22,7 @@ export default async function Auto(dataPlayers) {
     '/api/database/read',
     {
       method: 'POST',
-      body: JSON.stringify('matches'),
+      body: JSON.stringify('matches#0'),
     },
   );
   if (dataMatches === undefined) {

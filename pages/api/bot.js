@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import bot from '../../back/discord';
 
 export default async function Bot(req, res) {

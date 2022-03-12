@@ -14,7 +14,7 @@ export default async function bot() {
     `${process.env.url}/api/database/read`,
     {
       method: 'POST',
-      body: JSON.stringify('avg'),
+      body: JSON.stringify('avg#0'),
     },
   );
   if (dataAvg === undefined) {

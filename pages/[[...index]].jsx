@@ -18,7 +18,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [view, setView] = useState(0);
-  const [country, setCountry] = useState(0);
+  const [country, setCountry] = useState(1);
   const [range] = useState(50);
 
   async function start() {
@@ -110,9 +110,10 @@ export default function Home() {
             <select className={style.myButton} style={{ textAlign: 'center', width: '135px' }}
               value={country} onChange={(e) => { setCountry(e.target.value); }}
             >
-              <option value={0}>South America</option>
-              <option value={1}>Norte America</option>
-              <option value={2}>Europe</option>
+              <option value={0}>World</option>
+              <option value={1}>South America</option>
+              <option value={2}>Norte America</option>
+              <option value={3}>Europe</option>
             </select>
             <input type="number" placeholder="Account id" className={style.myButton} value={id} style={{ textAlign: 'center', width: '135px' }}
               onChange={(e) => { setId(e.target.value); }}
