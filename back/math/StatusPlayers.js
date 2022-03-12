@@ -12,7 +12,6 @@ export default async function StatusPlayers(props) {
     if (!cluster) {
       continue;
     }
-    console.log('cluster', cluster);
 
     const clusterLocal = infos();
     Object.keys(clusterLocal).forEach((type) => {

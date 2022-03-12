@@ -92,14 +92,10 @@ export default function Home() {
       setDataRank(dataReq.slice(view, view + range));
     }
   }
-  function cleanDataHome() {
-    console.log('apertou');
-    setDataRank(null);
-  }
 
   return (
     <div className={style.container}>
-      <Header cleanDataHome={() => cleanDataHome} />
+      <Header />
       <main className={style.main}>
         {!loading && (
         <div className={style.input}>
