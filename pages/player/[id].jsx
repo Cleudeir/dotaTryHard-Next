@@ -13,7 +13,6 @@ export default function Home() {
   const [status, setStatus] = useState(null);
   const [requestDatails, setRequestDatails] = useState(null);
   const [requestStatus, setRequestStatus] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [view, setView] = useState(0);
   const [error, setError] = useState(false);
 
@@ -24,7 +23,7 @@ export default function Home() {
     console.log('accountId', accountId);
     setDatails(null);
     setError(false);
-    setLoading(true);
+
     if (accountId > 1818577144) {
       const steamId = new SteamID(`${accountId}`);
       const unfiltered = steamId.getSteam3RenderedID();
@@ -44,7 +43,6 @@ export default function Home() {
       setDatails(dataDetailsMatch[view]);
       setStatus(dataDetailsStatus[view]);
     }
-    setLoading(false);
   }
   function convertHMS(value) {
     const sec = parseInt(value, 10); // convert value to number if it's string
@@ -86,7 +84,7 @@ export default function Home() {
     <div className={style.container}>
       <Header />
       <main className={style.main}>
-        {loading && <img width={50} style={{ marginTop: '50px' }} alt="loading" src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" />}
+        {!datails && !status && !error && <img width={50} style={{ marginTop: '50px' }} alt="loading" src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" />}
         {error && (
         <div>
           <h6 style={{ margin: '20px auto' }} className={style.texto}>{error}</h6>
