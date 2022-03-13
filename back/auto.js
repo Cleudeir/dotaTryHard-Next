@@ -113,7 +113,6 @@ export default async function Auto(dataPlayers) {
     }
     //--------------------------------------------------
     count += 1;
-    if (count >= dataPlayers.length) { console.log('-------------End'); clearInterval(setInt); }
-    return 'ok';
+    if (count >= dataPlayers.length) { console.log('-------------End'); clearInterval(setInt); return 'ok'; }
   }
 }
