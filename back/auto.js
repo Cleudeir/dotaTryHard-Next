@@ -15,7 +15,7 @@ export default async function Auto(dataPlayers) {
   }
   //--------------------------------------------------
   const { dataMatches } = await pull(
-    '/api/database/read',
+    `${process.env.url}/api/database/read`,
     {
       method: 'POST',
       body: JSON.stringify('matches#0'),
@@ -37,7 +37,7 @@ export default async function Auto(dataPlayers) {
     console.log('loop:', count + 1, '/', dataPlayers.length);
     // Procurar partidas jogadas recentemente
     const matches = await pull(
-      `/api/matches/${id}`,
+      `${process.env.url}/api/matches/${id}`,
       {
         method: 'GET',
       },
@@ -53,7 +53,7 @@ export default async function Auto(dataPlayers) {
 
     // Procurar players das partidas jogadas recentemente
     const players = await pull(
-      `/api/players/${id}`,
+      `${process.env.url}/api/players/${id}`,
       {
         method: 'GET',
       },
@@ -73,7 +73,7 @@ export default async function Auto(dataPlayers) {
     console.log('newPlayers: ', newPlayers.length);
     //--------------------------------------------------
     // Procurar status de cada partida
-    const status = await pull('/api/status', {
+    const status = await pull(`${process.env.url}/api/status`, {
       method: 'POST',
       body: JSON.stringify(newMatches),
     });
@@ -88,7 +88,7 @@ export default async function Auto(dataPlayers) {
     //--------------------------------------------------
 
     // Procurar informações do perfil
-    const profiles = await pull('/api/profiles', {
+    const profiles = await pull(`${process.env.url}/api/profiles`, {
       method: 'POST',
       body: JSON.stringify(newPlayers),
     });
@@ -102,7 +102,7 @@ export default async function Auto(dataPlayers) {
     }
     //--------------------------------------------------
     // escrever na data base
-    const { writeProfiles, writeMatches, writePlayersMatches } = await pull('/api/database/write', {
+    const { writeProfiles, writeMatches, writePlayersMatches } = await pull(`${process.env.url}/api/database/write`, {
       method: 'POST',
       body: JSON.stringify({ profiles, status }),
     });
