@@ -13,14 +13,10 @@ export default function Header() {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <link rel="shortcut icon" href="/favicon.png" />
       </Head>
-      <h3 className={style.title}>DOTA TRY HARD</h3>
+      <a href="/" className={style.myButton}>
+        <h3 className={style.title}>DOTA TRY HARD</h3>
+      </a>
       <header>
-        <Link href="/" passHref>
-          <a href="replace" className={style.myButton}>
-            Home
-          </a>
-        </Link>
-
         <Link href="/graph" passHref>
           <a href="replace" className={style.myButton}>
             Graph

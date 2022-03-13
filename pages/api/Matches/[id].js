@@ -9,8 +9,7 @@ export default async function Matches(req, res) {
   if (pull.data) {
     const list = await ListMatchs(pull.data);
     const qnt = 50;
-    const random = Math.floor(Math.random() * (list.length - qnt));
-    const result = list.slice(random, random + qnt);
+    const result = list.slice(0, qnt);
     res.status(200).json({
       status: pull.status,
       message: pull.message,

@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 import Request from '../back';
 import style from '../styles/Home.module.css';
 import Header from '../front/Header';
+import Footer from '../front/Footer';
 
 const SteamID = require('steamid');
 const React = require('react');
@@ -21,6 +23,7 @@ export default function Home() {
   const [range] = useState(50);
 
   async function start() {
+    console.log('start');
     setDataRank(null);
     setError(false);
     setLoading(true);
@@ -30,10 +33,10 @@ export default function Home() {
       const accountId = unfiltered.slice(5, 50).replace(']', '');
       setId(accountId);
     }
-    console.log('start');
     const { status, message, data } = await Request({ id, country });
     if (status !== 'ok') {
       setError(message);
+      localStorage.removeItem('id');
     }
     setLoading(false);
     if (data) {
@@ -44,7 +47,7 @@ export default function Home() {
   }
   useEffect(() => {
     const { index } = router.query;
-    if (index && index[0] && index[0] !== '') {
+    if (index && index[0] && index[0] !== '' && typeof 'number') {
       const valueId = index[0];
       setId(valueId);
       localStorage.setItem('id', valueId);
@@ -84,10 +87,10 @@ export default function Home() {
     <div className={style.container}>
       <Header />
       <main className={style.main}>
-        {!loading && (
+        {!loading && !dataRank && (
         <div className={style.input}>
           <div className={style.texto}>
-            <h6><a href="/"> SEARCH WITH YOUR ACCOUNT_ID OR STEAM_ID</a></h6>
+            <h6> SEARCH WITH YOUR ACCOUNT_ID OR STEAM_ID</h6>
           </div>
           <div>
             <select className={style.myButton} style={{ textAlign: 'center', width: '45%' }}
@@ -103,9 +106,15 @@ export default function Home() {
             />
 
           </div>
-          <button className={style.myButton} style={{ cursor: 'pointer' }} onClick={start} type="button">
-            SEARCH
-          </button>
+          <div>
+            <button className={style.myButton} style={{ cursor: 'pointer' }} onClick={() => { if (id !== '' && +id > 0) { start(); } }} type="button">
+              Ranking
+            </button>
+            <button className={style.myButton} style={{ cursor: 'pointer' }} onClick={() => { if (id !== '' && +id > 0) { window.location = `/player/${id}`; } }} type="button">
+              Mathces
+            </button>
+
+          </div>
         </div>
         )}
 
@@ -116,30 +125,44 @@ export default function Home() {
           <h6 style={{ margin: '20px auto' }} className={style.texto}>{error}</h6>
         </div>
         )}
-        {dataRank && (
+        {dataRank && dataReq && (
           <div className={style.pages}>
-            <div>
+            <div className={style.headerPages}>
+              <h5 style={{
+                width: '75px', verticalAlign: 'center', padding: '9px',
+              }}
+              >PAGE {parseInt(view / 50 + 1, 10)}/{parseInt(dataReq.length / 50, 10)}
+              </h5>
               <button type="button" className={style.myButton} onClick={() => { pages(-1); }}>
-                <h6>BACK</h6>
+                BACK
               </button>
               <button type="button" className={style.myButton} onClick={() => { pages(1); }}>
-                <h6>NEXT</h6>
+                NEXT
               </button>
-              <input type="text" placeholder="Nick" className={style.myButton} value={filter}
-                style={{ textAlign: 'center', width: '130px', textTransform: 'none' }}
-                onChange={(e) => { filterText(e.target.value); }}
-              />
+              <div style={{
+                display: 'flex', flexWrap: 'nowrap', alignItems: 'center',
+              }}
+              >
+                <h5 style={{
+                  verticalAlign: 'center', padding: '9px 9px',
+                }}
+                >Filter:
+                </h5>
+                <input type="text" placeholder="Nick" className={style.myButton} value={filter}
+                  style={{ width: '10x' }}
+                  onChange={(e) => { filterText(e.target.value); }}
+                />
+              </div>
             </div>
             <table className={style.table}>
               <thead>
                 <tr>
-                  <td>Nº</td>
-                  <td>-</td>
+                  <td colSpan="2">Position</td>
                   <td>Nick<br />Country-Id</td>
                   <td>K/D/A<br />L/D</td>
                   <td>GPM<br />XPM</td>
                   <td>Hero<br />Tower<br />Heal</td>
-                  <td>W/L<br />Rate</td>
+                  <td>Win/Match<br />Rate</td>
                   <td>Rank</td>
                 </tr>
               </thead>
@@ -148,10 +171,12 @@ export default function Home() {
                   <tr key={data.account_id}>
                     <td>{data.id}</td>
                     <td style={{ paddingTop: '4px' }}>
-                      <img src={data.avatarfull} alt={data.avatarfull} />
+                      <Image width={40} height={40}
+                        src={`${data.avatarfull.slice(0, data.avatarfull.length - 9)}_medium.jpg`} alt={data.avatarfull}
+                      />
                     </td>
                     <td>
-                      {data.personaname.slice(0, 15)}<br />
+                      {data.personaname.slice(0, 10)}<br />
                       {data.loccountrycode === '' ? '' : `${data.loccountrycode}-`}{data.account_id}
                     </td>
                     <td>
@@ -168,7 +193,7 @@ export default function Home() {
                       {data.hero_healing.toLocaleString('pt-BR')}
                     </td>
                     <td>
-                      {data.win}/{data.matches - data.win}<br />
+                      {data.win}/{data.matches}<br />
                       {data.winRate}%
                     </td>
                     <td>
@@ -181,11 +206,7 @@ export default function Home() {
           </div>
         )}
       </main>
-      <footer className={style.footer}>
-        <h6>
-          Copyright 2022 - by Avatar
-        </h6>
-      </footer>
+      <Footer />
     </div>
   );
 }

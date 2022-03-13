@@ -1,5 +1,8 @@
 module.exports = {
-	swcMinify: false,	
+  swcMinify: false,
+  images: {
+    domains: ['steamcdn-a.akamaihd.net'],
+  },
   async headers() {
     return [
       {

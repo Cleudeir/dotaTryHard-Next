@@ -7,6 +7,7 @@ import {
 import Graph from '../back/graph';
 import style from '../styles/Home.module.css';
 import Header from '../front/Header';
+import Footer from '../front/Footer';
 
 export default function Home() {
   const [graph, setGraph] = useState(null);
@@ -117,11 +118,7 @@ export default function Home() {
         </div>
         )}
       </main>
-      <footer className={style.footer}>
-        <h6>
-          Copyright 2022 - by Avatar
-        </h6>
-      </footer>
+      <Footer />
     </div>
   );
 }
