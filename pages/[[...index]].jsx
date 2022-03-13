@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Request from '../back';
 import style from '../styles/Home.module.css';
-import Auto from '../back/auto';
 import Header from '../front/Header';
 
 const SteamID = require('steamid');
@@ -40,18 +39,6 @@ export default function Home() {
     if (data) {
       setDataRank(data.slice(view, view + range));
       setDataReq(data);
-
-      const arrayPlayers = [];
-      for (let i = 0; i < 5; i += 1) {
-        arrayPlayers.push(id);
-      }
-
-      for (let i = 0; i < data.length; i += 1) {
-        if (data[i].matches < 50) {
-          arrayPlayers.push(data[i].account_id);
-        }
-      }
-      Auto(arrayPlayers);
       localStorage.setItem('id', id);
     }
   }

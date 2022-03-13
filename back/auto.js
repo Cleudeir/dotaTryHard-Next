@@ -9,12 +9,8 @@ export default async function Auto(dataPlayers) {
       .catch((err) => { console.log(err.message); return []; });
     return result;
   }
-  console.log(
-    `%c dataPlayers: ${dataPlayers.length} `,
-    'background: #ffff; color: black',
-  );
   if (dataPlayers === undefined || dataPlayers.length < 1) {
-    console.log('Error : Banco de dados offline');
+    console.log('Dados insuficientes');
     return null;
   }
   //--------------------------------------------------
@@ -29,14 +25,9 @@ export default async function Auto(dataPlayers) {
     console.log('Error : Banco de dados offline');
     return null;
   }
-  console.log(
-    `%c dataMatches: ${dataMatches.length} `,
-    'background: #ffff; color: black',
-  );
-
   let count = 0;
   //--------------------------------------------------
-  const setInt = setInterval(autoSearch, 20000);
+  const setInt = setInterval(autoSearch, 60000);
 
   async function autoSearch() {
     console.log('--------------------------');
