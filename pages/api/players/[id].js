@@ -9,7 +9,7 @@ export default async function Players(req, res) {
   const pull = await GetMatchHistory(account_id);
   if (pull.data) {
     const list = await ListPlayers(pull.data);
-    const qnt = 50;
+    const qnt = 30;
     const random = Math.floor(Math.random() * (list.length - qnt));
     const slice = list.slice(random, random + qnt);
     const result = slice.filter((x) => x !== account_id);

@@ -27,7 +27,7 @@ export default async function Auto(dataPlayers) {
   }
   let count = 0;
   //--------------------------------------------------
-  const setInt = setInterval(autoSearch, 60000);
+  const setInt = setInterval(autoSearch, 60 * 1000);
 
   async function autoSearch() {
     console.log('--------------------------');
@@ -113,6 +113,6 @@ export default async function Auto(dataPlayers) {
     }
     //--------------------------------------------------
     count += 1;
-    if (count >= dataPlayers.length) { console.log('-------------End'); clearInterval(setInt); return 'ok'; }
+    if (count >= dataPlayers.length) { clearInterval(setInt); return 'ok'; }
   }
 }
