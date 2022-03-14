@@ -8,7 +8,7 @@ export default async function GetMatchHistory(props) {
   )
     .then((response) => response.json())
     .then((data) => {
-      const qnt = 20;
+      const qnt = 15;
       const random = Math.floor(Math.random() * (100 - qnt));
       if (data.result.matches) {
         const x = {

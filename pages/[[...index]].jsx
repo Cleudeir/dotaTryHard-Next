@@ -24,6 +24,7 @@ export default function Home() {
 
   async function start() {
     console.log('start');
+    localStorage.setItem('id', id);
     setDataRank(null);
     setError(false);
     setLoading(true);
@@ -42,7 +43,6 @@ export default function Home() {
     if (data) {
       setDataRank(data.slice(view, view + range));
       setDataReq(data);
-      localStorage.setItem('id', id);
     }
   }
   useEffect(() => {
@@ -111,9 +111,8 @@ export default function Home() {
               Ranking
             </button>
             <button className={style.myButton} style={{ cursor: 'pointer' }} onClick={() => { if (id !== '' && +id > 0) { window.location = `/player/${id}`; } }} type="button">
-              Mathces
+              Matches
             </button>
-
           </div>
         </div>
         )}
