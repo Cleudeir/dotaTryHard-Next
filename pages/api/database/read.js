@@ -81,7 +81,7 @@ export default async function Read(req, res) {
     }
 
     else if (body === 'avg') {
-      const matchesMIn = 10;
+      const matchesMIn = 1;
       const avg = `
       SELECT * FROM PLAYERS JOIN
       (SELECT account_id,
