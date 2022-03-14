@@ -41,37 +41,10 @@ export default async function Request({ id, country }) {
   }
   console.log('players: ', players.data.length);
   //--------------------------------------------------
-  // procurar dados salvos database
-  const { dataMatches } = await pull(
-    '/api/database/read',
-    {
-      method: 'POST',
-      body: JSON.stringify(`matches#${country}`),
-    },
-  );
-  if (dataMatches === undefined) {
-    return {
-      status: 'Error',
-      message: 'SERVIDOR DATABASE OFFLINE, FAVOR TENTAR MAIS TARDE!',
-      data: null,
-    };
-  }
-  //-------------------------------------------------
-  const { dataPlayers } = await pull(
-    '/api/database/read',
-    {
-      method: 'POST',
-      body: JSON.stringify(`players#${country}`),
-    },
-  );
-  //--------------------------------------------------
-  console.log('dataPlayers', dataPlayers.length);
-  console.log('dataMatches: ', dataMatches.length);
-  //--------------------------------------------------
   // filtrar existentes
-  const newMatches = matches.data.filter((x) => !dataMatches.includes(x));
+  const newMatches = matches.data;
   console.log('newMatches: ', newMatches.length);
-  const newPlayers = players.data.filter((x) => !dataPlayers.includes(x));
+  const newPlayers = players.data;
   console.log('newPlayers: ', newPlayers.length);
   //--------------------------------------------------
   // Procurar status de cada partida

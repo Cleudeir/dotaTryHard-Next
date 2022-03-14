@@ -45,6 +45,7 @@ export default function Home() {
 
       const playersMatch = dataDetailsStatus
         .filter((x) => x.match_id === match.match_id);
+      setStatus(playersMatch);
       console.log('match', match);
       console.log('playersMatch', playersMatch);
 
@@ -73,8 +74,13 @@ export default function Home() {
       value = requestDetails.length - 1;
     }
     setView(value);
-    setDetails(requestDetails[value]);
-    setStatus(requestStatus[value]);
+    const match = requestDetails[value];
+    setDetails(match);
+    const playersMatch = requestStatus
+      .filter((x) => x.match_id === match.match_id);
+    setStatus(playersMatch);
+    console.log('match', match);
+    console.log('playersMatch', playersMatch);
   }
 
   useEffect(() => {
@@ -98,7 +104,7 @@ export default function Home() {
         </div>
         )}
 
-        {details && status && (
+        {details && (
           <div className={style.pages}>
             <h5 style={{
               verticalAlign: 'center', padding: '9px',
@@ -115,23 +121,43 @@ export default function Home() {
               </button>
             </div>
             <div>
-              {Object.keys(details).map((type) => {
+              {
+              Object.keys(details).map((type) => {
                 if (type === 'start_time') {
-                  return <div className={style.input}>{type}:{new Date(details[type] * 1000).toLocaleDateString('pt-BR')}</div>;
+                  return (
+                    <div key={details[type]}
+                      className={style.input}
+                    >{type}:{new Date(details[type] * 1000).toLocaleDateString('pt-BR')}
+                    </div>
+                  );
                 }
                 if (type === 'duration') {
-                  return <div className={style.input}>{type}:{convertHMS(details[type])}</div>;
+                  return (
+                    <div key={details[type]}
+                      className={style.input}
+                    >{type}:{convertHMS(details[type])}
+                    </div>
+                  );
                 }
-                return <div className={style.input}>{type}:{details[type]}</div>;
-              })}
+                return (
+                  <div key={details[type]}
+                    className={style.input}
+                  >{type}:{details[type]}
+                  </div>
+                );
+              })
+              }
             </div>
             <div className={style.input}>
-              {Object.keys(status).map((type) => {
+              {/*
+              Object.keys(status).map((type) => {
                 if (type !== 'account_id' && type !== 'match_id') {
                   return <div>{type}:{status[type]}</div>;
                 }
                 return '';
-              })}
+              })
+              */
+              }
             </div>
           </div>
         )}

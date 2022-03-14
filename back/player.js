@@ -22,7 +22,6 @@ export default async function Request({ id }) {
       data: null,
     };
   }
-
   return {
     status: 'ok',
     message: 'Tudo ocorreu bem',

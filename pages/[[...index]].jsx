@@ -73,11 +73,20 @@ export default function Home() {
     setDataRank(dataReq.slice(value, value + range));
   }
   function filterText(props) {
-    const letter = props;
-    setFilter(props);
-    setDataRank(dataReq.filter(
-      (x) => (x.personaname.slice(0, letter.length)).toUpperCase() === letter.toUpperCase(),
-    ));
+    const val = props;
+    console.log(val);
+    if (+val > 0) {
+      setFilter(props);
+      setDataRank(dataReq.filter(
+        (x) => +(x.account_id.toString().slice(0, val.length)) === +val,
+      ));
+    } else {
+      setFilter(props);
+      setDataRank(dataReq.filter(
+        (x) => (x.personaname.slice(0, val.length)).toUpperCase() === val.toUpperCase(),
+      ));
+    }
+
     if (props === '') {
       setDataRank(dataReq.slice(view, view + range));
     }
@@ -127,17 +136,6 @@ export default function Home() {
         {dataRank && dataReq && (
           <div className={style.pages}>
             <div className={style.headerPages}>
-              <h5 style={{
-                width: '75px', verticalAlign: 'center', padding: '9px',
-              }}
-              >PAGE {parseInt(view / 50 + 1, 10)}/{parseInt(dataReq.length / 50, 10)}
-              </h5>
-              <button type="button" className={style.myButton} onClick={() => { pages(-1); }}>
-                BACK
-              </button>
-              <button type="button" className={style.myButton} onClick={() => { pages(1); }}>
-                NEXT
-              </button>
               <div style={{
                 display: 'flex', flexWrap: 'nowrap', alignItems: 'center',
               }}
@@ -147,11 +145,23 @@ export default function Home() {
                 }}
                 >Filter:
                 </h5>
-                <input type="text" placeholder="Nick" className={style.myButton} value={filter}
+                <input type="text" placeholder="Nick or Id" className={style.myButton} value={filter}
                   style={{ width: '10x' }}
                   onChange={(e) => { filterText(e.target.value); }}
                 />
               </div>
+              <h5 style={{
+                width: '75px', verticalAlign: 'center', padding: '9px',
+              }}
+              >PAGE {Math.ceil(view / range + 1)}/{Math.ceil(dataReq.length / range)}
+              </h5>
+              <button type="button" className={style.myButton} onClick={() => { pages(-1); }}>
+                BACK
+              </button>
+              <button type="button" className={style.myButton} onClick={() => { if (dataReq.length > range) { pages(1); } }}>
+                NEXT
+              </button>
+
             </div>
             <table className={style.table}>
               <thead>
@@ -170,17 +180,9 @@ export default function Home() {
                   <tr key={data.account_id}>
                     <td>{data.id}</td>
                     <td style={{ paddingTop: '4px' }}>
-                      {data.personaname !== 'unknown'
-                        ? (
-                          <Image width={40} height={40}
-                            src={`${data.avatarfull.slice(0, data.avatarfull.length - 9)}_medium.jpg`} alt={data.avatarfull}
-                          />
-                        )
-                        : (
-                          <Image width={40} height={40}
-                            src={data.avatarfull} alt={data.avatarfull}
-                          />
-                        )}
+                      <Image width={40} height={40}
+                        src={data.avatarfull} alt={data.avatarfull}
+                      />
                     </td>
                     <td>
                       {data.personaname.slice(0, 10)}<br />
