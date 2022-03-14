@@ -97,7 +97,9 @@ export default async function Read(req, res) {
       COUNT(account_id) AS matches
       FROM PLAYERS_MATCHES      
       GROUP BY account_id
-      HAVING matches > ${matchesMIn}
+      HAVING matches > ${matchesMIn} 
+      and account_id != 0 and account_id != 1 and account_id != 2 and account_id != 3 and account_id != 4
+      and account_id != 128 and account_id != 129 and account_id != 130 and account_id != 131 and account_id != 132
       ORDER BY matches desc
       ) as tabela      
       on tabela.account_id = PLAYERS.account_id
@@ -140,6 +142,8 @@ export default async function Read(req, res) {
       FROM PLAYERS_MATCHES      
       GROUP BY account_id
       HAVING matches > ${matchesMIn}
+      and account_id != 0 and account_id != 1 and account_id != 2 and account_id != 3 and account_id != 4
+      and account_id != 128 and account_id != 129 and account_id != 130 and account_id != 131 and account_id != 132
       ORDER BY matches desc
       ) as tabela
       join (select match_id, cluster from MATCHES) 

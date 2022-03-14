@@ -4,6 +4,6 @@ export default async function ListMatchs(props) {
     matchesSingle.add(match.match_id);
     return [];
   });
-  const matches = [...matchesSingle];
+  const matches = [...matchesSingle].filter((x) => x !== null);
   return matches;
 }

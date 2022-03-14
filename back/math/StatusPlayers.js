@@ -2,13 +2,14 @@ import infos from './infos';
 
 /* eslint-disable camelcase */
 export default async function StatusPlayers(props) {
+  const arrayProps = props;
   const statusAllGames = [];
 
-  for (let i = 0; i < props.length; i += 1) {
+  for (let i = 0; i < arrayProps.length; i += 1) {
     const {
       players, radiant_win, match_id, start_time, duration, radiant_score, dire_score,
-    } = props[i];
-    let { cluster } = props[i];
+    } = arrayProps[i];
+    let { cluster } = arrayProps[i];
     if (!cluster) {
       continue;
     }
@@ -35,7 +36,6 @@ export default async function StatusPlayers(props) {
     for (let n = 0; n < players.length; n += 1) {
       const {
         assists,
-        account_id,
         deaths,
         denies,
         gold_per_min,
@@ -65,7 +65,10 @@ export default async function StatusPlayers(props) {
         level,
       } = players[n];
 
-      let { ability_upgrades } = players[n];
+      let { ability_upgrades, account_id } = players[n];
+      if (account_id === 4294967295) {
+        account_id = player_slot;
+      }
 
       if (!ability_upgrades || ability_upgrades.length < 1) {
         ability_upgrades = [
