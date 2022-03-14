@@ -28,7 +28,7 @@ export default async function Read(req, res) {
       const tableNumberRows = +count['COUNT(*)'];
       console.log('matches', tableNumberRows);
       const dataMatches = [];
-      for (let i = 1; i < tableNumberRows; i += n) {
+      for (let i = 0; i <= tableNumberRows; i += n) {
         const select = `SELECT match_id FROM MATCHES LIMIT ${i},${n};`;
         dataMatches.push(...await queryMySql(select)
           .then((data) => (data.length > 0 ? data.map((x) => x.match_id) : [])));
@@ -41,7 +41,7 @@ export default async function Read(req, res) {
       const tableNumberRows = +count['COUNT(*)'];
       console.log('matches', tableNumberRows);
       const dataPlayers = [];
-      for (let i = 1; i < tableNumberRows; i += n) {
+      for (let i = 0; i <= tableNumberRows; i += n) {
         const select = `SELECT account_id FROM PLAYERS LIMIT ${i},${n};`;
         dataPlayers.push(...await queryMySql(select)
           .then((data) => (data.length > 0 ? data.map((x) => x.account_id) : [])));

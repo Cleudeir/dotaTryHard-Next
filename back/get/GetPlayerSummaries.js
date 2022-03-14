@@ -15,9 +15,14 @@ export default async function GetPlayerSummaries(props) {
           const x = data.response.players[0];
           return { ...x, account_id: props[i] };
         }
-        return null;
+        return {
+          account_id: props[i],
+          personaname: 'unknown',
+          avatarfull: 'https://steamuserimages-a.akamaihd.net/ugc/885384897182110030/F095539864AC9E94AE5236E04C8CA7C2725BCEFF/',
+          loccountrycode: '',
+        };
       })
-      .catch((error) => { console.log(error.message); return null; });
+      .catch((error) => { console.log(error); return null; });
     array.push(request);
   }
   const promise = await Promise.all(array);

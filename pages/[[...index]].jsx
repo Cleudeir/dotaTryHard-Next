@@ -170,9 +170,17 @@ export default function Home() {
                   <tr key={data.account_id}>
                     <td>{data.id}</td>
                     <td style={{ paddingTop: '4px' }}>
-                      <Image width={40} height={40}
-                        src={`${data.avatarfull.slice(0, data.avatarfull.length - 9)}_medium.jpg`} alt={data.avatarfull}
-                      />
+                      {data.personaname !== 'unknown'
+                        ? (
+                          <Image width={40} height={40}
+                            src={`${data.avatarfull.slice(0, data.avatarfull.length - 9)}_medium.jpg`} alt={data.avatarfull}
+                          />
+                        )
+                        : (
+                          <Image width={40} height={40}
+                            src={data.avatarfull} alt={data.avatarfull}
+                          />
+                        )}
                     </td>
                     <td>
                       {data.personaname.slice(0, 10)}<br />
