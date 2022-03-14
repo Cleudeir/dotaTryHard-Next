@@ -3,9 +3,7 @@
 import Connect from '../../../back/data/Connect';
 
 export default async function Read(req, res) {
-  console.log('Read');
   const [body, parameter] = JSON.parse(req.body).split('#');
-
   const region = [
     '"CHILE","BRAZIL","PERU","ARGENTINA","US WEST","US EAST","EUROPE","STOCKHOLM"',
     '"CHILE","BRAZIL","PERU","ARGENTINA"',
@@ -26,7 +24,6 @@ export default async function Read(req, res) {
       // matches
       const [count] = await queryMySql('SELECT COUNT(*) FROM MATCHES');
       const tableNumberRows = +count['COUNT(*)'];
-      console.log('matches', tableNumberRows);
       const dataMatches = [];
       for (let i = 0; i <= tableNumberRows; i += n) {
         const select = `SELECT match_id FROM MATCHES LIMIT ${i},${n};`;
@@ -39,7 +36,6 @@ export default async function Read(req, res) {
       // players
       const [count] = await queryMySql('SELECT COUNT(*) FROM PLAYERS');
       const tableNumberRows = +count['COUNT(*)'];
-      console.log('matches', tableNumberRows);
       const dataPlayers = [];
       for (let i = 0; i <= tableNumberRows; i += n) {
         const select = `SELECT account_id FROM PLAYERS LIMIT ${i},${n};`;

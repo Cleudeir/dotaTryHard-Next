@@ -3,7 +3,6 @@ import GetMatchHistory from '../../../back/get/GetMatchHistory';
 import ListPlayers from '../../../back/math/ListPlayers';
 
 export default async function Players(req, res) {
-  console.log('Players');
   const { id } = req.query;
   const account_id = id;
   const pull = await GetMatchHistory(account_id);

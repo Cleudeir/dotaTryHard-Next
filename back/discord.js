@@ -1,6 +1,8 @@
 import Ranking from './math/Ranking';
 
 export default async function bot() {
+  console.log('--------------------------');
+  console.log('bot');
   async function pull(url, parameter) {
     const result = await fetch(url, parameter)
       .then((resp) => resp.json())

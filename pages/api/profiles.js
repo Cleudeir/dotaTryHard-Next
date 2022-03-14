@@ -2,7 +2,6 @@
 import GetPlayerSummaries from '../../back/get/GetPlayerSummaries';
 
 export default async function Profiles(req, res) {
-  console.log('Profiles');
   const body = JSON.parse(req.body);
   const get = await GetPlayerSummaries(body);
   async function filter() {

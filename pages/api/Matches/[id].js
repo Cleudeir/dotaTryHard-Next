@@ -2,8 +2,6 @@ import GetMatchHistory from '../../../back/get/GetMatchHistory';
 import ListMatchs from '../../../back/math/ListMatchs';
 
 export default async function Matches(req, res) {
-  console.log('--------------------------');
-  console.log('Matches');
   const { id } = req.query;
   const pull = await GetMatchHistory(id);
   if (pull.data) {

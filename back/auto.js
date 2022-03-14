@@ -2,6 +2,7 @@
 export default async function Auto(dataPlayers) {
   console.log('--------------------------');
   console.log('Auto request');
+
   async function pull(url, parameter) {
     const result = await fetch(url, parameter)
       .then((resp) => resp.json())
@@ -14,28 +15,18 @@ export default async function Auto(dataPlayers) {
     return null;
   }
   //--------------------------------------------------
-  const { dataMatches } = await pull(
-    `${process.env.url}/api/database/read`,
-    {
-      method: 'POST',
-      body: JSON.stringify('matches#0'),
-    },
-  );
-  if (dataMatches === undefined) {
-    console.log('Error : Banco de dados offline');
-    return null;
-  }
   let count = 0;
-  //--------------------------------------------------
+
   const setInt = setInterval(autoSearch, 60 * 1000);
+  //--------------------------------------------------
 
   async function autoSearch() {
-    console.log('--------------------------');
-    // procurar dados salvos database
     const id = dataPlayers[count];
+    console.log('--------------------------');
     console.log('id: ', id);
-    console.log('loop:', count + 1, '/', dataPlayers.length);
-    // Procurar partidas jogadas recentemente
+    if (!id) {
+      return null;
+    }
     const matches = await pull(
       `${process.env.url}/api/matches/${id}`,
       {
@@ -43,15 +34,11 @@ export default async function Auto(dataPlayers) {
       },
     );
     if (!matches.data) {
-      console.log('Error :', matches.message);
       count += 1;
       return null;
     }
     console.log('matches: ', matches.data.length);
 
-    //--------------------------------------------------
-
-    // Procurar players das partidas jogadas recentemente
     const players = await pull(
       `${process.env.url}/api/players/${id}`,
       {
@@ -63,21 +50,15 @@ export default async function Auto(dataPlayers) {
       count += 1;
       return null;
     }
-
     console.log('players: ', players.data.length);
-    //--------------------------------------------------
-    // filtrar existentes
-    const newMatches = matches.data.filter((x) => !dataMatches.includes(x));
-    console.log('newMatches: ', newMatches.length);
-    const newPlayers = players.data.filter((x) => !dataPlayers.includes(x));
-    console.log('newPlayers: ', newPlayers.length);
-    //--------------------------------------------------
-    // Procurar status de cada partida
+
+    const newMatches = matches.data;
+    const newPlayers = players.data;
+
     const status = await pull(`${process.env.url}/api/status`, {
       method: 'POST',
       body: JSON.stringify(newMatches),
     });
-
     if (!status) {
       console.log('Error : Status');
       count += 1;
@@ -85,33 +66,28 @@ export default async function Auto(dataPlayers) {
     }
     console.log('status: ', status.length);
 
-    //--------------------------------------------------
-
-    // Procurar informações do perfil
     const profiles = await pull(`${process.env.url}/api/profiles`, {
       method: 'POST',
       body: JSON.stringify(newPlayers),
     });
-
-    console.log('profiles: ', profiles.length);
-
     if (!profiles) {
       console.log('Error : Status');
       count += 1;
       return null;
     }
-    //--------------------------------------------------
-    // escrever na data base
+    console.log('profiles: ', profiles.length);
+
     const { writeProfiles, writeMatches, writePlayersMatches } = await pull(`${process.env.url}/api/database/write`, {
       method: 'POST',
       body: JSON.stringify({ profiles, status }),
     });
+
     if (writeProfiles && writeMatches && writePlayersMatches) {
       console.log('writeProfiles: ', writeProfiles.length);
       console.log('writeMatches: ', writeMatches.length);
       console.log('writePlayersMatches: ', writePlayersMatches.length);
     }
-    //--------------------------------------------------
+
     count += 1;
     if (count >= dataPlayers.length) { clearInterval(setInt); return 'ok'; }
   }

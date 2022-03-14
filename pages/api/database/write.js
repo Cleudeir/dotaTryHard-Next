@@ -2,7 +2,6 @@
 import Connect from '../../../back/data/Connect';
 
 export default async function Write(req, res) {
-  console.log('Write');
   const { status, profiles } = JSON.parse(req.body);
   const connection = await Connect();
 
