@@ -8,13 +8,10 @@ export default async function Matches(req, res) {
   const pull = await GetMatchHistory(id);
   if (pull.data) {
     const list = await ListMatchs(pull.data);
-    const qnt = 30;
-    const random = Math.floor(Math.random() * (list.length - qnt));
-    const result = list.slice(random, random + qnt);
     res.status(200).json({
       status: pull.status,
       message: pull.message,
-      data: result,
+      data: list,
     });
   } else {
     res.status(200).json(pull);

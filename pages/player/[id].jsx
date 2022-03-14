@@ -9,9 +9,9 @@ const React = require('react');
 
 export default function Home() {
   const router = useRouter();
-  const [datails, setDatails] = useState(null);
+  const [details, setDetails] = useState(null);
   const [status, setStatus] = useState(null);
-  const [requestDatails, setRequestDatails] = useState(null);
+  const [requestDetails, setRequestDetails] = useState(null);
   const [requestStatus, setRequestStatus] = useState(null);
   const [view, setView] = useState(0);
   const [error, setError] = useState(false);
@@ -21,7 +21,7 @@ export default function Home() {
 
     let { accountId } = props;
     console.log('accountId', accountId);
-    setDatails(null);
+    setDetails(null);
     setError(false);
 
     if (accountId > 1818577144) {
@@ -38,10 +38,17 @@ export default function Home() {
     }
     if (data) {
       const { dataDetailsMatch, dataDetailsStatus } = data;
-      setRequestDatails(dataDetailsMatch);
+      setRequestDetails(dataDetailsMatch);
       setRequestStatus(dataDetailsStatus);
-      setDatails(dataDetailsMatch[view]);
-      setStatus(dataDetailsStatus[view]);
+      const match = dataDetailsMatch[view];
+      setDetails(match);
+
+      const playersMatch = dataDetailsStatus
+        .filter((x) => x.match_id === match.match_id);
+      console.log('match', match);
+      console.log('playersMatch', playersMatch);
+
+      // setStatus(playersMatch);
     }
   }
   function convertHMS(value) {
@@ -62,11 +69,11 @@ export default function Home() {
     let value = view + props;
     if (value < 0) {
       value = 0;
-    } else if (value > requestDatails.length - 1) {
-      value = requestDatails.length - 1;
+    } else if (value > requestDetails.length - 1) {
+      value = requestDetails.length - 1;
     }
     setView(value);
-    setDatails(requestDatails[value]);
+    setDetails(requestDetails[value]);
     setStatus(requestStatus[value]);
   }
 
@@ -84,19 +91,19 @@ export default function Home() {
     <div className={style.container}>
       <Header />
       <main className={style.main}>
-        {!datails && !status && !error && <img width={50} style={{ marginTop: '50px' }} alt="loading" src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" />}
+        {!details && !status && !error && <img width={50} style={{ marginTop: '50px' }} alt="loading" src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" />}
         {error && (
         <div>
           <h6 style={{ margin: '20px auto' }} className={style.texto}>{error}</h6>
         </div>
         )}
 
-        {datails && status && (
+        {details && status && (
           <div className={style.pages}>
             <h5 style={{
               verticalAlign: 'center', padding: '9px',
             }}
-            >PAGE {parseInt(view + 1, 10)}/{parseInt(requestDatails.length, 10)}
+            >PAGE {parseInt(view + 1, 10)}/{parseInt(requestDetails.length, 10)}
             </h5>
             <div>
 
@@ -108,14 +115,14 @@ export default function Home() {
               </button>
             </div>
             <div>
-              {Object.keys(datails).map((type) => {
+              {Object.keys(details).map((type) => {
                 if (type === 'start_time') {
-                  return <div className={style.input}>{type}:{new Date(datails[type] * 1000).toLocaleDateString('pt-BR')}</div>;
+                  return <div className={style.input}>{type}:{new Date(details[type] * 1000).toLocaleDateString('pt-BR')}</div>;
                 }
                 if (type === 'duration') {
-                  return <div className={style.input}>{type}:{convertHMS(datails[type])}</div>;
+                  return <div className={style.input}>{type}:{convertHMS(details[type])}</div>;
                 }
-                return <div className={style.input}>{type}:{datails[type]}</div>;
+                return <div className={style.input}>{type}:{details[type]}</div>;
               })}
             </div>
             <div className={style.input}>

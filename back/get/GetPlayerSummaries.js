@@ -21,6 +21,7 @@ export default async function GetPlayerSummaries(props) {
     array.push(request);
   }
   const promise = await Promise.all(array);
+  const result = promise.filter((x) => x != null);
 
-  return promise;
+  return result;
 }
