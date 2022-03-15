@@ -9,10 +9,7 @@ export default async function GetPlayerSummaries(props) {
   const array = [];
   for (let n = 0; n < arrayPlayers.length; n += 1) {
     const accountId = arrayPlayers[n];
-    console.log('account_id', accountId);
     const steamId = new SteamID(`[U:1:${accountId}]`).getSteamID64();
-    console.log('steam_id', steamId);
-
     const request = await fetch(`${api.base_url}ISteamUser/GetPlayerSummaries/v0002/?key=${api.key_api}&steamids=${steamId}`)
       .then((response) => response.json())
       .then((data) => {
@@ -20,6 +17,7 @@ export default async function GetPlayerSummaries(props) {
           const x = data.response.players[0];
           return { ...x, account_id: accountId };
         }
+        console.log('account_id', accountId);
         return {
           account_id: accountId,
           personaname: 'unknown',
