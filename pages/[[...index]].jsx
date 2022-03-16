@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Request from '../back';
+import Search from '../back/search';
 import style from '../styles/Home.module.css';
 import Header from '../front/Header';
 import Footer from '../front/Footer';
@@ -34,6 +35,7 @@ export default function Home() {
       const accountId = unfiltered.slice(5, 50).replace(']', '');
       setId(accountId);
     }
+    Search({ id, country });
     const { status, message, data } = await Request({ id, country });
     if (status !== 'ok') {
       setError(message);

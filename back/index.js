@@ -1,6 +1,6 @@
 import Ranking from './math/Ranking';
 
-export default async function Request({ id, country }) {
+export default async function Request({ country }) {
   async function pull(url, parameter) {
     const result = await fetch(url, parameter)
       .then((resp) => resp.json())
@@ -8,98 +8,6 @@ export default async function Request({ id, country }) {
       .catch((err) => { console.log(err.message); return []; });
     return result;
   }
-
-  // Procurar partidas jogadas recentemente
-  const matches = await pull(
-    `/api/matches/${id}`,
-    {
-      method: 'GET',
-    },
-  );
-  if (!matches.data) {
-    return {
-      status: matches.status,
-      message: matches.message,
-      data: null,
-    };
-  }
-  console.log('matches: ', matches.data);
-  //--------------------------------------------------
-  // Procurar players das partidas jogadas recentemente
-  const players = await pull(
-    `/api/players/${id}`,
-    {
-      method: 'GET',
-    },
-  );
-  if (!players.data) {
-    return {
-      status: players.status,
-      message: players.message,
-      data: null,
-    };
-  }
-  console.log('players: ', players.data);
-  //--------------------------------------------------
-  // procurar dados salvos database
-  const { dataMatches } = await pull(
-    '/api/database/read',
-    {
-      method: 'POST',
-      body: JSON.stringify(`matches#${country}`),
-    },
-  );
-  if (dataMatches === undefined) {
-    return {
-      status: 'Error',
-      message: 'SERVIDOR DATABASE OFFLINE, FAVOR TENTAR MAIS TARDE!',
-      data: null,
-    };
-  }
-  //-------------------------------------------------
-  const { dataPlayers } = await pull(
-    '/api/database/read',
-    {
-      method: 'POST',
-      body: JSON.stringify(`players#${country}`),
-    },
-  );
-  //--------------------------------------------------
-  console.log('dataPlayers', dataPlayers);
-  console.log('dataMatches: ', dataMatches);
-  //--------------------------------------------------
-  // filtrar existentes
-  const newMatches = matches.data.filter((x) => !dataMatches.includes(x));
-  console.log('newMatches: ', newMatches);
-  const newPlayers = players.data.filter((x) => !dataPlayers.includes(x));
-  console.log('newPlayers: ', newPlayers);
-  //--------------------------------------------------
-  // Procurar status de cada partida
-  const status = await pull('/api/status', {
-    method: 'POST',
-    body: JSON.stringify(newMatches),
-  });
-  console.log('status: ', status);
-  //--------------------------------------------------
-  // Procurar informações do perfil
-  const profiles = await pull('/api/profiles', {
-    method: 'POST',
-    body: JSON.stringify(newPlayers),
-  });
-  console.log('profiles: ', profiles);
-  //--------------------------------------------------
-  // escrever na data base
-  const { writeProfiles, writeMatches, writePlayersMatches } = await pull('/api/database/write', {
-    method: 'POST',
-    body: JSON.stringify({ profiles, status }),
-  });
-  if (writeProfiles && writeMatches && writePlayersMatches) {
-    console.log('writeProfiles: ', writeProfiles);
-    console.log('writeMatches: ', writeMatches);
-    console.log('writePlayersMatches: ', writePlayersMatches);
-  }
-  //--------------------------------------------------
-  // Media
   const { dataAvg, dataAvgAll } = await pull(
     '/api/database/read',
     {
@@ -114,8 +22,8 @@ export default async function Request({ id, country }) {
       data: null,
     };
   }
-  console.log('dataAvg: ', dataAvg);
-  console.log('dataAvgAll: ', ((dataAvgAll.win / dataAvgAll.matches) * 100).toFixed(2), '%');
+  console.log('dataAvg: ', dataAvg.length);
+  console.log('dataAvgAll: ', dataAvgAll);
   //---------------------------------------------------
   const ranked = await Ranking({ dataAvg, dataAvgAll });
   //---------------------------------------------------
