@@ -13,7 +13,7 @@ export default async function GetMatchHistory(props) {
         const x = {
           status: 200,
           message: 'ok',
-          data: data.result.matches,
+          data: data.result.matches.splice(0, 15),
         };
         return x;
       } if (data.result.status) {

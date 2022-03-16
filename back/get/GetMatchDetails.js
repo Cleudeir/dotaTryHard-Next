@@ -26,7 +26,7 @@ export default async function GetMatchDetails(props) {
       });
     array.push(request);
   }
-  console.log((-time + Date.now()) / 1000, 's');
+  console.log('Status:', (-time + Date.now()) / 1000, 's');
   const promise = await Promise.all(array);
   const result = promise.filter((x) => x != null);
   return result;

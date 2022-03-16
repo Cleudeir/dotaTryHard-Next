@@ -35,7 +35,7 @@ export default async function GetPlayerSummaries(props) {
       .catch((error) => { console.log(error); return null; });
     array.push(request);
   }
-  console.log((-time + Date.now()) / 1000, 's');
+  console.log('profile:', (-time + Date.now()) / 1000, 's');
   const promise = await Promise.all(array);
   const result = promise.filter((x) => x != null);
 
