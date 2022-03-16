@@ -76,14 +76,14 @@ export default async function Search({ id, country }) {
   // Procurar status de cada partida
   const status = await pull('/api/status', {
     method: 'POST',
-    body: JSON.stringify(newMatches.splice(0, 10)),
+    body: JSON.stringify(newMatches),
   });
   console.log('status: ', status.length);
   //--------------------------------------------------
   // Procurar informações do perfil
   const profiles = await pull('/api/profiles', {
     method: 'POST',
-    body: JSON.stringify(newPlayers.splice(0, 10)),
+    body: JSON.stringify(newPlayers),
   });
   console.log('profiles: ', profiles.length);
   //--------------------------------------------------
