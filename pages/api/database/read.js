@@ -3,7 +3,9 @@
 import Connect from '../../../back/data/Connect';
 
 export default async function Read(req, res) {
-  const [body, parameter] = JSON.parse(req.body).split('#');
+  const {
+    body, country, accountId, min,
+  } = JSON.parse(req.body);
   const region = [
     '"CHILE","BRAZIL","PERU","ARGENTINA","US WEST","US EAST","EUROPE","STOCKHOLM"',
     '"CHILE","BRAZIL","PERU","ARGENTINA"',
@@ -18,31 +20,28 @@ export default async function Read(req, res) {
       .catch(() => []);
     return result;
   }
-  const n = 5000;
-  if (connection) {
-    if (body === 'matches') {
-      // matches
-      const [count] = await queryMySql('SELECT COUNT(*) FROM MATCHES');
-      const tableNumberRows = +count['COUNT(*)'];
-      const dataMatches = [];
-      for (let i = 0; i <= tableNumberRows; i += n) {
-        const select = `SELECT match_id FROM MATCHES LIMIT ${i},${n};`;
-        dataMatches.push(...await queryMySql(select)
-          .then((data) => (data.length > 0 ? data.map((x) => x.match_id) : [])));
-      }
-      res.status(200).send({ dataMatches }); }
 
-    else if (body === 'players') {
+  if (connection) {
+    if (body === 'exist') {
+      // matches
+      const select01 = `SELECT match_id from 
+      (SELECT account_id,match_id FROM PLAYERS_MATCHES WHERE account_id = ${accountId} LIMIT 0,2000)
+       as tabe group by match_id order by match_id;
+       `;
+
+      const dataMatches = await queryMySql(select01)
+        .then((data) => (data.length > 0 ? data.map((x) => x.match_id) : []));
+
       // players
-      const [count] = await queryMySql('SELECT COUNT(*) FROM PLAYERS');
-      const tableNumberRows = +count['COUNT(*)'];
-      const dataPlayers = [];
-      for (let i = 0; i <= tableNumberRows; i += n) {
-        const select = `SELECT account_id FROM PLAYERS LIMIT ${i},${n};`;
-        dataPlayers.push(...await queryMySql(select)
-          .then((data) => (data.length > 0 ? data.map((x) => x.account_id) : [])));
-      }
-      res.status(200).send({ dataPlayers });
+      const select02 = `
+      SELECT account_id from (SELECT account_id,match_id FROM PLAYERS_MATCHES WHERE match_id in(
+        ${dataMatches}
+        ) group by account_id  order by account_id) as tan LIMIT 0,2000 ;
+      `;
+      const dataPlayers = await queryMySql(select02)
+        .then((data) => (data.length > 0 ? data.map((x) => x.account_id) : []));
+
+      res.status(200).send({ dataMatches, dataPlayers });
     }
 
     else if (body === 'details') {
@@ -54,7 +53,7 @@ export default async function Read(req, res) {
         (select
         account_id,match_id
         from PLAYERS_MATCHES
-        where account_id = ${parameter}) as tabe)
+        where account_id = ${accountId}) as tabe)
         )
         order by start_time desc 
         LIMIT 0,500;`;
@@ -70,14 +69,13 @@ export default async function Read(req, res) {
       select
       account_id,match_id
       from PLAYERS_MATCHES
-      where account_id = ${parameter}) as tabe
+      where account_id = ${accountId}) as tabe
       ) LIMIT 0,2500;`;
       const dataDetailsStatus = await queryMySql(select02);
       res.status(200).send({ dataDetailsMatch, dataDetailsStatus });
     }
 
     else if (body === 'avg') {
-      const matchesMIn = 1;
       const avg = `
       SELECT * FROM PLAYERS JOIN
       (SELECT account_id,
@@ -97,7 +95,7 @@ export default async function Read(req, res) {
       COUNT(account_id) AS matches
       FROM PLAYERS_MATCHES      
       GROUP BY account_id
-      HAVING matches > ${matchesMIn} 
+      HAVING matches > ${min} 
       and account_id != 0 and account_id != 1 and account_id != 2 and account_id != 3 and account_id != 4
       and account_id != 128 and account_id != 129 and account_id != 130 and account_id != 131 and account_id != 132
       ORDER BY matches desc
@@ -105,7 +103,7 @@ export default async function Read(req, res) {
       on tabela.account_id = PLAYERS.account_id
       join (select match_id, cluster from MATCHES) 
       as tab on tab.match_id = tabela.match_id
-      where cluster in(${region[parameter]});
+      where cluster in(${region[country]});
       `;
 
       const avgAll = `
@@ -141,14 +139,14 @@ export default async function Read(req, res) {
       COUNT(account_id) AS matches
       FROM PLAYERS_MATCHES      
       GROUP BY account_id
-      HAVING matches > ${matchesMIn}
+      HAVING matches > ${min}
       and account_id != 0 and account_id != 1 and account_id != 2 and account_id != 3 and account_id != 4
       and account_id != 128 and account_id != 129 and account_id != 130 and account_id != 131 and account_id != 132
       ORDER BY matches desc
       ) as tabela
       join (select match_id, cluster from MATCHES) 
       as tab on tab.match_id = tabela.match_id
-      where cluster in(${region[parameter]});
+      where cluster in(${region[country]});
       `;
       const dataAvg = await queryMySql(avg);
       const [dataAvgAll] = (await queryMySql(avgAll));

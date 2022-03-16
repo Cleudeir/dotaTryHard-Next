@@ -12,7 +12,11 @@ export default async function Request({ id }) {
     '/api/database/read',
     {
       method: 'POST',
-      body: JSON.stringify(`details#${id}`),
+      body: JSON.stringify(
+        {
+          body: 'details', accountId: id,
+        },
+      ),
     },
   );
   if (dataDetailsMatch === undefined) {
@@ -22,6 +26,7 @@ export default async function Request({ id }) {
       data: null,
     };
   }
+  console.log('--------------------------');
   return {
     status: 'ok',
     message: 'Tudo ocorreu bem',

@@ -1,5 +1,7 @@
-export default async function Search({ id, country }) {
+export default async function Search({ id }) {
   const time = Date.now();
+  console.log('--------------------------');
+  console.log('Search');
   async function pull(url, parameter) {
     const result = await fetch(url, parameter)
       .then((resp) => resp.json())
@@ -10,7 +12,7 @@ export default async function Search({ id, country }) {
 
   // Procurar partidas jogadas recentemente
   const matches = await pull(
-    `/api/matches/${id}`,
+    `/api/matches/${id}/10`,
     {
       method: 'GET',
     },
@@ -26,7 +28,7 @@ export default async function Search({ id, country }) {
   //--------------------------------------------------
   // Procurar players das partidas jogadas recentemente
   const players = await pull(
-    `/api/players/${id}`,
+    `/api/players/${id}/10`,
     {
       method: 'GET',
     },
@@ -41,11 +43,15 @@ export default async function Search({ id, country }) {
   //  console.log('players: ', players.data);
   //--------------------------------------------------
   // procurar dados salvos database
-  const { dataMatches } = await pull(
+  const { dataMatches, dataPlayers } = await pull(
     '/api/database/read',
     {
       method: 'POST',
-      body: JSON.stringify(`matches#${country}`),
+      body: JSON.stringify(
+        {
+          body: 'exist', accountId: id,
+        },
+      ),
     },
   );
   if (dataMatches === undefined) {
@@ -55,17 +61,9 @@ export default async function Search({ id, country }) {
       data: null,
     };
   }
-  //-------------------------------------------------
-  const { dataPlayers } = await pull(
-    '/api/database/read',
-    {
-      method: 'POST',
-      body: JSON.stringify(`players#${country}`),
-    },
-  );
   //--------------------------------------------------
-  // console.log('dataPlayers', dataPlayers);
-  // console.log('dataMatches: ', dataMatches);
+  console.log('dataPlayers', dataPlayers.length);
+  console.log('dataMatches: ', dataMatches.length);
   //--------------------------------------------------
   // filtrar existentes
   const newMatches = matches.data.filter((x) => !dataMatches.includes(x));

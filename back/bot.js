@@ -1,6 +1,6 @@
 import Ranking from './math/Ranking';
 
-export default async function bot() {
+export default async function Bot() {
   console.log('--------------------------');
   console.log('bot');
   async function pull(url, parameter) {
@@ -16,7 +16,11 @@ export default async function bot() {
     `${process.env.url}/api/database/read`,
     {
       method: 'POST',
-      body: JSON.stringify('avg#0'),
+      body: JSON.stringify(
+        {
+          body: 'avg', country: 0, min: 1,
+        },
+      ),
     },
   );
   if (dataAvg === undefined) {
@@ -26,7 +30,6 @@ export default async function bot() {
       data: null,
     };
   }
-
   //---------------------------------------------------
 
   const ranked = await Ranking({ dataAvg, dataAvgAll });

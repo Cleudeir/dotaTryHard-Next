@@ -12,7 +12,9 @@ export default async function Request({ country }) {
     '/api/database/read',
     {
       method: 'POST',
-      body: JSON.stringify(`avg#${country}`),
+      body: JSON.stringify(
+        { body: 'avg', country, min: 10 },
+      ),
     },
   );
   if (dataAvg === 0) {

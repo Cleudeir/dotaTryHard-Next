@@ -14,7 +14,11 @@ export default async function Graph() {
     '/api/database/read',
     {
       method: 'POST',
-      body: JSON.stringify('avg#0'),
+      body: JSON.stringify(
+        {
+          body: 'avg', country: 0, min: 1,
+        },
+      ),
     },
   );
   if (!dataAvg || !dataAvgAll) {

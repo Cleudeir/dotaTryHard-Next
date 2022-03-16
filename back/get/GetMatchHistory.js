@@ -1,7 +1,12 @@
+/* eslint-disable prefer-const */
 import api from './Api';
 
 export default async function GetMatchHistory(props) {
-  const accountId = props;
+  let [accountId, length] = props;
+  console.log(accountId, length);
+  if (!length) {
+    length = 100;
+  }
   const objApi = await api();
 
   const request = await fetch(
@@ -13,7 +18,7 @@ export default async function GetMatchHistory(props) {
         const x = {
           status: 200,
           message: 'ok',
-          data: data.result.matches.splice(0, 20),
+          data: data.result.matches.splice(0, length),
         };
         return x;
       } if (data.result.status) {
