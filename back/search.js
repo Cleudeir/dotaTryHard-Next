@@ -11,7 +11,7 @@ export default async function Search({ id }) {
   }
 
   // Procurar partidas jogadas recentemente
-  const qnt = 10;
+  const qnt = 100;
   const matches = await pull(
     `/api/matches/${id}/${qnt}`,
     {
