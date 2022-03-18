@@ -19,6 +19,46 @@ export default function Home() {
   const [view, setView] = useState(0);
   const [error, setError] = useState(false);
 
+  const obj = {
+    account_id: '-',
+    match_id: '-',
+    assists: '-',
+    deaths: '-',
+    denies: '-',
+    gold_per_min: '-',
+    hero_damage: '-',
+    hero_healing: '-',
+    kills: '-',
+    last_hits: '-',
+    net_worth: '-',
+    tower_damage: '-',
+    xp_per_min: '-',
+    win: '-',
+    ability_0: '-',
+    ability_1: '-',
+    ability_2: '-',
+    ability_3: '-',
+    Hero_level: '-',
+    team: '-',
+    leaver_status: 0,
+    aghanims_scepter: '-',
+    aghanims_shard: '-',
+    backpack_0: '-',
+    backpack_1: '-',
+    backpack_2: '-',
+    item_0: '-',
+    item_1: '-',
+    item_2: '-',
+    item_3: '-',
+    item_4: '-',
+    item_5: '-',
+    item_neutral: '-',
+    moonshard: '-',
+    personaname: 'undefined',
+    avatarfull: 'https://steamuserimages-a.akamaihd.net/ugc/885384897182110030/F095539864AC9E94AE5236E04C8CA7C2725BCEFF/',
+    loccountrycode: '',
+  };
+
   async function start(props) {
     console.log('start');
 
@@ -50,47 +90,7 @@ export default function Home() {
         .filter((x) => x.match_id === match.match_id);
       if (playersMatch.length < 10) {
         for (let i = playersMatch.length; i < 10; i += 1) {
-          playersMatch.push(
-            {
-              account_id: '-',
-              match_id: '-',
-              assists: '-',
-              deaths: '-',
-              denies: '-',
-              gold_per_min: '-',
-              hero_damage: '-',
-              hero_healing: '-',
-              kills: '-',
-              last_hits: '-',
-              net_worth: '-',
-              tower_damage: '-',
-              xp_per_min: '-',
-              win: '-',
-              ability_0: '-',
-              ability_1: '-',
-              ability_2: '-',
-              ability_3: '-',
-              Hero_level: '-',
-              team: '-',
-              leaver_status: 0,
-              aghanims_scepter: '-',
-              aghanims_shard: '-',
-              backpack_0: '-',
-              backpack_1: '-',
-              backpack_2: '-',
-              item_0: '-',
-              item_1: '-',
-              item_2: '-',
-              item_3: '-',
-              item_4: '-',
-              item_5: '-',
-              item_neutral: '-',
-              moonshard: -'-',
-              personaname: 'undefined',
-              avatarfull: 'https://steamuserimages-a.akamaihd.net/ugc/885384897182110030/F095539864AC9E94AE5236E04C8CA7C2725BCEFF/',
-              loccountrycode: '',
-            },
-          );
+          playersMatch.push(obj);
         }
       }
       setStatus(playersMatch);
@@ -124,49 +124,11 @@ export default function Home() {
     setDetails(match);
     const playersMatch = requestStatus
       .filter((x) => x.match_id === match.match_id);
+    console.log(playersMatch.length);
     if (playersMatch.length < 10) {
       for (let i = playersMatch.length; i < 10; i += 1) {
-        playersMatch.push(
-          {
-            account_id: '-',
-            match_id: '-',
-            assists: '-',
-            deaths: '-',
-            denies: '-',
-            gold_per_min: '-',
-            hero_damage: '-',
-            hero_healing: '-',
-            kills: '-',
-            last_hits: '-',
-            net_worth: '-',
-            tower_damage: '-',
-            xp_per_min: '-',
-            win: '-',
-            ability_0: '-',
-            ability_1: '-',
-            ability_2: '-',
-            ability_3: '-',
-            Hero_level: '-',
-            team: '-',
-            leaver_status: 0,
-            aghanims_scepter: '-',
-            aghanims_shard: '-',
-            backpack_0: '-',
-            backpack_1: '-',
-            backpack_2: '-',
-            item_0: '-',
-            item_1: '-',
-            item_2: '-',
-            item_3: '-',
-            item_4: '-',
-            item_5: '-',
-            item_neutral: '-',
-            moonshard: -'-',
-            personaname: 'undefined',
-            avatarfull: 'https://steamuserimages-a.akamaihd.net/ugc/885384897182110030/F095539864AC9E94AE5236E04C8CA7C2725BCEFF/',
-            loccountrycode: '',
-          },
-        );
+        console.log(obj);
+        playersMatch.push(obj);
       }
     }
     setStatus(playersMatch);
