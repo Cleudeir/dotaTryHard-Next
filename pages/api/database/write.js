@@ -80,7 +80,9 @@ export default async function Write(req, res) {
     item_4,
     item_5,
     item_neutral,
-    moonshard
+    moonshard,
+    hero_id,
+    player_slot
     ) VALUES (
     ${props.account_id},
     ${props.match_id},
@@ -115,7 +117,9 @@ export default async function Write(req, res) {
     ${props.item.item_4},
     ${props.item.item_5},
     ${props.item.item_neutral},
-    ${props.item.moonshard}
+    ${props.item.moonshard},
+    ${props.hero_id},
+    ${props.player_slot}
     );`;
     const queryPlayersMatches = await queryMySql(playersMatches);
     return queryPlayersMatches;

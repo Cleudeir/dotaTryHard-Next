@@ -3,7 +3,6 @@ import api from './Api';
 
 export default async function GetMatchHistory(props) {
   let [accountId, length] = props;
-  console.log(accountId, length);
   if (!length) {
     length = 100;
   }
@@ -30,13 +29,10 @@ export default async function GetMatchHistory(props) {
       }
       return null;
     })
-    .catch((error) => {
-      console.log(error.message);
-      return {
-        status: 500,
-        message: 'Request error, repete please',
-        data: null,
-      };
-    });
+    .catch(() => ({
+      status: 500,
+      message: 'Request error, repete please',
+      data: null,
+    }));
   return request;
 }

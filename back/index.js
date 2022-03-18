@@ -24,8 +24,6 @@ export default async function Request({ country }) {
       data: null,
     };
   }
-  console.log('dataAvg: ', dataAvg.length);
-  console.log('dataAvgAll: ', dataAvgAll);
   //---------------------------------------------------
   const ranked = await Ranking({ dataAvg, dataAvgAll });
   //---------------------------------------------------

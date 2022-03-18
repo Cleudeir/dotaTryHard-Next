@@ -4,7 +4,9 @@ import Api from './Api';
 const SteamID = require('steamid');
 
 export default async function GetPlayerSummaries(props) {
-  const arrayPlayers = props;
+  console.log('profile:');
+  const players = props;
+  console.log(players.length);
   const api = await Api();
   function sleep(ms) {
     return new Promise(
@@ -13,10 +15,10 @@ export default async function GetPlayerSummaries(props) {
   }
   const time = Date.now();
   const array = [];
-  for (let n = 0; n < arrayPlayers.length; n += 1) {
-    const accountId = arrayPlayers[n];
+  for (let n = 0; n < players.length; n += 1) {
+    const accountId = players[n];
     const steamId = new SteamID(`[U:1:${accountId}]`).getSteamID64();
-    await sleep(600);
+    await sleep(100 / players.length);
     const request = await fetch(`${api.base_url}ISteamUser/GetPlayerSummaries/v0002/?key=${api.key_api}&steamids=${steamId}`)
       .then((response) => response.json())
       .then((data) => {
@@ -24,7 +26,6 @@ export default async function GetPlayerSummaries(props) {
           const x = data.response.players[0];
           return { ...x, account_id: accountId };
         }
-        console.log('account_id', accountId);
         return {
           account_id: accountId,
           personaname: 'unknown',
@@ -35,7 +36,7 @@ export default async function GetPlayerSummaries(props) {
       .catch((error) => { console.log(error); return null; });
     array.push(request);
   }
-  console.log('profile:', (-time + Date.now()) / 1000, 's');
+  console.log((-time + Date.now()) / 1000, 's');
   const promise = await Promise.all(array);
   const result = promise.filter((x) => x != null);
 

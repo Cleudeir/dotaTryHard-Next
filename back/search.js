@@ -11,8 +11,9 @@ export default async function Search({ id }) {
   }
 
   // Procurar partidas jogadas recentemente
+  const qnt = 10;
   const matches = await pull(
-    `/api/matches/${id}/10`,
+    `/api/matches/${id}/${qnt}`,
     {
       method: 'GET',
     },
@@ -28,7 +29,7 @@ export default async function Search({ id }) {
   //--------------------------------------------------
   // Procurar players das partidas jogadas recentemente
   const players = await pull(
-    `/api/players/${id}/10`,
+    `/api/players/${id}/${qnt}`,
     {
       method: 'GET',
     },

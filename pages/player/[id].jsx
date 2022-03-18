@@ -6,65 +6,24 @@ import player from '../../back/player';
 import style from '../../styles/Home.module.css';
 import styPlayers from '../../styles/Players.module.css';
 import Header from '../../front/Header';
+import Footer from '../../front/Footer';
 
 const SteamID = require('steamid');
 const React = require('react');
 
 export default function Home() {
   const router = useRouter();
-  const [details, setDetails] = useState(null);
-  const [status, setStatus] = useState(null);
-  const [requestDetails, setRequestDetails] = useState(null);
-  const [requestStatus, setRequestStatus] = useState(null);
+  const [useMatch, setMatch] = useState(null);
+  const [useStatus, setStatus] = useState(null);
+  const [requestData, setRequestData] = useState(null);
   const [view, setView] = useState(0);
   const [error, setError] = useState(false);
-
-  const obj = {
-    account_id: '-',
-    match_id: '-',
-    assists: '-',
-    deaths: '-',
-    denies: '-',
-    gold_per_min: '-',
-    hero_damage: '-',
-    hero_healing: '-',
-    kills: '-',
-    last_hits: '-',
-    net_worth: '-',
-    tower_damage: '-',
-    xp_per_min: '-',
-    win: '-',
-    ability_0: '-',
-    ability_1: '-',
-    ability_2: '-',
-    ability_3: '-',
-    Hero_level: '-',
-    team: '-',
-    leaver_status: 0,
-    aghanims_scepter: '-',
-    aghanims_shard: '-',
-    backpack_0: '-',
-    backpack_1: '-',
-    backpack_2: '-',
-    item_0: '-',
-    item_1: '-',
-    item_2: '-',
-    item_3: '-',
-    item_4: '-',
-    item_5: '-',
-    item_neutral: '-',
-    moonshard: '-',
-    personaname: 'undefined',
-    avatarfull: 'https://steamuserimages-a.akamaihd.net/ugc/885384897182110030/F095539864AC9E94AE5236E04C8CA7C2725BCEFF/',
-    loccountrycode: '',
-  };
 
   async function start(props) {
     console.log('start');
 
     let { accountId } = props;
-    console.log('accountId', accountId);
-    setDetails(null);
+    setMatch(null);
     setError(false);
 
     if (accountId > 1818577144) {
@@ -75,25 +34,15 @@ export default function Home() {
     }
 
     const { status, message, data } = await player({ id: accountId });
-    console.log('data', data);
+
     if (status !== 'ok') {
       setError(message);
     }
     if (data) {
-      const { dataDetailsMatch, dataDetailsStatus } = data;
-      setRequestDetails(dataDetailsMatch);
-      setRequestStatus(dataDetailsStatus);
-      const match = dataDetailsMatch[view];
-      setDetails(match);
-
-      const playersMatch = dataDetailsStatus
-        .filter((x) => x.match_id === match.match_id);
-      if (playersMatch.length < 10) {
-        for (let i = playersMatch.length; i < 10; i += 1) {
-          playersMatch.push(obj);
-        }
-      }
-      setStatus(playersMatch);
+      setRequestData(data);
+      const { match, status } = data[view];
+      setMatch(match);
+      setStatus(status);
     }
   }
 
@@ -111,32 +60,21 @@ export default function Home() {
   }
 
   function pages(props) {
-    console.log('---------');
     let value = view + props;
     if (value < 0) {
       value = 0;
-    } else if (value > requestDetails.length - 1) {
-      value = requestDetails.length - 1;
+    } else if (value > requestData.length - 1) {
+      value = requestData.length - 1;
     }
     setView(value);
 
-    const match = requestDetails[value];
-    setDetails(match);
-    const playersMatch = requestStatus
-      .filter((x) => x.match_id === match.match_id);
-    console.log(playersMatch.length);
-    if (playersMatch.length < 10) {
-      for (let i = playersMatch.length; i < 10; i += 1) {
-        console.log(obj);
-        playersMatch.push(obj);
-      }
-    }
-    setStatus(playersMatch);
+    const { match, status } = requestData[value];
+    setMatch(match);
+    setStatus(status);
   }
 
   useEffect(() => {
     const { id } = router.query;
-    console.log(id, +id > 0);
     if (id && id !== '' && +id > 0) {
       const accountId = id;
       localStorage.setItem('id', accountId);
@@ -150,24 +88,17 @@ export default function Home() {
     <div className={style.container}>
       <Header />
       <main className={style.main}>
-        {!details && !status && !error && <img width={50} style={{ marginTop: '50px' }} alt="loading" src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" />}
+        {!requestData && !error && <img width={50} style={{ marginTop: '50px' }} alt="loading" src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" />}
         {error && (
         <div>
           <h6 style={{ margin: '20px auto' }} className={style.texto}>{error}</h6>
         </div>
         )}
-
-        {details && (
+        {useStatus && useMatch && !error && (
           <div className={style.pages}>
-
-            <div style={{
-              display: 'flex',
-            }}
-            >
-              <h5 style={{
-                verticalAlign: 'center', padding: '12px', color: 'white',
-              }}
-              >PAGE {parseInt(view + 1, 10)}/{parseInt(requestDetails.length, 10)}
+            <div style={{ display: 'flex' }}>
+              <h5 style={{ verticalAlign: 'center', padding: '12px', color: 'white' }}>
+                PAGE {parseInt(view + 1, 10)}/{parseInt(requestData.length, 10)}
               </h5>
               <button type="button" className={style.myButton} onClick={() => { pages(-1); }}>
                 BACK
@@ -178,24 +109,18 @@ export default function Home() {
             </div>
             <div className={style.input} style={{ color: 'white' }}>
               <div>
-                {`Inicio ${new Date(details.start_time * 1000).toLocaleDateString('pt-BR')} 
-                ${new Date(details.start_time * 1000).toLocaleTimeString('pt-BR')}  
-               ` }
+                {`Inicio ${new Date(useMatch.start_time * 1000).toLocaleDateString('pt-BR')} 
+                ${new Date(useMatch.start_time * 1000).toLocaleTimeString('pt-BR')}` }
               </div>
               <div>
-                {`Duração ${convertHMS(details.duration)} - ${details.cluster}` }
+                {`Duração ${convertHMS(useMatch.duration)} - ${useMatch.cluster}` }
               </div>
               <div>
-                Radiant |{`${details.radiant_score}| - |${details.dire_score}| Dire               
-               ` }
+                Radiant |{`${useMatch.radiant_score}| - |${useMatch.dire_score}| Dire` }
               </div>
-
             </div>
-
             <table className={styPlayers.table}>
               <thead>
-                {status
-                && (
                 <tr>
                   <td colSpan="2">Position</td>
                   <td>Nick<br />Country-Id</td>
@@ -206,37 +131,21 @@ export default function Home() {
                   <td>Tower</td>
                   <td>Heal</td>
                 </tr>
-                )}
               </thead>
               <tbody>
-                {status
-                && status.map((data, i) => (
-                  <tr style={
-                      data.leaver_status === 0
-                        ? { color: 'white' }
-                        : { color: 'red' }
-                    }
-                  >
-                    <td style={
-                      data.win === 0
-                        ? loss
-                        : win
-                    }
-                    >{i + 1}
+                { useStatus.map((data, i) => (
+                  <tr key={data.account_id} style={data.leaver_status === 0 ? { color: 'white' } : { color: 'red' }}>
+                    <td style={data.win === 0 ? loss : win}>
+                      {i + 1}
                     </td>
                     <td style={{ paddingTop: '4px' }}>
-                      <Image width={40} height={40}
-                        src={data.avatarfull} alt={data.avatarfull}
-                      />
+                      <Image width={30} height={30} src={data.avatarfull} alt={data.avatarfull} />
                     </td>
                     <td>
                       {data.personaname.slice(0, 10)}<br />
                     </td>
                     <td>
-                      {data.kills !== '-'
-                        ? `${data.kills}/${data.deaths}/${data.assists}\n
-                      ${data.last_hits}/${data.denies}`
-                        : '-'}
+                      {data.kills !== '-' ? `${data.kills}/${data.deaths}/${data.assists}\n${data.last_hits}/${data.denies}` : '-'}
                     </td>
                     <td>
                       {data.gold_per_min.toLocaleString('pt-BR')}
@@ -257,15 +166,10 @@ export default function Home() {
                 ))}
               </tbody>
             </table>
-
           </div>
         )}
       </main>
-      <footer className={style.footer}>
-        <h6>
-          Copyright 2022 - by Avatar
-        </h6>
-      </footer>
+      <Footer />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import infos from './infos';
 
 /* eslint-disable camelcase */
-export default async function StatusPlayers(props) {
+export default async function MatchDetails(props) {
   const arrayProps = props;
   const statusAllGames = [];
 
@@ -69,7 +69,6 @@ export default async function StatusPlayers(props) {
       if (account_id === 4294967295) {
         account_id = player_slot;
       }
-
       if (!ability_upgrades || ability_upgrades.length < 1) {
         ability_upgrades = [
           { ability: -1 },
@@ -77,7 +76,6 @@ export default async function StatusPlayers(props) {
           { ability: -3 },
           { ability: -4 }];
       }
-
       const uniqueAbility = new Set();
       for (let j = 0; j < ability_upgrades.length; j += 1) {
         uniqueAbility.add(ability_upgrades[j].ability);
@@ -104,10 +102,8 @@ export default async function StatusPlayers(props) {
         aghanims_shard,
         moonshard,
       };
-
       let win = 0;
       let team = '';
-
       if (player_slot < 5) {
         team = 0;
       } else {
@@ -147,6 +143,5 @@ export default async function StatusPlayers(props) {
     }
     statusAllGames.push({ m, mp });
   }
-
   return statusAllGames;
 }

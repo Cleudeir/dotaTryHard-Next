@@ -16,7 +16,7 @@ export default async function Graph() {
       method: 'POST',
       body: JSON.stringify(
         {
-          body: 'avg', country: 0, min: 1,
+          body: 'avg', country: 0, min: 10,
         },
       ),
     },
