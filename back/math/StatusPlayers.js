@@ -142,6 +142,7 @@ export default async function StatusPlayers(props) {
         item,
         ability,
         hero_id,
+        player_slot,
       });
     }
     statusAllGames.push({ m, mp });

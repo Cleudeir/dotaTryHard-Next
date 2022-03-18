@@ -1,7 +1,10 @@
+/* eslint-disable no-nested-ternary */
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 import player from '../../back/player';
 import style from '../../styles/Home.module.css';
+import styPlayers from '../../styles/Players.module.css';
 import Header from '../../front/Header';
 
 const SteamID = require('steamid');
@@ -45,13 +48,55 @@ export default function Home() {
 
       const playersMatch = dataDetailsStatus
         .filter((x) => x.match_id === match.match_id);
+      if (playersMatch.length < 10) {
+        for (let i = playersMatch.length; i < 10; i += 1) {
+          playersMatch.push(
+            {
+              account_id: '-',
+              match_id: '-',
+              assists: '-',
+              deaths: '-',
+              denies: '-',
+              gold_per_min: '-',
+              hero_damage: '-',
+              hero_healing: '-',
+              kills: '-',
+              last_hits: '-',
+              net_worth: '-',
+              tower_damage: '-',
+              xp_per_min: '-',
+              win: '-',
+              ability_0: '-',
+              ability_1: '-',
+              ability_2: '-',
+              ability_3: '-',
+              Hero_level: '-',
+              team: '-',
+              leaver_status: 0,
+              aghanims_scepter: '-',
+              aghanims_shard: '-',
+              backpack_0: '-',
+              backpack_1: '-',
+              backpack_2: '-',
+              item_0: '-',
+              item_1: '-',
+              item_2: '-',
+              item_3: '-',
+              item_4: '-',
+              item_5: '-',
+              item_neutral: '-',
+              moonshard: -'-',
+              personaname: 'undefined',
+              avatarfull: 'https://steamuserimages-a.akamaihd.net/ugc/885384897182110030/F095539864AC9E94AE5236E04C8CA7C2725BCEFF/',
+              loccountrycode: '',
+            },
+          );
+        }
+      }
       setStatus(playersMatch);
-      console.log('match', match);
-      console.log('playersMatch', playersMatch);
-
-      // setStatus(playersMatch);
     }
   }
+
   function convertHMS(value) {
     const sec = parseInt(value, 10); // convert value to number if it's string
     let hours = Math.floor(sec / 3600); // get hours
@@ -74,13 +119,57 @@ export default function Home() {
       value = requestDetails.length - 1;
     }
     setView(value);
+
     const match = requestDetails[value];
     setDetails(match);
     const playersMatch = requestStatus
       .filter((x) => x.match_id === match.match_id);
+    if (playersMatch.length < 10) {
+      for (let i = playersMatch.length; i < 10; i += 1) {
+        playersMatch.push(
+          {
+            account_id: '-',
+            match_id: '-',
+            assists: '-',
+            deaths: '-',
+            denies: '-',
+            gold_per_min: '-',
+            hero_damage: '-',
+            hero_healing: '-',
+            kills: '-',
+            last_hits: '-',
+            net_worth: '-',
+            tower_damage: '-',
+            xp_per_min: '-',
+            win: '-',
+            ability_0: '-',
+            ability_1: '-',
+            ability_2: '-',
+            ability_3: '-',
+            Hero_level: '-',
+            team: '-',
+            leaver_status: 0,
+            aghanims_scepter: '-',
+            aghanims_shard: '-',
+            backpack_0: '-',
+            backpack_1: '-',
+            backpack_2: '-',
+            item_0: '-',
+            item_1: '-',
+            item_2: '-',
+            item_3: '-',
+            item_4: '-',
+            item_5: '-',
+            item_neutral: '-',
+            moonshard: -'-',
+            personaname: 'undefined',
+            avatarfull: 'https://steamuserimages-a.akamaihd.net/ugc/885384897182110030/F095539864AC9E94AE5236E04C8CA7C2725BCEFF/',
+            loccountrycode: '',
+          },
+        );
+      }
+    }
     setStatus(playersMatch);
-    console.log('match', match);
-    console.log('playersMatch', playersMatch);
   }
 
   useEffect(() => {
@@ -93,6 +182,8 @@ export default function Home() {
     }
   }, [router]);
 
+  const loss = { background: '#871616b8', color: 'white', width: '5px' };
+  const win = { background: '#068834', color: 'white', width: '5px' };
   return (
     <div className={style.container}>
       <Header />
@@ -106,13 +197,16 @@ export default function Home() {
 
         {details && (
           <div className={style.pages}>
-            <h5 style={{
-              verticalAlign: 'center', padding: '9px',
-            }}
-            >PAGE {parseInt(view + 1, 10)}/{parseInt(requestDetails.length, 10)}
-            </h5>
-            <div>
 
+            <div style={{
+              display: 'flex',
+            }}
+            >
+              <h5 style={{
+                verticalAlign: 'center', padding: '12px', color: 'white',
+              }}
+              >PAGE {parseInt(view + 1, 10)}/{parseInt(requestDetails.length, 10)}
+              </h5>
               <button type="button" className={style.myButton} onClick={() => { pages(-1); }}>
                 BACK
               </button>
@@ -120,45 +214,88 @@ export default function Home() {
                 NEXT
               </button>
             </div>
-            <div>
-              {
-              Object.keys(details).map((type) => {
-                if (type === 'start_time') {
-                  return (
-                    <div key={details[type]}
-                      className={style.input}
-                    >{type}:{new Date(details[type] * 1000).toLocaleDateString('pt-BR')}
-                    </div>
-                  );
-                }
-                if (type === 'duration') {
-                  return (
-                    <div key={details[type]}
-                      className={style.input}
-                    >{type}:{convertHMS(details[type])}
-                    </div>
-                  );
-                }
-                return (
-                  <div key={details[type]}
-                    className={style.input}
-                  >{type}:{details[type]}
-                  </div>
-                );
-              })
-              }
+            <div className={style.input} style={{ color: 'white' }}>
+              <div>
+                {`Inicio ${new Date(details.start_time * 1000).toLocaleDateString('pt-BR')} 
+                ${new Date(details.start_time * 1000).toLocaleTimeString('pt-BR')}  
+               ` }
+              </div>
+              <div>
+                {`Duração ${convertHMS(details.duration)} - ${details.cluster}` }
+              </div>
+              <div>
+                Radiant |{`${details.radiant_score}| - |${details.dire_score}| Dire               
+               ` }
+              </div>
+
             </div>
-            <div className={style.input}>
-              {/*
-              Object.keys(status).map((type) => {
-                if (type !== 'account_id' && type !== 'match_id') {
-                  return <div>{type}:{status[type]}</div>;
-                }
-                return '';
-              })
-              */
-              }
-            </div>
+
+            <table className={styPlayers.table}>
+              <thead>
+                {status
+                && (
+                <tr>
+                  <td colSpan="2">Position</td>
+                  <td>Nick<br />Country-Id</td>
+                  <td>K/D/A<br />L/D</td>
+                  <td>GPM</td>
+                  <td>XPM</td>
+                  <td>Hero</td>
+                  <td>Tower</td>
+                  <td>Heal</td>
+                </tr>
+                )}
+              </thead>
+              <tbody>
+                {status
+                && status.map((data, i) => (
+                  <tr style={
+                      data.leaver_status === 0
+                        ? { color: 'white' }
+                        : { color: 'red' }
+                    }
+                  >
+                    <td style={
+                      data.win === 0
+                        ? loss
+                        : win
+                    }
+                    >{i + 1}
+                    </td>
+                    <td style={{ paddingTop: '4px' }}>
+                      <Image width={40} height={40}
+                        src={data.avatarfull} alt={data.avatarfull}
+                      />
+                    </td>
+                    <td>
+                      {data.personaname.slice(0, 10)}<br />
+                    </td>
+                    <td>
+                      {data.kills !== '-'
+                        ? `${data.kills}/${data.deaths}/${data.assists}\n
+                      ${data.last_hits}/${data.denies}`
+                        : '-'}
+                    </td>
+                    <td>
+                      {data.gold_per_min.toLocaleString('pt-BR')}
+                    </td>
+                    <td>
+                      {data.xp_per_min.toLocaleString('pt-BR')}
+                    </td>
+                    <td>
+                      {data.hero_damage.toLocaleString('pt-BR')}
+                    </td>
+                    <td>
+                      {data.tower_damage.toLocaleString('pt-BR')}
+                    </td>
+                    <td>
+                      {data.hero_healing.toLocaleString('pt-BR')}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
           </div>
         )}
       </main>

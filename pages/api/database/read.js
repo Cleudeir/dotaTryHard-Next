@@ -60,17 +60,20 @@ export default async function Read(req, res) {
       const dataDetailsMatch = await queryMySql(select01);
 
       const select02 = `
-      select
-      *
-      from PLAYERS_MATCHES
+      select  * from 
+      (
+      select * from PLAYERS_MATCHES
       where match_id in(
       select match_id from
       (
       select
       account_id,match_id
       from PLAYERS_MATCHES
-      where account_id = ${accountId}) as tabe
-      ) LIMIT 0,2500;`;
+      where account_id = ${accountId}
+      ) as tabe1
+      ))as tab2 join PLAYERS on  tab2.account_id = PLAYERS.account_id 
+      order by match_id,team LIMIT 0,2500;
+      `;
       const dataDetailsStatus = await queryMySql(select02);
       res.status(200).send({ dataDetailsMatch, dataDetailsStatus });
     }

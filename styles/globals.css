@@ -13,8 +13,7 @@ a {
 * {
   box-sizing: border-box;
   padding: 0px;
-  margin: 0px;
-  color: white;
+  margin: 0px;  
 }
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: rgba(255, 255, 255, 0.527);
