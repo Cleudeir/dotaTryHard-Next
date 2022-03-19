@@ -161,7 +161,8 @@ export default function Home() {
                   <tr>
                     <td colSpan="2">Position</td>
                     <td>Nick</td>
-                    <td>K/D/A L/D</td>
+                    <td>K/D/A</td>
+                    <td>L/D</td>
                     <td>GPM</td>
                     <td>XPM</td>
                     <td>Hero</td>
@@ -182,7 +183,10 @@ export default function Home() {
                         {data.personaname.slice(0, 10)}<br />
                       </td>
                       <td>
-                        {data.kills !== '-' ? `${data.kills}/${data.deaths}/${data.assists}\n${data.last_hits}/${data.denies}` : '-'}
+                        {data.kills !== '-' ? `${data.kills}/${data.deaths}/${data.assists}` : '-'}
+                      </td>
+                      <td>
+                        {data.kills !== '-' ? `${data.last_hits}/${data.denies}` : '-'}
                       </td>
                       <td>
                         {data.gold_per_min.toLocaleString('pt-BR')}
@@ -229,27 +233,27 @@ export default function Home() {
                             {data.personaname.slice(0, 10)}<br />
                           </td>
                           <td><Image width={50} height={30}
-                            src={data.hero_id} alt={data.hero_id}
+                            src={data.hero_id} alt={data.hero_id.replace('https://cdn.datdota.com/images/ability/', '').replace('.png', '')}
                           />
                           </td>
                           <td style={{ paddingTop: '4px' }}>
                             <Image width={30} height={30}
-                              src={data.ability_0} alt={data.ability_0}
+                              src={data.ability_0} alt={data.ability_0.replace('https://cdn.datdota.com/images/ability/', '').replace('.png', '')}
                             />
                           </td>
                           <td style={{ paddingTop: '4px' }}>
                             <Image width={30} height={30}
-                              src={data.ability_1} alt={data.ability_1}
+                              src={data.ability_1} alt={data.ability_1.replace('https://cdn.datdota.com/images/ability/', '').replace('.png', '')}
                             />
                           </td>
                           <td style={{ paddingTop: '4px' }}>
                             <Image width={30} height={30}
-                              src={data.ability_2} alt={data.ability_2}
+                              src={data.ability_2} alt={data.ability_2.replace('https://cdn.datdota.com/images/ability/', '').replace('.png', '')}
                             />
                           </td>
                           <td style={{ paddingTop: '4px' }}>
                             <Image width={30} height={30}
-                              src={data.ability_3} alt={data.ability_3}
+                              src={data.ability_3} alt={data.ability_3.replace('https://cdn.datdota.com/images/ability/', '').replace('.png', '')}
                             />
                           </td>
                         </tr>
@@ -261,17 +265,16 @@ export default function Home() {
                           {i + 1}
                         </td>
                         <td style={{ paddingTop: '4px' }}>
-                          -
+                          <Image width={30} height={30}
+                            src={data.avatarfull} alt={data.avatarfull}
+                          />
                         </td>
-                        <td style={{ paddingTop: '4px' }}>
-                          -
-                        </td>
-                        <td style={{ paddingTop: '4px' }}>
-                          -
-                        </td>
-                        <td style={{ paddingTop: '4px' }}>
-                          -
-                        </td>
+                        <td style={{ paddingTop: '4px' }}>-</td>
+                        <td style={{ paddingTop: '4px' }}>-</td>
+                        <td style={{ paddingTop: '4px' }}>-</td>
+                        <td style={{ paddingTop: '4px' }}>-</td>
+                        <td style={{ paddingTop: '4px' }}>-</td>
+                        <td style={{ paddingTop: '4px' }}>-</td>
                       </tr>
                     );
                   })}

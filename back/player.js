@@ -64,7 +64,8 @@ export default async function Request({ id }) {
     item_5: '-',
     item_neutral: '-',
     moonshard: '-',
-    personaname: 'undefined',
+    player_slot: '-',
+    personaname: '-',
     avatarfull: 'https://steamuserimages-a.akamaihd.net/ugc/885384897182110030/F095539864AC9E94AE5236E04C8CA7C2725BCEFF/',
     loccountrycode: '',
   };
@@ -101,9 +102,44 @@ export default async function Request({ id }) {
     const status = dataDetailsStatus
       .filter((x) => x.match_id === match.match_id);
 
-    for (let j = status.length; j < 10; j += 1) {
-      status.push({ ...obj, account_id: j * -1 });
+    const slots = [0, 1, 2, 3, 4, 128, 129, 130, 131, 132];
+    const slotsExit = [];
+    let winRadiant;
+    let winDire;
+
+    for (let j = 0; j < status.length; j += 1) {
+      const playerSlot = status[j].player_slot;
+      const playerWin = status[j].win;
+      slotsExit.push(playerSlot);
+      if (playerSlot < 5) {
+        winRadiant = playerWin;
+      } else {
+        winDire = playerWin;
+      }
     }
+
+    const slotsDeficient = slots.filter((a1) => !slotsExit.filter((a2) => a1 === a2).length);
+    console.log('slotsDeficient', slotsDeficient);
+    for (let n = 0; n < slotsDeficient.length; n += 1) {
+      const playerSlot = slotsDeficient[n];
+      let playerTeam;
+      let win;
+      if (playerSlot < 5) {
+        playerTeam = 0;
+        win = winRadiant;
+      } else {
+        playerTeam = 1;
+        win = winDire;
+      }
+      status.push({
+        ...obj, player_slot: playerSlot, team: playerTeam, win,
+      });
+    }
+    status.sort((a, b) => {
+      if (a.player_slot < b.player_slot) return -1;
+      return a.player_slot > b.player_slot ? 1 : 0;
+    });
+
     result.push({ match, status });
   }
   console.log(result);

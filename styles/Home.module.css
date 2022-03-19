@@ -68,7 +68,7 @@
 .main .pages .headerPages{
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
 }
