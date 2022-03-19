@@ -117,7 +117,7 @@ export default function Home() {
       </>
     );
   }
-
+  console.log(itemView());
   const loss = { background: '#871616b8', color: 'white', width: '5px' };
   const win = { background: '#068834', color: 'white', width: '5px' };
   return (
