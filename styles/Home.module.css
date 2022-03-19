@@ -25,12 +25,21 @@
 }
 .main {
   height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding-top: 20px;
   color: white !important;
+}
+.main .tabelas{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
 }
 .main .input{
   border-width: 1px;
@@ -54,13 +63,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 360px;
   margin-top: 10px;
 }
 .main .pages .headerPages{
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
 }
@@ -76,8 +84,7 @@
   background-color: var(--cor02);
   border-width: 1px;
   border-style: solid;
-  border-color: var(--cor03); 
-  
+  border-color: var(--cor03);  
 }
 
 .footer a { 
@@ -88,20 +95,21 @@
 
 .table {  
   width: 98%;
-  min-width: 350px;
+  width: 350px;
   background-color: var(--cor02);
   border-collapse: collapse;
   border-color: #7ea8f8;
   color: #ffff;
   font-size:11.5px;
   margin-bottom: 20px;
-  margin-top: 5px;
+  margin-top: 20px;
 }
 
 .table td, .table th , .table tr {
   padding: 2px;
   text-align: center;
   box-shadow:  0px 0px 1px rgba(0, 0, 0, 0.8);
+  height: 40px;
 }
 .table img {
   height: 40px;
@@ -123,6 +131,7 @@
   }
   .table {
     min-width: 480px;  
+    margin: 10px;
     color: #ffff;
     font-size:14px;
   }

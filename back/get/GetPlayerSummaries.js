@@ -18,8 +18,8 @@ export default async function GetPlayerSummaries(props) {
   for (let n = 0; n < players.length; n += 1) {
     const accountId = players[n];
     const steamId = new SteamID(`[U:1:${accountId}]`).getSteamID64();
-    await sleep(60);
-    const request = await fetch(`${api.base_url}ISteamUser/GetPlayerSummaries/v0002/?key=${api.key_api}&steamids=${steamId}`)
+    await sleep(10);
+    const request = fetch(`${api.base_url}ISteamUser/GetPlayerSummaries/v0002/?key=${api.key_api}&steamids=${steamId}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.response.players.length > 0) {

@@ -20,7 +20,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [view, setView] = useState(0);
-  const [country, setCountry] = useState(1);
+  const [country, setCountry] = useState(0);
   const [range] = useState(50);
 
   async function start() {

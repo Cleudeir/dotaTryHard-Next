@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import player from '../../back/player';
 import style from '../../styles/Home.module.css';
-import styPlayers from '../../styles/Players.module.css';
 import Header from '../../front/Header';
 import Footer from '../../front/Footer';
 
@@ -82,6 +81,43 @@ export default function Home() {
     }
   }, [router]);
 
+  function itemView(data) {
+    return (
+      <>
+        <td style={{ paddingTop: '4px' }}>
+          <Image width={30} height={30}
+            src={data.item_0} alt={data.item_0}
+          />
+        </td>
+        <td style={{ paddingTop: '4px' }}>
+          <Image width={30} height={30}
+            src={data.item_1} alt={data.item_1}
+          />
+        </td>
+        <td style={{ paddingTop: '4px' }}>
+          <Image width={30} height={30}
+            src={data.item_2} alt={data.item_2}
+          />
+        </td>
+        <td style={{ paddingTop: '4px' }}>
+          <Image width={30} height={30}
+            src={data.item_3} alt={data.item_3}
+          />
+        </td>
+        <td style={{ paddingTop: '4px' }}>
+          <Image width={30} height={30}
+            src={data.item_4} alt={data.item_4}
+          />
+        </td>
+        <td style={{ paddingTop: '4px' }}>
+          <Image width={30} height={30}
+            src={data.item_5} alt={data.item_5}
+          />
+        </td>
+      </>
+    );
+  }
+
   const loss = { background: '#871616b8', color: 'white', width: '5px' };
   const win = { background: '#068834', color: 'white', width: '5px' };
   return (
@@ -119,53 +155,129 @@ export default function Home() {
                 Radiant |{`${useMatch.radiant_score}| - |${useMatch.dire_score}| Dire` }
               </div>
             </div>
-            <table className={styPlayers.table}>
-              <thead>
-                <tr>
-                  <td colSpan="2">Position</td>
-                  <td>Nick<br />Country-Id</td>
-                  <td>K/D/A<br />L/D</td>
-                  <td>GPM</td>
-                  <td>XPM</td>
-                  <td>Hero</td>
-                  <td>Tower</td>
-                  <td>Heal</td>
-                </tr>
-              </thead>
-              <tbody>
-                { useStatus.map((data, i) => (
-                  <tr key={data.account_id} style={data.leaver_status === 0 ? { color: 'white' } : { color: 'red' }}>
-                    <td style={data.win === 0 ? loss : win}>
-                      {i + 1}
-                    </td>
-                    <td style={{ paddingTop: '4px' }}>
-                      <Image width={30} height={30} src={data.avatarfull} alt={data.avatarfull} />
-                    </td>
-                    <td>
-                      {data.personaname.slice(0, 10)}<br />
-                    </td>
-                    <td>
-                      {data.kills !== '-' ? `${data.kills}/${data.deaths}/${data.assists}\n${data.last_hits}/${data.denies}` : '-'}
-                    </td>
-                    <td>
-                      {data.gold_per_min.toLocaleString('pt-BR')}
-                    </td>
-                    <td>
-                      {data.xp_per_min.toLocaleString('pt-BR')}
-                    </td>
-                    <td>
-                      {data.hero_damage.toLocaleString('pt-BR')}
-                    </td>
-                    <td>
-                      {data.tower_damage.toLocaleString('pt-BR')}
-                    </td>
-                    <td>
-                      {data.hero_healing.toLocaleString('pt-BR')}
-                    </td>
+            <div className={style.tabelas}>
+              <table className={style.table}>
+                <thead>
+                  <tr>
+                    <td colSpan="2">Position</td>
+                    <td>Nick</td>
+                    <td>K/D/A L/D</td>
+                    <td>GPM</td>
+                    <td>XPM</td>
+                    <td>Hero</td>
+                    <td>Tower</td>
+                    <td>Heal</td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  { useStatus.map((data, i) => (
+                    <tr key={data.account_id} style={data.leaver_status === 0 ? { color: 'white' } : { color: 'red' }}>
+                      <td style={data.win === 0 ? loss : win}>
+                        {i + 1}
+                      </td>
+                      <td style={{ paddingTop: '4px' }}>
+                        <Image width={30} height={30} src={data.avatarfull} alt={data.avatarfull} />
+                      </td>
+                      <td>
+                        {data.personaname.slice(0, 10)}<br />
+                      </td>
+                      <td>
+                        {data.kills !== '-' ? `${data.kills}/${data.deaths}/${data.assists}\n${data.last_hits}/${data.denies}` : '-'}
+                      </td>
+                      <td>
+                        {data.gold_per_min.toLocaleString('pt-BR')}
+                      </td>
+                      <td>
+                        {data.xp_per_min.toLocaleString('pt-BR')}
+                      </td>
+                      <td>
+                        {data.hero_damage.toLocaleString('pt-BR')}
+                      </td>
+                      <td>
+                        {data.tower_damage.toLocaleString('pt-BR')}
+                      </td>
+                      <td>
+                        {data.hero_healing.toLocaleString('pt-BR')}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <table className={style.table}>
+                <thead>
+                  <tr>
+                    <td colSpan="2">Position</td>
+                    <td>Nick</td>
+                    <td>Hero</td>
+                    <td colSpan="4">Ability</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  { useStatus.map((data, i) => {
+                    if (data.ability_0 !== '-' && data.item_0 !== '-') {
+                      return (
+                        <tr key={data.account_id} style={data.leaver_status === 0 ? { color: 'white' } : { color: 'red' }}>
+                          <td style={data.win === 0 ? loss : win}>
+                            {i + 1}
+                          </td>
+                          <td style={{ paddingTop: '4px' }}>
+                            <Image width={30} height={30}
+                              src={data.avatarfull} alt={data.avatarfull}
+                            />
+                          </td>
+                          <td>
+                            {data.personaname.slice(0, 10)}<br />
+                          </td>
+                          <td><Image width={50} height={30}
+                            src={data.hero_id} alt={data.hero_id}
+                          />
+                          </td>
+                          <td style={{ paddingTop: '4px' }}>
+                            <Image width={30} height={30}
+                              src={data.ability_0} alt={data.ability_0}
+                            />
+                          </td>
+                          <td style={{ paddingTop: '4px' }}>
+                            <Image width={30} height={30}
+                              src={data.ability_1} alt={data.ability_1}
+                            />
+                          </td>
+                          <td style={{ paddingTop: '4px' }}>
+                            <Image width={30} height={30}
+                              src={data.ability_2} alt={data.ability_2}
+                            />
+                          </td>
+                          <td style={{ paddingTop: '4px' }}>
+                            <Image width={30} height={30}
+                              src={data.ability_3} alt={data.ability_3}
+                            />
+                          </td>
+                        </tr>
+                      );
+                    }
+                    return (
+                      <tr key={data.account_id} style={data.leaver_status === 0 ? { color: 'white' } : { color: 'red' }}>
+                        <td style={data.win === 0 ? loss : win}>
+                          {i + 1}
+                        </td>
+                        <td style={{ paddingTop: '4px' }}>
+                          -
+                        </td>
+                        <td style={{ paddingTop: '4px' }}>
+                          -
+                        </td>
+                        <td style={{ paddingTop: '4px' }}>
+                          -
+                        </td>
+                        <td style={{ paddingTop: '4px' }}>
+                          -
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
       </main>

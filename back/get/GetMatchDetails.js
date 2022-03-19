@@ -13,8 +13,8 @@ export default async function GetMatchDetails(props) {
   }
   const time = Date.now();
   for (let i = 0; i < matches.length; i += 1) {
-    await sleep(60);
-    const request = await fetch(`${infoApi.base_url}/IDOTA2Match_570/GetMatchDetails/v1?match_id=${matches[i]}&key=${infoApi.key_api}`)
+    await sleep(10);
+    const request = fetch(`${infoApi.base_url}/IDOTA2Match_570/GetMatchDetails/v1?match_id=${matches[i]}&key=${infoApi.key_api}`)
       .then((response) => response.json())
       .then((data) => {
         if (data && data.result) {

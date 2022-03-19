@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 const abilityID = require('./math/ability_id.json');
+const heroId = require('./math/hero_id.json');
 
 export default async function Request({ id }) {
   async function pull(url, parameter) {
@@ -67,7 +68,7 @@ export default async function Request({ id }) {
     avatarfull: 'https://steamuserimages-a.akamaihd.net/ugc/885384897182110030/F095539864AC9E94AE5236E04C8CA7C2725BCEFF/',
     loccountrycode: '',
   };
-
+  console.log(dataDetailsStatus);
   dataDetailsStatus.forEach((x) => {
     Object.keys(abilityID).forEach((key) => {
       if (+key === +x.ability_0) {
@@ -82,6 +83,17 @@ export default async function Request({ id }) {
     });
   });
 
+  dataDetailsStatus.forEach((x) => {
+    Object.keys(heroId).forEach((key) => {
+      const name = heroId[key].name.replace('npc_dota_hero_', '').toLowerCase();
+      if (heroId[key].id === +x.hero_id) {
+        x.hero_id = `https://cdn.datdota.com/images/heroes/${name}_full.png`;
+      }
+    });
+  });
+
+  // https://cdn.datdota.com/images/heroes/primal_beast_full.png
+
   const result = [];
   for (let i = 0; i < dataDetailsMatch.length; i += 1) {
     const match = dataDetailsMatch[i];
@@ -94,6 +106,7 @@ export default async function Request({ id }) {
     }
     result.push({ match, status });
   }
+  console.log(result);
   return {
     status: 'ok',
     message: 'Tudo ocorreu bem',
