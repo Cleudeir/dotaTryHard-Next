@@ -7,10 +7,13 @@ export default async function MatchDetails(props) {
 
   for (let i = 0; i < arrayProps.length; i += 1) {
     const {
-      players, radiant_win, match_id, start_time, duration, radiant_score, dire_score,
+      game_mode, players, radiant_win, match_id, start_time, duration, radiant_score, dire_score,
     } = arrayProps[i];
     let { cluster } = arrayProps[i];
     if (!cluster) {
+      continue;
+    }
+    if (game_mode !== 18) {
       continue;
     }
 
