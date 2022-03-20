@@ -13,7 +13,8 @@ export default async function ListPlayers(props) {
     );
     return null;
   });
-  const players = [...playersSingle].filter((x) => x !== null);
+  const players = [...playersSingle];
+  const result = players.filter((x) => x > 0);
 
-  return players;
+  return result;
 }

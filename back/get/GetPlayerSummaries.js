@@ -6,7 +6,6 @@ const SteamID = require('steamid');
 export default async function GetPlayerSummaries(props) {
   console.log('profile:');
   const players = props;
-  console.log(players.length);
   const api = await Api();
   function sleep(ms) {
     return new Promise(
@@ -33,7 +32,7 @@ export default async function GetPlayerSummaries(props) {
           loccountrycode: '',
         };
       })
-      .catch((error) => { console.log(error); return null; });
+      .catch((error) => { console.log('error Profile:', error.message); return null; });
     array.push(request);
   }
   console.log((-time + Date.now()) / 1000, 's');

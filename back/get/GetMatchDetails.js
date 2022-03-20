@@ -23,7 +23,7 @@ export default async function GetMatchDetails(props) {
         return null;
       })
       .catch((error) => {
-        console.log(error.message); return null;
+        console.log('error Datails:', error.message); return null;
       });
     array.push(request);
   }

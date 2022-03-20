@@ -112,7 +112,6 @@ export default async function MatchDetails(props) {
       } else {
         team = 1;
       }
-
       if (radiant_win) {
         if (player_slot < 5) {
           win = 1;

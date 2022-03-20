@@ -28,7 +28,7 @@ export default async function Read(req, res) {
       SELECT match_id from
       (SELECT match_id, count(match_id) as qnt FROM PLAYERS_MATCHES WHERE match_id in(
       SELECT match_id from 
-      (SELECT account_id,match_id FROM PLAYERS_MATCHES WHERE account_id = ${accountId} LIMIT 0,2000)
+      (SELECT account_id,match_id FROM PLAYERS_MATCHES WHERE account_id = ${accountId} LIMIT 0,5000)
       as tabe order by match_id
       ) group by match_id having qnt = 10 order by match_id) as tba;
        `;
@@ -40,9 +40,9 @@ export default async function Read(req, res) {
       const selectPlayers = `
       SELECT account_id from (SELECT account_id,match_id FROM PLAYERS_MATCHES WHERE match_id in(
         SELECT match_id from 
-        (SELECT account_id,match_id FROM PLAYERS_MATCHES WHERE account_id = ${accountId} LIMIT 0,2000)
+        (SELECT account_id,match_id FROM PLAYERS_MATCHES WHERE account_id = ${accountId} LIMIT 0,5000)
         as tabe order by match_id
-        ) group by account_id  order by account_id) as tan LIMIT 0,2000;
+        ) group by account_id  order by account_id) as tan LIMIT 0,5000;
       `;
       const dataPlayers = await queryMySql(selectPlayers)
         .then((data) => (data.length > 0 ? data.map((x) => x.account_id) : []));
@@ -62,7 +62,7 @@ export default async function Read(req, res) {
         where account_id = ${accountId}) as tabe)
         )
         order by start_time desc 
-        LIMIT 0,500;`;
+        LIMIT 0,5000;`;
       const dataDetailsMatch = await queryMySql(select01);
 
       const select02 = `
@@ -78,7 +78,7 @@ export default async function Read(req, res) {
       where account_id = ${accountId}
       ) as tabe1
       ))as tab2 join PLAYERS on  tab2.account_id = PLAYERS.account_id 
-      order by match_id,team LIMIT 0,2500;
+      order by match_id,team LIMIT 0,5000;
       `;
       const dataDetailsStatus = await queryMySql(select02);
       res.status(200).send({ dataDetailsMatch, dataDetailsStatus });
