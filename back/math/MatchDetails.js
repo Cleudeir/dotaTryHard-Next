@@ -13,7 +13,7 @@ export default async function MatchDetails(props) {
     if (!cluster) {
       continue;
     }
-    if (game_mode !== 18) {
+    if (+game_mode !== 18) {
       continue;
     }
 
