@@ -21,7 +21,7 @@ export default async function Read(req, res) {
     return result;
   }
 
-  const n = 2000;
+  const n = 5000;
   if (connection) {
     if (body === 'exist') {
       // matches
