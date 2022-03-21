@@ -17,7 +17,7 @@ export default async function Auto(props) {
   //--------------------------------------------------
 
   // Quantidade de partida que seram buscadas
-  const qnt = 10;
+  const qnt = 20;
   // --------------------------------------
   const matches = await pull(
     `${process.env.url}/api/matches/${accountId}/${qnt}`,
