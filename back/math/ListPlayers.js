@@ -4,7 +4,7 @@ export default async function ListPlayers(props) {
     match.players.map(
       (player) => {
         if (+player.account_id === 4294967295) {
-          playersSingle.add(player.player_slot);
+          playersSingle.add(player.player_slot + 1);
         } else {
           playersSingle.add(player.account_id);
         }

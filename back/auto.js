@@ -83,14 +83,9 @@ export default async function Auto(props) {
   }
   console.log('profiles: ', profiles.length);
 
-  const { writeProfiles, writeMatches, writePlayersMatches } = await pull(`${process.env.url}/api/database/write`, {
+  const write = await pull(`${process.env.url}/api/database/write`, {
     method: 'POST',
     body: JSON.stringify({ profiles, status }),
   });
-
-  if (writeProfiles && writeMatches && writePlayersMatches) {
-    console.log('writeProfiles: ', writeProfiles.length);
-    console.log('writeMatches: ', writeMatches.length);
-    console.log('writePlayersMatches: ', writePlayersMatches.length);
-  }
+  console.log(write);
 }

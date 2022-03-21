@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 /* eslint-disable camelcase */
 import Connect from '../../../back/data/Connect';
 
@@ -13,16 +14,17 @@ export default async function Write(req, res) {
   }
   async function playersInsert(props) {
     const players = `insert into PLAYERS (
-    account_id,
-    personaname,
-    avatarfull,
-    loccountrycode) 
-    values (
-      '${props.account_id}',
-      '${props.personaname}',
-      '${props.avatarfull}',
-      '${props.loccountrycode}');`;
+      account_id,
+      personaname,
+      avatarfull,
+      loccountrycode) 
+      values (
+        '${props.account_id}',
+        '${props.personaname}',
+        '${props.avatarfull}',
+        '${props.loccountrycode}');`;
     const queryPlayers = await queryMySql(players);
+    if (!queryPlayers.affectedRows) { console.log('queryPlayers', queryPlayers); }
     return queryPlayers;
   }
   async function matchesInsert(props) {
@@ -42,9 +44,10 @@ export default async function Write(req, res) {
         ${props.duration}          
         );`;
     const queryMatches = await queryMySql(matches);
+    if (!queryMatches.affectedRows) { console.log('queryMatches', queryMatches); }
     return queryMatches;
   }
-  async function playersMatchesInsert(props) {
+  async function playersMatchesInsert(data) {
     const playersMatches = ` 
     insert into PLAYERS_MATCHES  (
     account_id,
@@ -84,44 +87,44 @@ export default async function Write(req, res) {
     hero_id,
     player_slot
     ) VALUES (
-    ${props.account_id},
-    ${props.match_id},
-    ${props.assists},    
-    ${props.deaths},
-    ${props.denies},
-    ${props.gold_per_min},
-    ${props.hero_damage},    
-    ${props.hero_healing},
-    ${props.kills},
-    ${props.last_hits},
-    ${props.net_worth},
-    ${props.tower_damage},
-    ${props.xp_per_min},
-    ${props.win},
-    ${props.ability.ability_0},
-    ${props.ability.ability_1},
-    ${props.ability.ability_2},
-    ${props.ability.ability_3},
-    ${props.level},
-    ${props.team},
-    ${props.leaver_status},
-    ${props.item.aghanims_scepter},
-    ${props.item.aghanims_shard},
-    ${props.item.backpack_0},
-    ${props.item.backpack_1},
-    ${props.item.backpack_2},
-    ${props.item.item_0},
-    ${props.item.item_1},
-    ${props.item.item_2},
-    ${props.item.item_3},
-    ${props.item.item_4},
-    ${props.item.item_5},
-    ${props.item.item_neutral},
-    ${props.item.moonshard},
-    ${props.hero_id},
-    ${props.player_slot}
-    );`;
+      '${data.account_id}',
+      '${data.match_id}',
+      '${data.assists}',    
+      '${data.deaths}',
+      '${data.denies}',
+      '${data.gold_per_min}',
+      '${data.hero_damage}',    
+      '${data.hero_healing}',
+      '${data.kills}',
+      '${data.last_hits}',
+      '${data.net_worth}',
+      '${data.tower_damage}',
+      '${data.xp_per_min}',
+      '${data.win}',
+      '${data.ability.ability_0}',
+      '${data.ability.ability_1}',
+      '${data.ability.ability_2}',
+      '${data.ability.ability_3}',
+      '${data.level}',
+      '${data.team}',
+      '${data.leaver_status}',
+      '${data.item.aghanims_scepter}',
+      '${data.item.aghanims_shard}',
+      '${data.item.backpack_0}',
+      '${data.item.backpack_1}',
+      '${data.item.backpack_2}',
+      '${data.item.item_0}',
+      '${data.item.item_1}',
+      '${data.item.item_2}',
+      '${data.item.item_3}',
+      '${data.item.item_4}',
+      '${data.item.item_5}',
+      '${data.item.item_neutral}',
+      '${data.item.moonshard}',
+      '${data.hero_id}',
+      '${data.player_slot}');`;
     const queryPlayersMatches = await queryMySql(playersMatches);
+    if (!queryPlayersMatches.affectedRows) { console.log('queryPlayersMatches', queryPlayersMatches); }
     return queryPlayersMatches;
   }
 

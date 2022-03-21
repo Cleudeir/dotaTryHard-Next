@@ -69,7 +69,7 @@ export default async function Request({ id }) {
     avatarfull: 'https://steamuserimages-a.akamaihd.net/ugc/885384897182110030/F095539864AC9E94AE5236E04C8CA7C2725BCEFF/',
     loccountrycode: '',
   };
-  console.log(dataDetailsStatus);
+  console.log(dataDetailsStatus.length);
   dataDetailsStatus.forEach((x) => {
     Object.keys(abilityID).forEach((key) => {
       if (+key === +x.ability_0) {
@@ -119,7 +119,7 @@ export default async function Request({ id }) {
     }
 
     const slotsDeficient = slots.filter((a1) => !slotsExit.filter((a2) => a1 === a2).length);
-    console.log('slotsDeficient', slotsDeficient);
+
     for (let n = 0; n < slotsDeficient.length; n += 1) {
       const playerSlot = slotsDeficient[n];
       let playerTeam;
@@ -142,7 +142,7 @@ export default async function Request({ id }) {
 
     result.push({ match, status });
   }
-  console.log(result);
+  console.log(result.length);
   return {
     status: 'ok',
     message: 'Tudo ocorreu bem',

@@ -70,7 +70,7 @@ export default async function MatchDetails(props) {
 
       let { ability_upgrades, account_id } = players[n];
       if (account_id === 4294967295) {
-        account_id = player_slot;
+        account_id = player_slot + 1;
       }
       if (!ability_upgrades || ability_upgrades.length < 1) {
         ability_upgrades = [

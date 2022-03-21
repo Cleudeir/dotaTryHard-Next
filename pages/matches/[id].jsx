@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import player from '../../back/player';
+import player from '../../back/matches';
 import style from '../../styles/Home.module.css';
 import Header from '../../front/Header';
 import Footer from '../../front/Footer';

@@ -17,7 +17,7 @@ export default async function Request({ country }) {
       ),
     },
   );
-  if (dataAvg === 0) {
+  if (!dataAvg && !dataAvgAll) {
     return {
       status: 'Error',
       message: 'INSUFFICIENT INFORMATION',

@@ -21,31 +21,31 @@ export default async function Read(req, res) {
     return result;
   }
 
+  const n = 2000;
   if (connection) {
     if (body === 'exist') {
       // matches
-      const selectMatches = `
-      SELECT match_id from
-      (SELECT match_id, count(match_id) as qnt FROM PLAYERS_MATCHES WHERE match_id in(
-      SELECT match_id from 
-      (SELECT account_id,match_id FROM PLAYERS_MATCHES WHERE account_id = ${accountId} LIMIT 0,5000)
-      as tabe order by match_id
-      ) group by match_id having qnt = 10 order by match_id) as tba;
-       `;
+      const dataMatches = [];
 
-      const dataMatches = await queryMySql(selectMatches)
-        .then((data) => (data.length > 0 ? data.map((x) => x.match_id) : []));
+      const [count01] = await queryMySql('SELECT COUNT(*) FROM MATCHES');
+      const tableNumberRows01 = +count01['COUNT(*)'];
 
+      for (let i = 0; i <= tableNumberRows01; i += n) {
+        const select = `SELECT match_id FROM MATCHES LIMIT ${i},${n};`;
+        dataMatches.push(...await queryMySql(select)
+          .then((data) => (data.length > 0 ? data.map((x) => x.match_id) : [])));
+      }
       // players
-      const selectPlayers = `
-      SELECT account_id from (SELECT account_id,match_id FROM PLAYERS_MATCHES WHERE match_id in(
-        SELECT match_id from 
-        (SELECT account_id,match_id FROM PLAYERS_MATCHES WHERE account_id = ${accountId} LIMIT 0,5000)
-        as tabe order by match_id
-        ) group by account_id  order by account_id) as tan LIMIT 0,5000;
-      `;
-      const dataPlayers = await queryMySql(selectPlayers)
-        .then((data) => (data.length > 0 ? data.map((x) => x.account_id) : []));
+      const dataPlayers = [];
+
+      const [count02] = await queryMySql('SELECT COUNT(*) FROM PLAYERS');
+      const tableNumberRows02 = +count02['COUNT(*)'];
+
+      for (let i = 0; i <= tableNumberRows02; i += n) {
+        const select = `SELECT account_id FROM PLAYERS LIMIT ${i},${n};`;
+        dataPlayers.push(...await queryMySql(select)
+          .then((data) => (data.length > 0 ? data.map((x) => x.account_id) : [])));
+      }
 
       res.status(200).send({ dataMatches, dataPlayers });
     }
@@ -105,8 +105,8 @@ export default async function Read(req, res) {
       FROM PLAYERS_MATCHES      
       GROUP BY account_id
       HAVING matches > ${min} 
-      and account_id != 0 and account_id != 1 and account_id != 2 and account_id != 3 and account_id != 4
-      and account_id != 128 and account_id != 129 and account_id != 130 and account_id != 131 and account_id != 132
+      and account_id != 5 and account_id != 1 and account_id != 2 and account_id != 3 and account_id != 4
+      and account_id != 133 and account_id != 129 and account_id != 130 and account_id != 131 and account_id != 132
       ORDER BY matches desc
       ) as tabela      
       on tabela.account_id = PLAYERS.account_id

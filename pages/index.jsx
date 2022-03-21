@@ -1,23 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
-import Request from '../back';
-import Search from '../back/search';
+import Link from 'next/link';
 import style from '../styles/Home.module.css';
 import Header from '../front/Header';
 import Footer from '../front/Footer';
 
-const SteamID = require('steamid');
 const React = require('react');
 
 export default function Home() {
   const router = useRouter();
-
-  const [id, setId] = useState(''); // 87683422
-  const [loading, setLoading] = useState(false);
-  const [view, setView] = useState(0);
+  const [id, setId] = useState(87683422); // 87683422
   const [country, setCountry] = useState(0);
-  const [range] = useState(50);
 
   useEffect(() => {
 
@@ -27,7 +20,6 @@ export default function Home() {
     <div className={style.container}>
       <Header />
       <main className={style.main}>
-        {!loading && (
         <div className={style.input}>
           <div className={style.texto}>
             <h6> SEARCH WITH YOUR ACCOUNT_ID OR STEAM_ID</h6>
@@ -47,15 +39,23 @@ export default function Home() {
 
           </div>
           <div>
-            <button className={style.myButton} style={{ cursor: 'pointer' }} onClick={() => { if (id !== '' && +id > 0) { window.location = `/ranking/${country}/${id}`; } }} type="button">
-              Ranking
-            </button>
-            <button className={style.myButton} style={{ cursor: 'pointer' }} onClick={() => { if (id !== '' && +id > 0) { window.location = `/matches/${id}`; } }} type="button">
-              Matches
-            </button>
+            <Link href={id === '' ? '/' : `/ranking/${country}/${id}`} passHref>
+              <a href="replace" className={style.myButton}>
+                Ranking
+              </a>
+            </Link>
+            <Link href={id === '' ? '/' : `/matches/${id}`} passHref>
+              <a href="replace" className={style.myButton}>
+                Matches
+              </a>
+            </Link>
+            <Link href="/graph" passHref>
+              <a href="replace" className={style.myButton}>
+                Graph
+              </a>
+            </Link>
           </div>
         </div>
-        )}
       </main>
       <Footer />
     </div>

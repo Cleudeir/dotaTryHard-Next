@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import Request from '../../back';
+import Request from '../../back/ranking';
 import Search from '../../back/search';
 import style from '../../styles/Home.module.css';
 import Header from '../../front/Header';
@@ -18,23 +18,23 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [view, setView] = useState(0);
-  const [country, setCountry] = useState(0);
   const [range] = useState(50);
 
   async function start({ id, country }) {
+    let accountID = id;
     console.log('start');
-    localStorage.setItem('id', id);
+    localStorage.setItem('id', accountID);
     setDataRank(null);
     setError(false);
     setLoading(true);
-    if (id > 1818577144) {
+    if (accountID > 1818577144) {
       const steamId = new SteamID(`${id}`);
       const unfiltered = steamId.getSteam3RenderedID();
-      const accountId = unfiltered.slice(5, 50).replace(']', '');
+      accountID = unfiltered.slice(5, 50).replace(']', '');
     }
-    localStorage.setItem('id', id);
-    Search({ id, country });
-    const { status, message, data } = await Request({ id, country });
+    localStorage.setItem('id', accountID);
+    Search({ accountID, country });
+    const { status, message, data } = await Request({ accountID, country });
     if (status !== 'ok') {
       setError(message);
       localStorage.removeItem('id');
@@ -110,7 +110,7 @@ export default function Home() {
                 >Filter:
                 </h5>
                 <input type="text" placeholder="Nick or Id" className={style.myButton} value={filter}
-                  style={{ width: '10x' }}
+                  style={{ width: '100px' }}
                   onChange={(e) => { filterText(e.target.value); }}
                 />
               </div>

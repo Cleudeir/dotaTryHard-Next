@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import Link from 'next/link';
+
 import style from '../styles/Home.module.css';
 
 const React = require('react');
@@ -16,14 +16,7 @@ export default function Header() {
       <a href="/" className={style.myButton}>
         <h3 className={style.title}>DOTA TRY HARD</h3>
       </a>
-      <header>
-        <Link href="/graph" passHref>
-          <a href="replace" className={style.myButton}>
-            Graph
-          </a>
-        </Link>
-
-      </header>
+      <header />
     </div>
   );
 }

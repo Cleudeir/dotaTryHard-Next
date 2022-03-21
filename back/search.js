@@ -1,4 +1,4 @@
-export default async function Search({ id }) {
+export default async function Search({ accountID }) {
   const time = Date.now();
   console.log('--------------------------');
   console.log('Search');
@@ -13,7 +13,7 @@ export default async function Search({ id }) {
   // Procurar partidas jogadas recentemente
   const qnt = 20;
   const matches = await pull(
-    `/api/matches/${id}/${qnt}`,
+    `/api/matches/${accountID}/${qnt}`,
     {
       method: 'GET',
     },
@@ -29,7 +29,7 @@ export default async function Search({ id }) {
   //--------------------------------------------------
   // Procurar players das partidas jogadas recentemente
   const players = await pull(
-    `/api/players/${id}/${qnt}`,
+    `/api/players/${accountID}/${qnt}`,
     {
       method: 'GET',
     },
@@ -50,7 +50,7 @@ export default async function Search({ id }) {
       method: 'POST',
       body: JSON.stringify(
         {
-          body: 'exist', accountId: id,
+          body: 'exist', accountId: accountID,
         },
       ),
     },
@@ -87,24 +87,12 @@ export default async function Search({ id }) {
   console.log('profiles: ', profiles.length);
   //--------------------------------------------------
   // escrever na data base
-  const { writeProfiles, writeMatches, writePlayersMatches } = await pull('/api/database/write', {
+  const write = await pull('/api/database/write', {
     method: 'POST',
     body: JSON.stringify({ profiles, status }),
   });
-  if (writeProfiles && writeMatches && writePlayersMatches) {
-    console.log('writeProfiles: ', writeProfiles.length);
-    console.log('writeMatches: ', writeMatches.length);
-    console.log('writePlayersMatches: ', writePlayersMatches.length);
-  }
+  console.log(write);
   //--------------------------------------------------
   console.log((-time + Date.now()) / 1000, 's');
-  return {
-    status: 'ok',
-    message: 'Tudo ocorreu bem',
-    data: `
-    writeProfiles:${writeProfiles.length}\n 
-    writeMatches:${writeMatches.length}\n 
-    writePlayersMatches:${writePlayersMatches.length}\n 
-    `,
-  };
+  return [];
 }
