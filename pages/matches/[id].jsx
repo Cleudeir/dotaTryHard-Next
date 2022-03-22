@@ -30,7 +30,7 @@ export async function getStaticProps(context) {
   const { status, message, data } = await matchesData({ accountId: id });
   return {
     props: { status, message, data }, // will be passed to the page component as props
-    revalidate: 60,
+    revalidate: 60 * 60,
   };
 }
 

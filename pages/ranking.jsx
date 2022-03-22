@@ -12,7 +12,7 @@ export async function getStaticProps() {
   const { status, message, data } = await Request({ accountID: 87683422, country: 0 });
   return {
     props: { status, message, data }, // will be passed to the page component as props
-    revalidate: 25,
+    revalidate: 25 * 60,
   };
 }
 

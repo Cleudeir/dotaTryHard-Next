@@ -14,7 +14,7 @@ export async function getStaticProps() {
   const { status, message, data } = await Graph({ accountID: 87683422, country: 0 });
   return {
     props: { status, message, data }, // will be passed to the page component as props
-    revalidate: 30,
+    revalidate: 30 * 60,
   };
 }
 
