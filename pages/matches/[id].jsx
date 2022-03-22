@@ -1,8 +1,8 @@
 /* eslint-disable no-nested-ternary */
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+
 import Image from 'next/image';
-import player from '../../back/matches';
+import matchesData from '../../back/matches';
 import style from '../../styles/Home.module.css';
 import Header from '../../front/Header';
 import Footer from '../../front/Footer';
@@ -10,31 +10,42 @@ import Footer from '../../front/Footer';
 const SteamID = require('steamid');
 const React = require('react');
 
-export default function Home() {
-  const router = useRouter();
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: 'blocking', // false or 'blocking'
+  };
+}
+
+export async function getStaticProps(context) {
+  let { id } = context.params;
+
+  if (+id > 1818577144) {
+    const steamId = new SteamID(`${id}`);
+    const unfiltered = steamId.getSteam3RenderedID();
+    const filter = unfiltered.slice(5, 50).replace(']', '');
+    id = filter;
+  }
+  console.log('id:', id);
+  const { status, message, data } = await matchesData({ accountId: id });
+  return {
+    props: { status, message, data }, // will be passed to the page component as props
+    revalidate: 60,
+  };
+}
+
+export default function Home({ status, message, data }) {
   const [useMatch, setMatch] = useState(null);
   const [useStatus, setStatus] = useState(null);
   const [requestData, setRequestData] = useState(null);
   const [view, setView] = useState(0);
   const [error, setError] = useState(false);
 
-  async function start(props) {
+  async function start() {
     console.log('start');
-
-    let { accountId } = props;
     setMatch(null);
     setError(false);
-
-    if (accountId > 1818577144) {
-      const steamId = new SteamID(`${accountId}`);
-      const unfiltered = steamId.getSteam3RenderedID();
-      const filter = unfiltered.slice(5, 50).replace(']', '');
-      accountId = filter;
-    }
-
-    const { status, message, data } = await player({ id: accountId });
-
-    if (status !== 'ok') {
+    if (status === 500) {
       setError(message);
     }
     if (data) {
@@ -73,51 +84,9 @@ export default function Home() {
   }
 
   useEffect(() => {
-    const { id } = router.query;
-    if (id && id !== '' && +id > 0) {
-      const accountId = id;
-      localStorage.setItem('id', accountId);
-      start({ accountId });
-    }
-  }, [router]);
-  /*
-  function itemView(data) {
-    return (
-      <>
-        <td style={{ paddingTop: '4px' }}>
-          <Image width={30} height={30}
-            src={data.item_0} alt={data.item_0}
-          />
-        </td>
-        <td style={{ paddingTop: '4px' }}>
-          <Image width={30} height={30}
-            src={data.item_1} alt={data.item_1}
-          />
-        </td>
-        <td style={{ paddingTop: '4px' }}>
-          <Image width={30} height={30}
-            src={data.item_2} alt={data.item_2}
-          />
-        </td>
-        <td style={{ paddingTop: '4px' }}>
-          <Image width={30} height={30}
-            src={data.item_3} alt={data.item_3}
-          />
-        </td>
-        <td style={{ paddingTop: '4px' }}>
-          <Image width={30} height={30}
-            src={data.item_4} alt={data.item_4}
-          />
-        </td>
-        <td style={{ paddingTop: '4px' }}>
-          <Image width={30} height={30}
-            src={data.item_5} alt={data.item_5}
-          />
-        </td>
-      </>
-    );
-  }
-  */
+    start();
+  }, []);
+
   const loss = { background: '#871616b8', color: 'white', width: '5px' };
   const win = { background: '#068834', color: 'white', width: '5px' };
   return (
@@ -127,7 +96,7 @@ export default function Home() {
         {!requestData && !error && <img width={50} style={{ marginTop: '50px' }} alt="loading" src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" />}
         {error && (
         <div>
-          <h6 style={{ margin: '20px auto' }} className={style.texto}>{error}</h6>
+          <h6 style={{ margin: '20px auto' }} className={style.texto}><h2>{error}</h2></h6>
         </div>
         )}
         {useStatus && useMatch && !error && (

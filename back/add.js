@@ -1,4 +1,12 @@
-export default async function Search({ accountID }) {
+export default async function Add({ accountId }) {
+  console.log(accountId);
+  if (accountId < 200) {
+    return {
+      status: 500,
+      message: 'ERROR, INSERT YOUR ACCOUNT_ID',
+      data: null,
+    };
+  }
   const time = Date.now();
   console.log('--------------------------');
   console.log('Search');
@@ -11,9 +19,9 @@ export default async function Search({ accountID }) {
   }
 
   // Procurar partidas jogadas recentemente
-  const qnt = 20;
+  const qnt = 30;
   const matches = await pull(
-    `/api/matches/${accountID}/${qnt}`,
+    `/api/matches/${accountId}/${qnt}`,
     {
       method: 'GET',
     },
@@ -29,7 +37,7 @@ export default async function Search({ accountID }) {
   //--------------------------------------------------
   // Procurar players das partidas jogadas recentemente
   const players = await pull(
-    `/api/players/${accountID}/${qnt}`,
+    `/api/players/${accountId}/${qnt}`,
     {
       method: 'GET',
     },
@@ -50,15 +58,15 @@ export default async function Search({ accountID }) {
       method: 'POST',
       body: JSON.stringify(
         {
-          body: 'exist', accountId: accountID,
+          body: 'exist', accountId,
         },
       ),
     },
   );
   if (dataMatches === undefined) {
     return {
-      status: 'Error',
-      message: 'SERVIDOR DATABASE OFFLINE, FAVOR TENTAR MAIS TARDE!',
+      status: 'ERROR',
+      message: 'OFFLINE DATABASE SERVER, PLEASE TRY LATER!',
       data: null,
     };
   }
@@ -94,5 +102,8 @@ export default async function Search({ accountID }) {
   console.log(write);
   //--------------------------------------------------
   console.log((-time + Date.now()) / 1000, 's');
-  return [];
+  return {
+    status: 'OK',
+    message: 'PLAYER ADDED SUCCESSFULLY, PLEASE WAIT 30MIN TO APPEAR IN THE RANKING',
+  };
 }

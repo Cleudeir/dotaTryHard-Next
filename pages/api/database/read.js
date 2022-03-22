@@ -26,7 +26,6 @@ export default async function Read(req, res) {
     if (body === 'exist') {
       // matches
       const dataMatches = [];
-
       const [count01] = await queryMySql('SELECT COUNT(*) FROM MATCHES');
       const tableNumberRows01 = +count01['COUNT(*)'];
 
@@ -37,7 +36,6 @@ export default async function Read(req, res) {
       }
       // players
       const dataPlayers = [];
-
       const [count02] = await queryMySql('SELECT COUNT(*) FROM PLAYERS');
       const tableNumberRows02 = +count02['COUNT(*)'];
 

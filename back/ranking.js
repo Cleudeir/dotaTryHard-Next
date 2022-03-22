@@ -9,7 +9,7 @@ export default async function Request({ country }) {
     return result;
   }
   const { dataAvg, dataAvgAll } = await pull(
-    '/api/database/read',
+    `${process.env.url}/api/database/read`,
     {
       method: 'POST',
       body: JSON.stringify(
@@ -19,7 +19,7 @@ export default async function Request({ country }) {
   );
   if (!dataAvg && !dataAvgAll) {
     return {
-      status: 'Error',
+      status: 500,
       message: 'INSUFFICIENT INFORMATION',
       data: null,
     };
@@ -35,8 +35,8 @@ export default async function Request({ country }) {
     (x, i) => { const obj = { ...x, id: (i + 1) }; return obj; },
   );
   return {
-    status: 'ok',
-    message: 'Tudo ocorreu bem',
+    status: 200,
+    message: 'ALL RIGHT',
     data: result,
   };
 }

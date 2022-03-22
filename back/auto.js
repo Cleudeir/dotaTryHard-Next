@@ -16,7 +16,7 @@ export default async function Auto(props) {
   }
   //--------------------------------------------------
 
-  // Quantidade de partida que seram buscadas
+  // Quantidade de partida que serão buscadas
   const qnt = 20;
   // --------------------------------------
   const matches = await pull(

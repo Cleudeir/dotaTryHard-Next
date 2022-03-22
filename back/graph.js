@@ -11,7 +11,7 @@ export default async function Graph() {
 
   // Media
   const { dataAvg, dataAvgAll } = await pull(
-    '/api/database/read',
+    `${process.env.url}/api/database/read`,
     {
       method: 'POST',
       body: JSON.stringify(
@@ -23,8 +23,8 @@ export default async function Graph() {
   );
   if (!dataAvg || !dataAvgAll) {
     return {
-      status: 'ok',
-      message: 'DataBase offline',
+      status: 500,
+      message: 'DATABASE OFFLINE',
       data: null,
     };
   }
@@ -42,7 +42,7 @@ export default async function Graph() {
   );
 
   return {
-    status: 'ok',
+    status: 200,
     message: 'Tudo ocorreu bem',
     data: result,
   };

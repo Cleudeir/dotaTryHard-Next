@@ -12,7 +12,7 @@
   height: 50px;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   border-width: 1px;
   border-style: solid;
@@ -20,7 +20,7 @@
   color:#FFFFFF;
 }
 .header .title{
-  margin: auto 10px;
+  margin: auto -5px 0px;
   color:#FFFFFF;
 }
 .main {
@@ -101,7 +101,7 @@
   border-collapse: collapse;
   border-color: #7ea8f8;
   color: #ffff;
-  font-size:11.5px;
+  font-size:10px;
   margin-bottom: 20px;
   margin-top: 20px;
 }
@@ -140,6 +140,21 @@
     box-shadow:  0px 0px 1px rgba(0, 0, 0, 1);
   }  
 }
+.h5Button{
+  vertical-align: center;
+  padding : 9px 9px
+}
+.divButton{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--cor03);
+  margin: 2px; 
+}
 .myButton {  
   color: #FFFFFF;
   border-radius: 0;
@@ -159,7 +174,7 @@
   text-shadow: 1px 1px 0 rgb(10 10 10 / 40%);
   vertical-align: center;
   text-align: center;
-  margin: 5px;
+  margin: 2px;
 }
 .myButton:hover {
 	background:linear-gradient(to bottom, #415989 5%, #2e466e 100%);

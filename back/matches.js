@@ -2,7 +2,15 @@
 const abilityID = require('./math/ability_id.json');
 const heroId = require('./math/hero_id.json');
 
-export default async function Request({ id }) {
+export default async function MatchesData({ accountId }) {
+  if (accountId === '' || !accountId) {
+    return {
+      status: 500,
+      message: 'ERROR, INSERT YOUR ACCOUNT_ID',
+      data: null,
+    };
+  }
+  console.log('matches', accountId);
   async function pull(url, parameter) {
     const result = await fetch(url, parameter)
       .then((resp) => resp.json())
@@ -13,20 +21,20 @@ export default async function Request({ id }) {
 
   // procurar dados salvos database
   const { dataDetailsMatch, dataDetailsStatus } = await pull(
-    '/api/database/read',
+    `${process.env.url}/api/database/read`,
     {
       method: 'POST',
       body: JSON.stringify(
         {
-          body: 'details', accountId: id,
+          body: 'details', accountId,
         },
       ),
     },
   );
   if (dataDetailsMatch === undefined) {
     return {
-      status: 'Error',
-      message: 'SERVIDOR DATABASE OFFLINE, FAVOR TENTAR MAIS TARDE!',
+      status: 500,
+      message: 'OFFLINE DATABASE SERVER, PLEASE TRY LATER!',
       data: null,
     };
   }
@@ -142,10 +150,17 @@ export default async function Request({ id }) {
 
     result.push({ match, status });
   }
-  console.log(result.length);
+  console.log();
+  if (result.length > 0) {
+    return {
+      status: 200,
+      message: 'ALL RIGHT',
+      data: result,
+    };
+  }
   return {
-    status: 'ok',
-    message: 'Tudo ocorreu bem',
-    data: result,
+    status: 500,
+    message: 'ACCOUNT_ID NOT FOUND',
+    data: null,
   };
 }

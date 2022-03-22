@@ -9,8 +9,18 @@ import style from '../styles/Home.module.css';
 import Header from '../front/Header';
 import Footer from '../front/Footer';
 
-export default function Home() {
+export async function getStaticProps() {
+  console.log('getStatic');
+  const { status, message, data } = await Graph({ accountID: 87683422, country: 0 });
+  return {
+    props: { status, message, data }, // will be passed to the page component as props
+    revalidate: 30,
+  };
+}
+
+export default function Home({ status, message, data }) {
   const [graph, setGraph] = useState(null);
+  const [useError, setError] = useState(false);
 
   async function start() {
     ChartJS.register(
@@ -24,7 +34,9 @@ export default function Home() {
       Filler,
     );
     console.log('start');
-    const { data } = await Graph(87683422);
+    if (status === 500) {
+      setError(message);
+    }
     if (data) {
       const rankedY = [];
       const rankedX = [];
@@ -67,7 +79,8 @@ export default function Home() {
     <div className={style.container}>
       <Header id="" />
       <main className={style.main}>
-        {!graph && <img width={50} style={{ marginTop: '50px' }} alt="loading" src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" />}
+        {!graph && !useError && <img width={50} style={{ marginTop: '50px' }} alt="loading" src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" />}
+        {useError && <h5 style={{ marginTop: '50px' }}>{useError}</h5> }
         {graph && (
         <div>
           <Line
