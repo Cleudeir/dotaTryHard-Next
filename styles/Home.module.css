@@ -128,7 +128,8 @@
     width: 470px;    
   }
   .main .pages .headerPages{
-    flex-wrap: nowrap;   
+    flex-wrap: nowrap;
+    width: 480px; 
   }
   .table {
     min-width: 470px;  
