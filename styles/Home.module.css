@@ -96,7 +96,7 @@
 
 .table {  
   width: 98%;
-  width: 350px;
+  width: 355px;
   background-color: var(--cor02);
   border-collapse: collapse;
   border-color: #7ea8f8;
@@ -122,14 +122,14 @@
 
 @media (min-width: 480px) {
   .main .input{    
-    width: 470px;    
+    width: 475px;    
   }
   .main .pages .headerPages{
     flex-wrap: nowrap;
-    width: 480px; 
+    width: 475px; 
   }
   .table {
-    min-width: 470px;  
+    width: 475px;   
     margin: 10px;
     color: #ffff;
     font-size:14px;

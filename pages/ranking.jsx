@@ -39,7 +39,6 @@ export default function Home({ status, message, data }) {
     }
     if (data) {
       setData(data);
-      setCountryData(data);
       let result = [];
       if (country !== 0) {
         for (let i = 0; i < data.length; i += 1) {
@@ -53,6 +52,7 @@ export default function Home({ status, message, data }) {
       } else {
         result = data;
       }
+      setCountryData(result);
       setRank(result.slice(useView, useView + useRange));
     }
   }, [data]);
@@ -109,7 +109,6 @@ export default function Home({ status, message, data }) {
       setRank(useCountryData.slice(useView, useView + useRange));
     }
   }
-
   return (
     <div className={style.container}>
       <Header />
@@ -138,7 +137,7 @@ export default function Home({ status, message, data }) {
                   Filter
                 </h5>
                 <input type="text" placeholder="Nick or Id" className={style.myButton} value={filter}
-                  style={{ width: '120px' }}
+                  style={window.innerWidth < 480 ? { width: '120px' } : { width: '170px' }}
                   onChange={(e) => { filterText(e.target.value); }}
                 />
               </div>
