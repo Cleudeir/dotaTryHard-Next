@@ -164,10 +164,13 @@ export default function Home({ status, message, data }) {
               <thead>
                 <tr>
                   <td colSpan="2">Position</td>
-                  <td>Nick<br />Country-Id</td>
-                  <td>K/D/A<br />L/D</td>
-                  <td>GPM<br />XPM</td>
-                  <td>Hero<br />Tower<br />Heal</td>
+                  <td>Nick</td>
+                  <td>K/D/A <br /> L/D</td>
+                  <td>GPM</td>
+                  <td>XPM</td>
+                  <td>Hero</td>
+                  <td>Tower</td>
+                  <td>Heal</td>
                   <td>Rate</td>
                   <td>Rank</td>
                 </tr>
@@ -177,26 +180,30 @@ export default function Home({ status, message, data }) {
                   <tr key={data.account_id}>
                     <td>{data.id}</td>
                     <td style={{ paddingTop: '4px' }}>
-                      <Image width={40} height={40}
+                      <Image width={35} height={35}
                         src={data.avatarfull} alt={data.avatarfull}
                       />
                     </td>
-                    <td>
+                    <td style={{ padding: '0px' }}>
                       {data.personaname.slice(0, 10)}<br />
-                      {data.loccountrycode === '' ? '' : `${data.loccountrycode}-`}{data.account_id}
                     </td>
                     <td>
-                      {data.kills}/{data.deaths}/{data.assists}<br />
-                      {data.last_hits}/{data.denies}
+                      {data.kills}/{data.deaths}/{data.assists}<br />{data.last_hits}/{data.denies}
                     </td>
                     <td>
-                      {data.gold_per_min.toLocaleString('pt-BR')}<br />
+                      {data.gold_per_min.toLocaleString('pt-BR')}
+                    </td>
+                    <td>
                       {data.xp_per_min.toLocaleString('pt-BR')}
                     </td>
                     <td>
-                      {data.hero_damage.toLocaleString('pt-BR')}<br />
-                      {data.tower_damage.toLocaleString('pt-BR')}<br />
-                      {data.hero_healing.toLocaleString('pt-BR')}
+                      {(data.hero_damage / 1000).toFixed(0)}K
+                    </td>
+                    <td>
+                      {(data.tower_damage / 1000).toFixed(1)}K
+                    </td>
+                    <td>
+                      {((data.hero_healing / 1000)) > 1 ? `${(data.hero_healing / 1000).toFixed(1)}K ` : data.hero_healing}
                     </td>
                     <td>
                       {data.winRate}%
