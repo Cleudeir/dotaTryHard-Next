@@ -10,6 +10,12 @@ import Footer from '../../front/Footer';
 const SteamID = require('steamid');
 const React = require('react');
 
+function sleep(ms) {
+  return new Promise(
+    (resolve) => setTimeout(resolve, ms),
+  );
+}
+
 export async function getStaticPaths() {
   return {
     paths: [],
@@ -27,7 +33,14 @@ export async function getStaticProps(context) {
     id = filter;
   }
   console.log('id:', id);
-  const { status, message, data } = await matchesData({ accountId: id });
+  console.log('getStatic');
+  let req = await matchesData({ accountId: id });
+  while (req.status !== 200) {
+    await sleep(60 * 1000);
+    console.log('Buscando...');
+    req = await matchesData({ accountId: id });
+  }
+  const { status, message, data } = req;
   return {
     props: { status, message, data }, // will be passed to the page component as props
     revalidate: 60 * 60,

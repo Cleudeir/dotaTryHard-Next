@@ -7,9 +7,21 @@ import Footer from '../front/Footer';
 
 const React = require('react');
 
+function sleep(ms) {
+  return new Promise(
+    (resolve) => setTimeout(resolve, ms),
+  );
+}
+
 export async function getStaticProps() {
   console.log('getStatic');
-  const { status, message, data } = await Request({ accountID: 87683422, country: 0 });
+  let req = await Request({ accountID: 87683422, country: 0 });
+  while (req.status !== 200) {
+    await sleep(60 * 1000);
+    console.log('Buscando...');
+    req = await Request({ accountID: 87683422, country: 0 });
+  }
+  const { status, message, data } = req;
   return {
     props: { status, message, data }, // will be passed to the page component as props
     revalidate: 25 * 60,
@@ -127,7 +139,7 @@ export default function Home({ status, message, data }) {
                 >
                   <option value={0}>World</option>
                   <option value={1}>South America</option>
-                  <option value={2}>Norte America</option>
+                  <option value={2}>North America</option>
                   <option value={3}>Europe</option>
                 </select>
 

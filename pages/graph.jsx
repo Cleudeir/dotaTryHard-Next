@@ -9,9 +9,21 @@ import style from '../styles/Home.module.css';
 import Header from '../front/Header';
 import Footer from '../front/Footer';
 
+function sleep(ms) {
+  return new Promise(
+    (resolve) => setTimeout(resolve, ms),
+  );
+}
+
 export async function getStaticProps() {
   console.log('getStatic');
-  const { status, message, data } = await Graph({ accountID: 87683422, country: 0 });
+  let req = await Graph({ accountID: 87683422, country: 0 });
+  while (req.status !== 200) {
+    await sleep(60 * 1000);
+    console.log('Buscando...');
+    req = await Graph({ accountID: 87683422, country: 0 });
+  }
+  const { status, message, data } = req;
   return {
     props: { status, message, data }, // will be passed to the page component as props
     revalidate: 30 * 60,
