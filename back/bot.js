@@ -1,6 +1,6 @@
 import Ranking from './math/Ranking';
 
-export default async function Bot() {
+export default async function Bot({ country, min }) {
   console.log('--------------------------');
   console.log('bot');
   async function pull(url, parameter) {
@@ -18,7 +18,7 @@ export default async function Bot() {
       method: 'POST',
       body: JSON.stringify(
         {
-          body: 'avg', country: 0, min: 1,
+          body: 'avg', country, min,
         },
       ),
     },
