@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
+
 import Request from '../back/ranking';
 import style from '../styles/Home.module.css';
 import Header from '../front/Header';
 import Footer from '../front/Footer';
+import TableRanking from '../front/TableRanking';
 
 const React = require('react');
 
@@ -142,7 +143,6 @@ export default function Home({ status, message, data }) {
                   <option value={2}>North America</option>
                   <option value={3}>Europe</option>
                 </select>
-
               </div>
               <div className={style.divButton}>
                 <h5 className={style.h5Button}>
@@ -169,63 +169,8 @@ export default function Home({ status, message, data }) {
                 </div>
               </div>
               )}
-
             </div>
-            <table className={style.table}>
-              <thead>
-                <tr>
-                  <td colSpan="2">Position</td>
-                  <td>Nick</td>
-                  <td>K/D/A <br /> L/D</td>
-                  <td>GPM</td>
-                  <td>XPM</td>
-                  <td>Hero</td>
-                  <td>Tower</td>
-                  <td>Heal</td>
-                  <td>Rate</td>
-                  <td>Rank</td>
-                </tr>
-              </thead>
-              <tbody>
-                {useRank && useRank.map((data) => (
-                  <tr key={data.account_id}>
-                    <td>{data.id}</td>
-                    <td style={{ paddingTop: '4px' }}>
-                      <Image width={35} height={35}
-                        src={data.avatarfull} alt={data.avatarfull}
-                      />
-                    </td>
-                    <td style={{ padding: '0px' }}>
-                      {data.personaname.slice(0, 10)}<br />
-                    </td>
-                    <td>
-                      {data.kills}/{data.deaths}/{data.assists}<br />{data.last_hits}/{data.denies}
-                    </td>
-                    <td>
-                      {data.gold_per_min.toLocaleString('pt-BR')}
-                    </td>
-                    <td>
-                      {data.xp_per_min.toLocaleString('pt-BR')}
-                    </td>
-                    <td>
-                      {(data.hero_damage / 1000).toFixed(0)}K
-                    </td>
-                    <td>
-                      {(data.tower_damage / 1000).toFixed(1)}K
-                    </td>
-                    <td>
-                      {((data.hero_healing / 1000)) > 1 ? `${(data.hero_healing / 1000).toFixed(1)}K ` : data.hero_healing}
-                    </td>
-                    <td>
-                      {data.winRate}%
-                    </td>
-                    <td>
-                      {data.ranking.toLocaleString('pt-BR')}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            { useRank && <TableRanking useRank={useRank} />}
           </div>
         )}
       </main>
