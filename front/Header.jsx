@@ -30,11 +30,12 @@ export default function Header() {
             Ranking
           </a>
         </Link>
-        <Link href="/matches" passHref>
+        {/* <Link href="/matches" passHref>
           <a href="replace" className={style.myButton}>
             Matches
           </a>
         </Link>
+        */}
         <Link href="/graph" passHref>
           <a href="replace" className={style.myButton}>
             Graph

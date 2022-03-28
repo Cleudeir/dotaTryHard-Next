@@ -17,7 +17,12 @@ function sleep(ms) {
 export async function getStaticProps() {
   console.log('getStatic');
   let req = await Request({ accountID: 87683422, country: 0 });
+  let count = 0;
   while (req.status !== 200) {
+    if (count === 7) {
+      break;
+    }
+    count += 1;
     await sleep(60 * 1000);
     console.log('Buscando...');
     req = await Request({ accountID: 87683422, country: 0 });

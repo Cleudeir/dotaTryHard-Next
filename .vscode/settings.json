@@ -92,6 +92,7 @@
         "pangolier",
         "Pangolier",
         "pers",
+        "personaname",
         "platemail",
         "pudge",
         "Pudge",
@@ -115,6 +116,7 @@
         "Snapfire",
         "sobi",
         "steamcdn",
+        "steamid",
         "steamuserimages",
         "stormcrafter",
         "sven",
@@ -144,5 +146,6 @@
         "windrunner",
         "yasha",
         "zuus"
-    ]
+    ],
+    "cSpell.language": "en,pt,pt-BR"
 }
