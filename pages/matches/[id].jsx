@@ -37,10 +37,11 @@ export async function getStaticProps(context) {
   let req = await matchesData({ accountId: id });
   let count = 0;
   while (req.status !== 200) {
-    if (count === 7) {
+    if (count === 5) {
       break;
     }
     count += 1;
+    console.log(count);
     await sleep(1000);
     console.log('Buscando...');
     req = await matchesData({ accountId: id });

@@ -20,11 +20,12 @@ export async function getStaticProps() {
   let req = await Graph({ accountID: 87683422, country: 0 });
   let count = 0;
   while (req.status !== 200) {
-    if (count === 7) {
+    if (count === 5) {
       break;
     }
     count += 1;
-    await sleep(60 * 1000);
+    console.log(count);
+    await sleep(1000);
     console.log('Buscando...');
     req = await Graph({ accountID: 87683422, country: 0 });
   }
