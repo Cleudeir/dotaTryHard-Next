@@ -104,6 +104,6 @@ export default async function Add({ accountId }) {
   console.log((-time + Date.now()) / 1000, 's');
   return {
     status: 'OK',
-    message: 'PLAYER ADDED SUCCESSFULLY, PLEASE WAIT 30MIN TO APPEAR IN THE RANKING',
+    message: 'SUCCESSFULLY, PLEASE WAIT 30MIN TO APPEAR IN THE RANKING',
   };
 }
