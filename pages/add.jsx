@@ -34,6 +34,9 @@ export default function Home() {
             <button type="button" className={style.myButton} onClick={() => { console.log('click', useId); add({ id: useId }); }}>
               add player
             </button>
+            <button type="button" className={style.myButton} onClick={() => { console.log('click', useId); add({ id: useId }); }}>
+              Atualizar
+            </button>
           </div>
         </div>
         {!useMessage && !useWait && <img width={50} style={{ marginTop: '50px' }} alt="loading" src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" />}

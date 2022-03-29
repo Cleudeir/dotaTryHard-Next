@@ -22,7 +22,7 @@ export default function Header() {
       <div>
         <Link href="/add" passHref>
           <a href="replace" className={style.myButton}>
-            add player
+            add/update
           </a>
         </Link>
         {/* <Link href="/ranking/" passHref>
