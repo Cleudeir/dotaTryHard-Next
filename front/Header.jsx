@@ -25,12 +25,12 @@ export default function Header() {
             add player
           </a>
         </Link>
-        <Link href="/ranking/" passHref>
+        {/* <Link href="/ranking/" passHref>
           <a href="replace" className={style.myButton}>
             Ranking
           </a>
         </Link>
-        {/* <Link href="/matches" passHref>
+        <Link href="/matches" passHref>
           <a href="replace" className={style.myButton}>
             Matches
           </a>
