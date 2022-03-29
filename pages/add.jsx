@@ -32,10 +32,10 @@ export default function Home() {
               onChange={(e) => { console.log(e.target.value); setId(e.target.value); }}
             />
             <button type="button" className={style.myButton} onClick={() => { console.log('click', useId); add({ id: useId }); }}>
-              add player
+              add
             </button>
             <button type="button" className={style.myButton} onClick={() => { console.log('click', useId); add({ id: useId }); }}>
-              Atualizar
+              update
             </button>
           </div>
         </div>
