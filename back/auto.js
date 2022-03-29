@@ -5,8 +5,6 @@ export default async function Auto(props) {
   if (!accountId) {
     return null;
   }
-  console.log('--------------------------');
-  console.log('Auto request', accountId);
   async function pull(url, parameter) {
     const result = await fetch(url, parameter)
       .then((resp) => resp.json())
@@ -14,10 +12,8 @@ export default async function Auto(props) {
       .catch((err) => { console.log(err.message); return []; });
     return result;
   }
-  //--------------------------------------------------
-
   // Quantidade de partida que serão buscadas
-  const qnt = 15;
+  const qnt = 10;
   // --------------------------------------
   const matches = await pull(
     `${process.env.url}/api/matches/${accountId}/${qnt}`,
@@ -28,8 +24,6 @@ export default async function Auto(props) {
   if (!matches.data) {
     return null;
   }
-  console.log('matches: ', matches.data.length);
-
   const players = await pull(
     `${process.env.url}/api/players/${accountId}/${qnt}`,
     {
@@ -37,10 +31,8 @@ export default async function Auto(props) {
     },
   );
   if (!players.data) {
-    console.log('Error :', players.message); return null;
+    return null;
   }
-  console.log('players: ', players.data.length);
-
   const { dataMatches, dataPlayers } = await pull(
     `${process.env.url}/api/database/read`,
     {
@@ -53,39 +45,35 @@ export default async function Auto(props) {
     },
   );
   if (dataMatches === undefined) {
-    console.log('Error :', dataMatches); return null;
+    return null;
   }
-  //--------------------------------------------------
-  console.log('dataPlayers', dataPlayers.length);
-  console.log('dataMatches: ', dataMatches.length);
   //--------------------------------------------------
   // filtrar existentes
   const newMatches = matches.data.filter((x) => !dataMatches.includes(x));
-  console.log('newMatches: ', newMatches.length);
+
   const newPlayers = players.data.filter((x) => !dataPlayers.includes(x));
-  console.log('newPlayers: ', newPlayers.length);
 
   const status = await pull(`${process.env.url}/api/status`, {
     method: 'POST',
     body: JSON.stringify(newMatches),
   });
   if (!status) {
-    console.log('Error : Status'); return null;
+    return null;
   }
-  console.log('status: ', status.length);
-
   const profiles = await pull(`${process.env.url}/api/profiles`, {
     method: 'POST',
     body: JSON.stringify(newPlayers),
   });
   if (!profiles) {
-    console.log('Error : Status'); return null;
+    return null;
   }
-  console.log('profiles: ', profiles.length);
-
   const write = await pull(`${process.env.url}/api/database/write`, {
     method: 'POST',
     body: JSON.stringify({ profiles, status }),
   });
-  console.log(write);
+  return {
+    status: 200,
+    message: 'ok',
+    data: write,
+  };
 }
