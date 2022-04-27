@@ -176,7 +176,7 @@ export default function Home({ status, message, data }) {
               </div>
               )}
             </div>
-            { useRank && <TableRanking useRank={useRank} />}
+            { useRank && <TableRanking useRank={useRank} setRank={setRank} />}
           </div>
         )}
       </main>

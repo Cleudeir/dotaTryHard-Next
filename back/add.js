@@ -9,7 +9,7 @@ export default async function Add({ accountId }) {
   }
   const time = Date.now();
   console.log('--------------------------');
-  console.log('Search');
+  console.log('Add');
   async function pull(url, parameter) {
     const result = await fetch(url, parameter)
       .then((resp) => resp.json())
@@ -21,7 +21,7 @@ export default async function Add({ accountId }) {
   // Procurar partidas jogadas recentemente
   const qnt = 30;
   const matches = await pull(
-    `/api/matches/${accountId}/${qnt}`,
+    `${process.env.url}/api/matches/${accountId}/${qnt}`,
     {
       method: 'GET',
     },
@@ -37,7 +37,7 @@ export default async function Add({ accountId }) {
   //--------------------------------------------------
   // Procurar players das partidas jogadas recentemente
   const players = await pull(
-    `/api/players/${accountId}/${qnt}`,
+    `${process.env.url}/api/players/${accountId}/${qnt}`,
     {
       method: 'GET',
     },
@@ -53,7 +53,7 @@ export default async function Add({ accountId }) {
   //--------------------------------------------------
   // procurar dados salvos database
   const { dataMatches, dataPlayers } = await pull(
-    '/api/database/read',
+    `${process.env.url}/api/database/read`,
     {
       method: 'POST',
       body: JSON.stringify(
@@ -81,27 +81,28 @@ export default async function Add({ accountId }) {
   console.log('newPlayers: ', newPlayers.length);
   //--------------------------------------------------
   // Procurar status de cada partida
-  const status = await pull('/api/status', {
+  const status = await pull(`${process.env.url}/api/status`, {
     method: 'POST',
     body: JSON.stringify(newMatches),
   });
   console.log('status: ', status.length);
   //--------------------------------------------------
   // Procurar informações do perfil
-  const profiles = await pull('/api/profiles', {
+  const profiles = await pull(`${process.env.url}/api/profiles`, {
     method: 'POST',
     body: JSON.stringify(newPlayers),
   });
   console.log('profiles: ', profiles.length);
   //--------------------------------------------------
   // escrever na data base
-  const write = await pull('/api/database/write', {
+  const write = await pull(`${process.env.url}/api/database/write`, {
     method: 'POST',
     body: JSON.stringify({ profiles, status }),
   });
   console.log(write);
   //--------------------------------------------------
   console.log((-time + Date.now()) / 1000, 's');
+  console.log('--------------------------');
   return {
     status: 'OK',
     message: 'SUCCESSFULLY, PLEASE WAIT 30MIN TO APPEAR IN THE RANKING',

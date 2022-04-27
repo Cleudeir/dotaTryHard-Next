@@ -2,7 +2,7 @@ import style from '../styles/Home.module.css';
 
 const React = require('react');
 
-export default function TableRanking({ useRank }) {
+export default function TableRanking({ useRank, setRank }) {
   return (
     <table className={style.table}>
       <thead>
@@ -24,14 +24,14 @@ export default function TableRanking({ useRank }) {
           <tr key={data.account_id}>
             <td>{data.id}</td>
             <td style={{ paddingTop: '4px' }}>
-              <a href={`/matches/${data.account_id}`}>
+              <a href={`/matches/${data.account_id}`} onClick={() => { setRank(null); }}>
                 <img width={35} height={35}
                   src={data.avatarfull} alt={data.avatarfull}
                 />
               </a>
             </td>
             <td style={{ padding: '0px' }}>
-              <a href={`/matches/${data.account_id}`}>
+              <a href={`/matches/${data.account_id}`} onClick={() => { setRank(null); }}>
                 {data.personaname.slice(0, 10)}<br />
               </a>
             </td>

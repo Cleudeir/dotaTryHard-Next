@@ -4,6 +4,7 @@ import matchesData from '../../back/matches';
 import style from '../../styles/Home.module.css';
 import Header from '../../front/Header';
 import Footer from '../../front/Footer';
+import Add from '../../back/add';
 
 const SteamID = require('steamid');
 const React = require('react');
@@ -32,6 +33,7 @@ export async function getStaticProps(context) {
   }
   console.log('id:', id);
   console.log('getStatic');
+  const a = await Add({ accountId: id, country: 0 });
   let req = await matchesData({ accountId: id });
   let count = 0;
   while (req.status !== 200) {
@@ -44,18 +46,22 @@ export async function getStaticProps(context) {
     console.log('Buscando...');
     req = await matchesData({ accountId: id });
   }
+
   const { status, message, data } = req;
   return {
     props: {
       status,
       message,
       data: data.slice(0, 20),
+      id,
     }, // will be passed to the page component as props
     revalidate: 60 * 60,
   };
 }
 
-export default function Home({ status, message, data }) {
+export default function Home({
+  status, message, data,
+}) {
   const [useMatch, setMatch] = useState(null);
   const [useStatus, setStatus] = useState(null);
   const [requestData, setRequestData] = useState(null);
