@@ -1,7 +1,5 @@
 /* eslint-disable no-nested-ternary */
 import { useEffect, useState } from 'react';
-
-import Image from 'next/image';
 import matchesData from '../../back/matches';
 import style from '../../styles/Home.module.css';
 import Header from '../../front/Header';
@@ -48,7 +46,11 @@ export async function getStaticProps(context) {
   }
   const { status, message, data } = req;
   return {
-    props: { status, message, data }, // will be passed to the page component as props
+    props: {
+      status,
+      message,
+      data: data.slice(0, 20),
+    }, // will be passed to the page component as props
     revalidate: 60 * 60,
   };
 }
@@ -165,7 +167,7 @@ export default function Home({ status, message, data }) {
                         {i + 1}
                       </td>
                       <td style={{ paddingTop: '4px' }}>
-                        <Image width={30} height={30} src={data.avatarfull} alt={data.avatarfull} />
+                        <img width={30} height={30} src={data.avatarfull} alt={data.avatarfull} />
                       </td>
                       <td>
                         {data.personaname.slice(0, 10)}<br />
@@ -213,35 +215,35 @@ export default function Home({ status, message, data }) {
                             {i + 1}
                           </td>
                           <td style={{ paddingTop: '4px' }}>
-                            <Image width={30} height={30}
+                            <img width={30} height={30}
                               src={data.avatarfull} alt={data.avatarfull}
                             />
                           </td>
                           <td>
                             {data.personaname.slice(0, 10)}<br />
                           </td>
-                          <td><Image width={50} height={30}
-                            src={data.hero_id} alt={data.hero_id.replace('https://cdn.datdota.com/images/ability/', '').replace('.png', '')}
+                          <td><img width={50} height={30}
+                            src={data.hero_id} alt={data.hero_id.slice(0, 0)}
                           />
                           </td>
                           <td style={{ paddingTop: '4px' }}>
-                            <Image width={30} height={30}
-                              src={data.ability_0} alt={data.ability_0.replace('https://cdn.datdota.com/images/ability/', '').replace('.png', '')}
+                            <img width={30} height={30}
+                              src={data.ability_0} alt={data.ability_0.slice(0, 0)}
                             />
                           </td>
                           <td style={{ paddingTop: '4px' }}>
-                            <Image width={30} height={30}
-                              src={data.ability_1} alt={data.ability_1.replace('https://cdn.datdota.com/images/ability/', '').replace('.png', '')}
+                            <img width={30} height={30}
+                              src={data.ability_1} alt={data.ability_1.slice(0, 0)}
                             />
                           </td>
                           <td style={{ paddingTop: '4px' }}>
-                            <Image width={30} height={30}
-                              src={data.ability_2} alt={data.ability_2.replace('https://cdn.datdota.com/images/ability/', '').replace('.png', '')}
+                            <img width={30} height={30}
+                              src={data.ability_2} alt={data.ability_2.slice(0, 0)}
                             />
                           </td>
                           <td style={{ paddingTop: '4px' }}>
-                            <Image width={30} height={30}
-                              src={data.ability_3} alt={data.ability_3.replace('https://cdn.datdota.com/images/ability/', '').replace('.png', '')}
+                            <img width={30} height={30}
+                              src={data.ability_3} alt={data.ability_3.slice(0, 0)}
                             />
                           </td>
                         </tr>
@@ -253,7 +255,7 @@ export default function Home({ status, message, data }) {
                           {i + 1}
                         </td>
                         <td style={{ paddingTop: '4px' }}>
-                          <Image width={30} height={30}
+                          <img width={30} height={30}
                             src={data.avatarfull} alt={data.avatarfull}
                           />
                         </td>

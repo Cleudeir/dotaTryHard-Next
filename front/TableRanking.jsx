@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import style from '../styles/Home.module.css';
 
 const React = require('react');
@@ -26,7 +25,7 @@ export default function TableRanking({ useRank }) {
             <td>{data.id}</td>
             <td style={{ paddingTop: '4px' }}>
               <a href={`/matches/${data.account_id}`}>
-                <Image width={35} height={35}
+                <img width={35} height={35}
                   src={data.avatarfull} alt={data.avatarfull}
                 />
               </a>
@@ -60,7 +59,6 @@ export default function TableRanking({ useRank }) {
             <td>
               {data.ranking.toLocaleString('pt-BR')}
             </td>
-
           </tr>
         ))}
       </tbody>
