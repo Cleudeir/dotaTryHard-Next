@@ -33,7 +33,7 @@ export async function getStaticProps(context) {
   }
   console.log('id:', id);
   console.log('getStatic');
-  const a = await Add({ accountId: id, country: 0 });
+  await Add({ accountId: id, country: 0 });
   let req = await matchesData({ accountId: id });
   let count = 0;
   while (req.status !== 200) {
