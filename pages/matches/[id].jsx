@@ -173,10 +173,15 @@ export default function Home({
                         {i + 1}
                       </td>
                       <td style={{ paddingTop: '4px' }}>
-                        <img width={30} height={30} src={data.avatarfull} alt={data.avatarfull} />
+                        <a href={`/matches/${data.account_id}`}>
+                          <img width={30} height={30} src={data.avatarfull} alt={data.avatarfull} />
+                        </a>
+
                       </td>
                       <td>
-                        {data.personaname.slice(0, 10)}<br />
+                        <a href={`/matches/${data.account_id}`}>
+                          {data.personaname.slice(0, 10)}<br />
+                        </a>
                       </td>
                       <td>
                         {data.kills !== '-' ? `${data.kills}/${data.deaths}/${data.assists}` : '-'}
@@ -221,12 +226,16 @@ export default function Home({
                             {i + 1}
                           </td>
                           <td style={{ paddingTop: '4px' }}>
-                            <img width={30} height={30}
-                              src={data.avatarfull} alt={data.avatarfull}
-                            />
+                            <a href={`/matches/${data.account_id}`}>
+                              <img width={30} height={30}
+                                src={data.avatarfull} alt={data.avatarfull}
+                              />
+                            </a>
                           </td>
                           <td>
-                            {data.personaname.slice(0, 10)}<br />
+                            <a href={`/matches/${data.account_id}`}>
+                              {data.personaname.slice(0, 10)}<br />
+                            </a>
                           </td>
                           <td><img width={50} height={30}
                             src={data.hero_id} alt={data.hero_id.slice(0, 0)}
