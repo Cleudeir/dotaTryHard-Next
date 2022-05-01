@@ -52,7 +52,7 @@ export async function getStaticProps(context) {
     props: {
       status,
       message,
-      data: data.slice(0, 20),
+      data: data.slice(0, 30),
       id,
     }, // will be passed to the page component as props
     revalidate: 24 * 60 * 60,
