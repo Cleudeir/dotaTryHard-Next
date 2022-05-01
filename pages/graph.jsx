@@ -32,7 +32,7 @@ export async function getStaticProps() {
   const { status, message, data } = req;
   return {
     props: { status, message, data }, // will be passed to the page component as props
-    revalidate: 30 * 60,
+    revalidate: 24 * 60 * 60,
   };
 }
 

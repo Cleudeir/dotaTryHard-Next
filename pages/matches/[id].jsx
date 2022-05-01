@@ -37,7 +37,7 @@ export async function getStaticProps(context) {
   let req = await matchesData({ accountId: id });
   let count = 0;
   while (req.status !== 200) {
-    if (count === 5) {
+    if (count === 3) {
       break;
     }
     count += 1;
@@ -55,7 +55,7 @@ export async function getStaticProps(context) {
       data: data.slice(0, 20),
       id,
     }, // will be passed to the page component as props
-    revalidate: 60 * 60,
+    revalidate: 24 * 60 * 60,
   };
 }
 
